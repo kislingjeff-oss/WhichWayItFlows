@@ -1,0 +1,1094 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Refusing the One-Way Channel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap"><style>body{margin:0}img{max-width:100%}
+:root{--bg:#2B4A66;--wash:#20394F;--steel:#6E93B5;--steel-soft:#35587A;--deep:#B5DBFA;--ink:#F4F8FC;--mid:#D9E6F2;--white:#35587A;color-scheme:dark;
+--body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--cond:"IBM Plex Sans Condensed","IBM Plex Sans",system-ui,sans-serif;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--deep);text-underline-offset:2px}a:focus-visible,summary:focus-visible{outline:3px solid var(--deep);outline-offset:2px}
+h1,h2,h3,h4{text-wrap:balance;font-family:var(--cond);color:var(--ink);line-height:1.15;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.callout{background:var(--wash);border:1px solid var(--steel);padding:.8rem 1rem;margin:1.2rem 0;font-size:.97rem}
+.tw{overflow-x:auto;margin:1.2rem 0}
+table{border-collapse:collapse;width:100%;font-size:.95rem;line-height:1.4}
+th{background:var(--steel-soft);text-align:left;font-weight:600}
+th,td{border:1px solid var(--steel);padding:.5rem .7rem;vertical-align:top}
+td{background:var(--white)}
+
+.top{border-bottom:1px solid var(--steel-soft);padding-block:.8rem;font-size:.92rem}
+.top .wrap{display:flex;flex-wrap:wrap;gap:.3rem 1rem;justify-content:space-between}
+.head{background:var(--wash);border-bottom:1px solid var(--steel);padding-block:clamp(2rem,6vw,3.6rem)}
+.head p{margin:0;color:var(--mid)}.eyebrow{font-weight:500;color:var(--deep)!important;margin-bottom:.5rem!important}
+.head h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:700;margin-bottom:.7rem;max-width:22ch}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:3.5rem;padding-block:2.5rem 4rem}
+nav.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 1rem);align-self:start;max-height:calc(100vh - 2rem);overflow:auto;font-size:.9rem;line-height:1.3}
+nav.rail summary{font-weight:600;color:var(--mid);cursor:pointer;margin-bottom:.6rem}
+nav.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:.42rem}
+nav.rail .p{font-weight:600;margin-top:.5rem}
+nav.rail a{text-decoration:none;color:var(--ink)}nav.rail a:hover{color:var(--deep);text-decoration:underline}
+article{max-width:68ch;min-width:0;overflow-wrap:anywhere}article img{max-width:100%}
+article h1{font-size:clamp(2rem,5vw,2.8rem);font-weight:700;margin:3.5rem 0 1.2rem;padding-top:2rem;border-top:3px solid var(--deep);scroll-margin-top:1rem}
+article>h1:first-child{margin-top:0;padding-top:0;border-top:0}
+article h2{font-size:clamp(1.6rem,4vw,2.1rem);font-weight:700;margin:2.8rem 0 .4rem;scroll-margin-top:1rem}
+article h3{font-size:1.3rem;font-weight:600;color:var(--deep);margin:2rem 0 .5rem}
+article h4{font-size:1.1rem;font-weight:600;margin:1.4rem 0 .4rem}
+article p,article ul,article ol{margin:0 0 1rem}article li{margin-bottom:.4rem}
+article img{display:block;margin:1rem 0;height:auto;background:#fff;padding:.5rem}figure{margin:1rem 0}figcaption{font-size:.9rem;color:var(--mid)}
+.src{font-size:.85rem;color:var(--mid);margin-bottom:1.3rem!important}
+blockquote{margin:1.2rem 0;padding:.1rem 0 .1rem 1.1rem;border-left:3px solid var(--steel)}blockquote p{margin-bottom:.5rem}
+.attr{font-size:.88rem;color:var(--mid);padding-left:1.1rem;margin-top:-.7rem!important}
+.query{background:var(--wash);padding:.6rem .9rem;margin:.6rem 0!important;font-style:italic}.query em{font-style:italic}
+.next{margin-top:3rem;padding-top:1.5rem;border-top:2px solid var(--steel);font-size:.97rem}
+@media (max-width:860px){.layout{grid-template-columns:minmax(0,1fr);gap:1.5rem}nav.rail{position:static;max-height:none;background:var(--wash);padding:1rem}}
+</style></head><body>
+<div class="top"><div class="wrap"><a href="index.html">Which Way It Flows</a><span>Jeff Kisling · November 3, 2026</span></div></div>
+<header class="head"><div class="wrap"><p class="eyebrow">One of the three source documents</p><h1>Refusing the One-Way Channel</h1><p>The New Conscientious Objector, reciprocity, and extraction. Revised November 2, 2026.</p></div></header>
+<div class="wrap layout"><nav class="rail" aria-label="Contents"><details open><summary>Contents</summary><ol><li class="p"><a href="#note">A Note Before Beginning</a></li><li class="p"><a href="#part-one">Part One · Where the NewCO Came From</a></li><li class=""><a href="#chapter-1">The Old Objector</a></li><li class=""><a href="#chapter-2">The NewCO as First Defined</a></li><li class=""><a href="#chapter-3">What the First Definition Did Well, and Where It Strained</a></li><li class="p"><a href="#part-two">Part Two · The Lens</a></li><li class=""><a href="#chapter-4">One Question: Which Way Do Things Flow?</a></li><li class=""><a href="#chapter-5">What Extraction Is Built From</a></li><li class=""><a href="#chapter-6">The Economic Draft as Conscription into One-Way Channels</a></li><li class="p"><a href="#part-three">Part Three · The Objection Restated</a></li><li class=""><a href="#chapter-7">Drained and Conduit: The Two Positions of the Drafted</a></li><li class=""><a href="#chapter-8">Active Objection: Closing One-Way Channels</a></li><li class=""><a href="#chapter-9">Three Practices as Three Reciprocal Channels</a></li><li class=""><a href="#chapter-10">From Ally to Accomplice: Who Receives?</a></li><li class=""><a href="#chapter-11">Channels and Nodes: The Objector Is Not Alone</a></li><li class="p"><a href="#part-four">Part Four · Why So Much Quaker Aid Was Charity</a></li><li class=""><a href="#chapter-12">A Long Record of Giving</a></li><li class=""><a href="#chapter-13">Why It Took the Shape of Charity</a></li><li class=""><a href="#chapter-14">Why So Little Changed</a></li><li class=""><a href="#chapter-15">What Worked, and What It Teaches</a></li><li class="p"><a href="#part-five">Part Five · Tested on the Ground</a></li><li class=""><a href="#chapter-16">Bear Creek&#x27;s Own Ledger</a></li><li class=""><a href="#chapter-17">Reciprocity Already Lived</a></li><li class=""><a href="#chapter-18">Turning the Test on the Objector</a></li><li class="p"><a href="#part-six">Part Six · What Changes</a></li><li class=""><a href="#chapter-19">The NewCO Restated</a></li><li class=""><a href="#chapter-20">The Five-Point Plan, Re-examined</a></li><li class=""><a href="#chapter-21">Toward a Rural Resilience Hub, Carefully</a></li><li class=""><a href="#chapter-22">What Is Still Unsettled</a></li><li class=""><a href="#chapter-23">Queries, and a Draft Minute</a></li><li class="p"><a href="#appendices">Appendices</a></li><li class=""><a href="#appendix-a">Title Options</a></li><li class=""><a href="#appendix-b">The Five Questions: A Worksheet</a></li><li class=""><a href="#appendix-c">Glossary</a></li><li class=""><a href="#appendix-d">Sources</a></li></ol></details></nav>
+<article><p class="callout"><strong>Disclaimer.</strong> This document has not been reviewed or approved by Bear Creek Meeting, Iowa Yearly Meeting (Conservative), or any other body. It speaks for no meeting or organization.</p>
+<h1 id="note">A Note Before Beginning</h1>
+<p>This document gathers the work I have done on the New Conscientious Objector, the NewCO, over the last several years and reads all of it again through one lens: reciprocity and extraction. It is not a new framework laid on top of the old one. It is an attempt to show that the old one was always about this, and that saying so plainly makes it sharper, more honest, easier to act on, and easier for other Friends to test for themselves.</p>
+<p>When I first described the NewCO, I said it was someone like me who objects to being trapped in systems of Christian colonial capitalist violence. I used that phrase for years, because it is the language oppressed communities in this land use to name what has been done to them, and one principle of justice work is that those communities define their oppression in their own terms. I still honor that. But I have come to see that, spoken by me to other Friends, the phrase gets in the way. Listeners stop at one of its words and never reach the rest. So this document sets the phrase aside, and says instead, in plain words anyone can test, what it was pointing at.</p>
+<p>What it was pointing at turned out to be a simple question, which I found underneath every part of the NewCO once I began asking it: <strong>which way do things flow, and does anything flow back?</strong> When I asked that question of everything the NewCO had named, the economic draft, the three practices of LANDBACK, Mutual Aid and Abolition, the move from ally to accomplice, all of it fell into one shape. This document traces that shape. It also takes up, at length, a question the shape forces on Friends: why so much Quaker aid over the centuries took the form of charity, and why so little has changed despite the millions of dollars Friends have given.</p>
+<h3>What it draws on</h3>
+<ul>
+<li><p>My own account of the draft years, 1969 to 1972, and the Friends Volunteer Service Mission.</p></li>
+<li><p>The NewCO papers of 2025 and 2026, especially <em>The Conscription of Survival</em>, <em>Defining the Economic Draft</em>, <em>The Problem, As I Understand It</em>, and the accomplice material prepared for the Decolonial Repair Network.</p></li>
+<li><p>The recent reciprocity writing: <em>How Knowledge Travels</em> (June 27, 2026), <em>Single Sentence</em> (August 2026), <em>Nodes and Channels</em> (October 22, 2026), <em>Economies of Extraction and Reciprocity</em> (October 29, 2026), <em>A Plea for the Poor, Continued</em> and <em>Both Ledgers</em> (October 30, 2026), <em>A Plea for Reciprocity</em> (October 31, 2026), the <em>Epistle to Friends Regarding Reciprocity</em> as revised October 31, 2026, and <em>Three Concerns About Friends</em> (November 1, 2026).</p></li>
+<li><p>John Woolman’s <em>A Plea for the Poor</em>, George Fox’s Journal, Joseph Rowntree’s 1904 memorandum, the Advices of Iowa Yearly Meeting (Conservative), and published histories of Quaker relief and Indian policy.</p></li>
+</ul>
+<h3>Cautions carried forward</h3>
+<p>Several of the NewCO papers were assembled with the help of AI research tools. Where those papers make factual claims, I treat them here as leads to check, not as finished history. Stories that belong first to other people, especially the ceremony at Grace’s grave in 2024, are told only in outline. The draft visitor guidelines I prepared for the Hub are not quoted, because whether they are accepted is the Hub’s decision.</p>
+<p>I use the phrase <em>active objection</em> throughout, never the other word so often used for this kind of work. Chapter <a href="#chapter-8">8</a> explains why.</p>
+<h3>How to read it</h3>
+<p><a href="#part-one">Part One</a> returns to where the NewCO came from. <a href="#part-two">Part Two</a> sets out the lens. <a href="#part-three">Part Three</a> uses it to restate what the NewCO objects to and what it builds. <a href="#part-four">Part Four</a> asks why so much Quaker aid was charity, and why so little changed. <a href="#part-five">Part Five</a> tests the restatement on the ground, beginning with my own meeting’s history and my own life. <a href="#part-six">Part Six</a> says what changes in practice, and what is still unsettled. Queries, a draft minute, a short glossary, and title options close the document.</p>
+<h1 id="part-one">Part One · Where the NewCO Came From</h1>
+<h2 id="chapter-1">Chapter 1 · The Old Objector</h2>
+<p>Traditionally, conscientious objection meant the beliefs that made some men unable to serve in the armed forces. Under the Selective Service System, a man whose objection was recognized could be classified 1-O and assigned, in place of military service, two years of civilian work in the national interest, very often in hospitals. A man who would serve in the military but not bear arms could be classified 1-A-O. Everyone else, unless deferred, was 1-A.</p>
+<p>That classification system is where the NewCO begins, and it is worth looking at closely, because it already contains the whole question this document asks.</p>
+<h3>What the draft took, and what alternative service returned</h3>
+<p>The military draft is the plainest example of extraction most Americans will ever meet. The state takes a young man’s body, his time, and if necessary his life, and directs them toward ends he did not choose. Nothing comparable flows back. John Woolman, writing in the 1760s, described this kind of power exactly, as power that <em>“demands service of another without proposing an equitable reward”</em> (<em>A Plea for the Poor</em>, Ch. 15).</p>
+<p>Alternative service looked, on the surface, like a kind of return. Instead of a soldier, the state received a hospital orderly. Instead of killing, the objector cared for the sick. Many objectors found the work meaningful, and many hospitals and patients were well served by it. I do not want to dismiss that. It mattered to real people.</p>
+<p>But look at who wrote the rules. The objector did not decide where he would serve, for how long, or under whose direction. The Selective Service System decided. His service flowed into the same system that was drafting his brothers into war, under protocols he had no part in writing. He was permitted to be useful in a different place, so long as he accepted the system’s authority to place him.</p>
+<h3>Why some Friends refused even that</h3>
+<p>I first read the words <em>contrary to the spirit</em> as a young man struggling over the draft. They come from <em>An Epistle to Friends Concerning Military Conscription</em>, which Don Laughlin and Roy Knight of Iowa Yearly Meeting (Conservative) were among those to sign:</p>
+<blockquote>
+<p><em>It has long been clear to most of us who are called Friends that war is contrary to the spirit of Christ and that we cannot participate in it.</em></p>
+</blockquote>
+<p>I was grateful for that letter while I struggled with my own decision. Many Quakers in those years concluded that accepting any classification, even as a conscientious objector, was still cooperation with the machinery that conscripted others. In their words, by accepting status under the Selective Service System one became <em>“part of the power which forces our brothers into the military and into war.”</em> Several men and their families at Bear Creek, the rural Iowa meeting where I grew up, had refused participation in war and conscription in various ways. I agreed with their example completely.</p>
+<p>I turned eighteen in 1969, the age when males were required to register for the Selective Service System. I registered against my own resolve, and wrote in my journal: <em>“Registered, but not convinced!”</em> I returned my registration certificate in January 1970, and in February 1972 I broke with Selective Service entirely, by letter. The sentence from that letter still carries the whole of what I have tried to do since:</p>
+<blockquote>
+<p><em>I do not want my example to be alliance with evil. Thus, I cannot serve with the Selective Service System. However, I will not set myself against it. I will break my ties with Selective Service, and concentrate on the difficult task of working for peace in whatever way I can.</em></p>
+<p class="attr">— Letter to my draft board, February 1972</p>
+</blockquote>
+<p>That decision brought me into conflict with my parents for the first time in my life. They were OK with alternative service. What they did not want was for me to go to prison and carry a felony record, and their fear was not imagined: one of my Scattergood classmates was sentenced to prison. I mention this not to complain of it, but because it belongs in the honest record. To receive a witness is not free. You take on some of what it cost the people who gave it, and some of what it costs the people who love you.</p>
+<h3>The question hidden in the old objection</h3>
+<p>Read again with the lens this document uses, the non-cooperators of that era were not only objecting to war. They were objecting to a channel. The draft was a one-way channel of bodies into the military. Alternative service did not close that channel; it added a side branch to it, governed by the same authority. The non-registrant saw that the question was not only <em>what am I asked to do</em> but <em>whose rules govern the exchange, and which way does it finally flow?</em></p>
+<p>That is the question of <strong>protocol</strong>, one of five questions this document will return to again and again. The old objector who refused even 1-O status was saying, in effect: a service I perform under the rules of the power I object to is still a service to that power. It was the first lesson I learned about reciprocity, decades before I had the word.</p>
+<h3>What came after</h3>
+<p>Having broken with the draft, the next question was how to live a life of constructive example. I was led to the Friends Volunteer Service Mission in inner-city Indianapolis while praying over how to answer the draft, and joined it in 1971. The Mission did not arrive in the neighborhood on its own: Second Friends Church, in downtown Indianapolis, invited it. Volunteers lived in the neighborhood, in the Mission house. The wages each of us earned in the first year were pooled to support every volunteer through a second year, in which each did whatever the first year in the neighborhood had led them to do. I found work as a respiratory therapist at Methodist Hospital, which combined helping people with my interest in science, and that work led, over the years, into pediatric intensive care, research on infant lung disease and development, and medical software.</p>
+<p>I knew that service with the Mission would qualify as alternative service. That was part of why I went: in case I ended up deciding to do alternative service instead of turning in my draft cards. By the time I carried out the other decision, in February 1972, I had found meaningful work in the community, and I finished the two years anyway.</p>
+<p>So the same two years of work could have been carried out under either set of rules. Had I accepted 1-O status, they would have been service assigned and supervised under the Selective Service System’s protocol. As it was, they were service I had chosen, shaped by the neighborhood, and completed after I had broken my ties with the draft. The work did not change. What changed was who wrote the rules, and whether the relationship ran both ways. In the Mission’s second year, the neighborhood wrote the protocol. That difference is the subject of this whole document.</p>
+<h2 id="chapter-2">Chapter 2 · The NewCO as First Defined</h2>
+<p>Several years ago I began to describe a new kind of objector. I called this person the NewCO, the New Conscientious Objector: someone like me who objects to being trapped in the systems that conscript us. In those years I named those systems with a phrase I had learned from oppressed communities in this land, <em>Christian colonial capitalist violence</em>. I used it because it was their language for their own oppression, and because one principle of justice work is that those who suffer a harm should name it in their own terms. Chapter <a href="#chapter-3">3</a> says why I no longer use it when speaking to Friends, and Chapter <a href="#chapter-5">5</a> says what I put in its place.</p>
+<p>The idea grew from a recognition that the draft I broke with in 1972 had not disappeared. It had changed its machinery. As I put it in April 2026:</p>
+<blockquote>
+<p><em>Historically military conscription was used to force people to fight. Today there is an economic draft. Students with huge loans, people who require jobs that provide health care, and those who are impoverished and can find no jobs are conscripted into work which they may conscientiously object to doing.</em></p>
+<p class="attr">— “War Has Changed,” April 7, 2026</p>
+</blockquote>
+<h3>The first framework, in brief</h3>
+<p>Across many papers, presentations and conversations, the NewCO framework took roughly this form. I set it out here as it stood, so that the chapters that follow can show what changes and what remains.</p>
+<p><strong>The diagnosis.</strong> One fused system, not separate issues for separate committees: a religious justification for conquest, rooted in the Doctrine of Discovery; the taking of land and the replacement of the peoples who held it; an economy built to accumulate; and the force of police, prisons and militaries that holds all three in place.</p>
+<p><strong>The mechanism.</strong> The <em>economic draft</em>, which replaced statutory conscription after 1973 with what one paper called “the mute compulsion of economic relations.” Its three main instruments were the <em>poverty pipeline</em> into the military, <em>job lock</em> through employer-provided health insurance, and <em>debt</em>, especially student debt, functioning as modern indenture.</p>
+<p><strong>The response.</strong> Three practices, each paired with a Quaker testimony and offered as a <em>symmetrical antidote</em> to the fused system:</p>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Practice</strong></th>
+<th><strong>Testimony</strong></th>
+<th><strong>What it answers</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LANDBACK</td>
+<td>Integrity</td>
+<td>The colonial theft of land</td>
+</tr>
+<tr class="even">
+<td>Mutual Aid</td>
+<td>Equality</td>
+<td>The capitalist manufacture of scarcity and dependency</td>
+</tr>
+<tr class="odd">
+<td>Abolition</td>
+<td>Peace</td>
+<td>The violence of police and prisons that enforces the rest</td>
+</tr>
+</tbody>
+</table></div>
+<p>Truth-telling, sometimes called Truthsgiving or Truth and Healing, ran alongside all three as the honest accounting of history that makes the others possible.</p>
+<p><strong>The posture.</strong> <em>Active objection</em>: naming injustice, refusing to cooperate with it, and putting one’s energy into building what should replace it. <em>Systemic non-collaboration</em>: withdrawing consent and participation wherever possible. And the move <em>from ally to accomplice</em>: from support given at a safe distance to relationships of shared risk, built by consent and accountable to the communities most affected.</p>
+<p><strong>The institution.</strong> For Iowa Yearly Meeting (Conservative), a five-point plan: a Committee on Decolonial Repair modeled on the Meeting for Sufferings; a new Query on complicity; a Voluntary Land Tax as a fixed budget line; Clearness Committees for NewCO leadings; and workcamps at places like the Great Plains Action Society’s Urban Resilience Hub in Iowa City.</p>
+<p><strong>The theology.</strong> Incommensurability: the faithful life and the life of the colonial state cannot finally be reconciled, so the NewCO does not try to make the economic draft fairer, but builds the structures that make it unnecessary. And the conviction, from George Fox, that Friends are to <em>“live in the virtue of that life and power that takes away the occasion of all wars.”</em> The occasion of war, the NewCO argued, includes the economic desperation that staffs armies.</p>
+<h3>The core claim</h3>
+<p>The heart of it was simple, even when the papers were not. The traditional objector asked, <em>How can I avoid fighting in this war?</em> The NewCO asks, <em>How can I live so that this war is not necessary?</em> The objection moves from a single act of refusal, the returned draft card, to a continuing way of life.</p>
+<h2 id="chapter-3">Chapter 3 · What the First Definition Did Well, and Where It Strained</h2>
+<p>I want to be fair to the first framework, because most of it was right, and because many Friends found it clarifying. I also want to be honest about where it did not reach people, including some I most hoped it would reach.</p>
+<h3>What it did well</h3>
+<p><strong>It connected things that are usually kept apart.</strong> Most Quaker social concern is organized by issue: a peace committee here, a racial justice working group there, an earthcare committee somewhere else. The NewCO insisted these were one problem. That insistence was correct, and it remains the framework’s most important contribution.</p>
+<p><strong>It took the Peace Testimony seriously.</strong> It did not treat economic justice as an add-on to Quaker peace work. It argued that the occasion of war includes the economy that produces soldiers, weapons and desperation, and that a testimony against war that ignores this is incomplete.</p>
+<p><strong>It refused to stop at diagnosis.</strong> Every version of the NewCO paired its analysis with things to build: pantries, land trusts, healing houses, standing contributions to Indigenous-led land funds. <em>You cannot move into a protest. You can move into a house.</em></p>
+<p><strong>It grew from lived practice.</strong> Behind the papers stood years of Saturday mornings at Des Moines Mutual Aid, the 2018 First Nation–Farmer Climate Unity March, and work-weeks at the Hub. The framework was an attempt to explain what I had already seen work.</p>
+<h3>Where it strained</h3>
+<p><strong>The name for the system got in the way.</strong> The phrase <em>Christian colonial capitalist violence</em> is true to the experience of the communities who use it, and I do not take it back. But it is four large words, and spoken by a white Friend to other white Friends, each word became a place to stop. A Conservative Friend who is a Christian heard an attack on her faith. A farmer whose family has worked the same land for five generations heard an accusation against his grandparents. A retired banker heard a political position he did not hold. Each stopped at a different word, and none of them reached the rest. The phrase asked them to accept the whole diagnosis before it offered them anything they could test for themselves.</p>
+<p>There is a deeper reason too, which my recent work has made plain to me. Language that oppressed communities use to name their own oppression is theirs. When I carry it into a Quaker meeting and use it to persuade, I am borrowing their authority for my argument, and it does not travel the way I hoped. Knowledge of that kind, I have come to believe, arrives only through relationship. No phrase carries it on its own. I caused a great deal of friction in my own meeting because I did not understand this.</p>
+<p><strong>It could sound like a verdict rather than a question.</strong> The papers often stated conclusions: capitalism is contrary to the Spirit; the system is irredeemable; incommensurability is the only faithful position. I believe much of that. But a verdict delivered to people who have not been part of reaching it is, in its own way, a one-way channel. It asks them to receive and offers them nothing to give back.</p>
+<p><strong>It was hard to locate oneself in it.</strong> A system so total can leave a reader feeling either crushed or exempt. If everything is the machine, then my own small choices seem not to matter; or else, having named the machine, I may quietly place myself outside it, among those on whom it is enforced, rather than among those who benefit from it. Neither response leads anywhere good.</p>
+<p><strong>Some of the papers spoke in a borrowed voice.</strong> Several NewCO documents were assembled with AI research tools. They gave me a great deal to work with, but they also introduced a vocabulary that is not mine and is not a Conservative Friend’s: “forensic audits,” “strategic pillars,” “systemic rupture,” “leveraging assets.” Some cited my own earlier writing as their only source, over and over, so that the argument appeared to be citing itself. A skeptical reader who notices that will discount the rest.</p>
+<p><strong>Absolute statements invited easy counterexamples.</strong> “Mutual Aid cannot be done by committee or donations.” “There cannot be white supremacy if there is no vertical hierarchy.” These sentences are true in what they are trying to say, but a skeptic who finds one exception, such as the nonprofit structure of the organizations I most admire, will feel free to set the whole argument aside.</p>
+<p><strong>It sometimes leaned on rupture.</strong> Some of the NewCO material, drawing on the history of Quaker separations in 1843 and 1877, spoke of a “faithful remnant” and a “genealogy of rupture.” I have since come to a different posture: staying in my meeting while saying plainly what I cannot accept, and putting my energy into person-to-person work rather than into proposals pressed on a body that is not ready to receive them.</p>
+<h3>What was missing</h3>
+<p>Looking back, I think one thing was missing that would have addressed most of these strains at once. The first framework named the system and named the antidotes, but it did not offer a single, plain test that anyone could apply to any part of life, including their own, without first agreeing with me about capitalism.</p>
+<p>That test turned out to be a question I had been circling for years, and that Indigenous friends and Black organizers had been living all along. The rest of this document is about that question.</p>
+<h1 id="part-two">Part Two · The Lens</h1>
+<h2 id="chapter-4">Chapter 4 · One Question: Which Way Do Things Flow?</h2>
+<p>There is a simple question we can ask of any relationship, any institution, any economy, and of our own lives: <strong>which way do things flow, and does anything flow back?</strong></p>
+<p>Reciprocity is a relationship in which giving and receiving move in both directions, and keep moving. Each of us gives. Each of us receives. No one stands above the others. Its opposite is extraction, a relationship in which things move one way only.</p>
+<p class="callout"><strong>A one-way channel is extraction. A channel that carries both ways, and keeps carrying, is reciprocity.</strong></p>
+<p>What moves may be land, labor, food, money, knowledge, care, time or attention. It may also be standing: the authority to speak, to decide, to be believed. The question is the same.</p>
+<h3>Not a trade</h3>
+<p>I want to be careful here, because the language of exchange can slip in without our noticing, and it is the language of the very economy I am objecting to. Reciprocity is not a trade, where each side settles the account and walks away. It is a relationship that continues. The return may come later, from someone else, in another form. What matters is that the channel stays open in both directions.</p>
+<p>That is why I have stopped describing reciprocity as a balance of <em>value</em>. Value is what a market assigns. It is a price, and a price is decided by whoever holds the most. The Des Moines Black Liberation Movement put the point exactly: <em>capitalism is about the value of people, property and the people who own property.</em> When I ask which way things flow, I am not asking anyone to add up what each side is worth. I am asking whether the relationship runs both ways, and keeps running.</p>
+<h3>Five questions</h3>
+<p>To look closely at any particular relationship, five plain questions help. I first set them out in <em>Both Ledgers</em> and the revised Epistle, and they are the working tools of everything that follows.</p>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Question</strong></th>
+<th><strong>What it asks</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Direction</strong></td>
+<td>Which way do things flow?</td>
+</tr>
+<tr class="even">
+<td><strong>Return</strong></td>
+<td>Does anything flow back, and is it something the other party actually wants?</td>
+</tr>
+<tr class="odd">
+<td><strong>Duration</strong></td>
+<td>Does the relationship continue after the need is met, or end there?</td>
+</tr>
+<tr class="even">
+<td><strong>Invitation</strong></td>
+<td>Who opened the door? Was the channel entered by invitation, or by assumption?</td>
+</tr>
+<tr class="odd">
+<td><strong>Protocol</strong></td>
+<td>Whose rules govern the exchange, and who names the need?</td>
+</tr>
+</tbody>
+</table></div>
+<p>These five questions do not require anyone to agree with me about economics. A farmer can ask them of a grain contract, a nurse of a hospital system, a meeting treasurer of an investment account, a young person of a student loan, a white Friend of a land acknowledgment. Each will reach his or her own verdict. That is the point. The questions travel where my verdicts did not.</p>
+<h3>Who names the need</h3>
+<p>The fifth question has a second half that turned out to matter more than I expected. Reciprocity begins with asking who decides what is needed, and who is in need.</p>
+<p>Most often it is whoever does the counting. An agency draws a line, decides who qualifies, and names others poor without asking them. That naming runs one way too. On the rented farms around Bear Creek where I grew up, we did not know we were poor. We had work, neighbors, a Meeting, and elders who showed us what conscience costs. By those measures we were not poor at all. An income line would have counted us anyway.</p>
+<p>The people best placed to say what they lack are the people living it. So reciprocity starts by asking, and by letting people name their own need. As <a href="#part-four">Part Four</a> will show, a great deal of Quaker aid failed this question before it failed any other.</p>
+<h3>Charity and mutual aid, seen through the questions</h3>
+<p>The difference between charity and mutual aid, which the NewCO has always insisted on, becomes clear the moment the five questions are applied.</p>
+<blockquote>
+<p><em>Charity is vertical. Mutual aid is horizontal. Charity manages need. Mutual aid ends it.</em></p>
+</blockquote>
+<p>Charity flows one way, from those who have to those who lack. The giver decides what is needed and who qualifies. The giver stands above and the receiver below. On <strong>direction</strong>, charity is one-way by design. On <strong>protocol</strong>, the giver writes the rules and names the need. On <strong>duration</strong>, the relationship usually ends when the gift is given. None of this makes charity wicked; it is often generous and well meant. It makes it incomplete.</p>
+<p>Mutual aid, as I learned it in a church basement in Des Moines, flows every way at once. Everyone gives; everyone receives. There were no requirements to qualify for food. The protocol belonged to the community, not to the volunteers. And the relationship did not end at the door.</p>
+<h3>Not new to Friends</h3>
+<p>Skeptical Friends may say this way of seeing is imported from outside the Society. It is not. Our own Advices on Mutual Care say:</p>
+<blockquote>
+<p><em>Each of us is both giver and receiver, ready to help and to accept help.</em></p>
+<p class="attr">— Iowa Yearly Meeting (Conservative), Advices, “Mutual Care”</p>
+</blockquote>
+<p>That single sentence contains the whole test. It asks about direction (both ways), about return (giver and receiver), and about posture (ready to accept, not only to offer). It is already in the book of discipline of the Yearly Meeting I belong to.</p>
+<p>John Woolman supplies the economic version. He named extraction as power that <em>“demands service of another without proposing an equitable reward”</em> (<em>A Plea for the Poor</em>, Ch. 15). And he answered in advance the most common objection, that a claim was made legally:</p>
+<blockquote>
+<p><em>If we trace an unrighteous claim and find gifts or grants to be proved by sufficient seals and witnesses, this gives not the claimant a right, for that which is opposite to righteousness is wrong, and the nature of it must be changed before it can be right.</em></p>
+<p class="attr">— John Woolman, <em>A Plea for the Poor</em>, Ch. 13</p>
+</blockquote>
+<p>Woolman also modeled the posture that reciprocity asks for. Before his 1763 journey among the Lenape at Wehaloosing, he wrote in his Journal: <em>“Love was the first motion, and then a concern arose to spend some time with the Indians, that I might feel and understand their life and the spirit they live in, if haply I might receive some instruction from them.”</em> He went to receive instruction, not to give it.</p>
+<p>George Fox, in 1659, gave Friends the oldest organized mutual aid we have on record, when he asked about sixty women to meet <em>“to see into the necessity of all Friends who was sick and weak and who was in wants.”</em> That Box Meeting was reciprocal: Friends caring for Friends, anyone potentially on either side of the need. Its honest limit must travel with it. Its circle was exactly one line wide, Friends only, and twelve years later Fox told enslaved people in Barbados to obey their masters, with freedom to come only after long and faithful service. Reciprocity among ourselves and extraction toward others sat side by side at the very founding. The lens shows both, and <a href="#part-four">Part Four</a> will show how long that pattern lasted.</p>
+<h3>Not new to anyone who has lived inside extraction</h3>
+<p>I want to be careful not to claim this distinction as a Quaker discovery, or as mine. Indigenous nations on this continent have lived inside reciprocity, and defended it, for far longer than my religious society has existed. Robin Wall Kimmerer puts the Potawatomi principle in four words: <em>all flourishing is mutual.</em> The Black-led mutual aid tradition I learned from in Des Moines descends from the Black Panther Party’s survival programs. Those who live with extraction every day already know the difference. They do not need the words to recognize it.</p>
+<p>The economic historian Karl Polanyi described three modes in which any economy can run: reciprocity, redistribution, and market exchange. Market exchange, and the older forms of tribute, rent and interest, can be arranged so that wealth moves steadily in one direction. Reciprocity works the opposite way: it only functions if things keep circulating, and so it does not pool into permanent concentration. The honest caveat is that not every Indigenous society was free of rank or internal hierarchy. What holds without qualification is narrower and stronger: economies built for reciprocity keep things moving and obligate return, the mirror image of economies built to let wealth pool.</p>
+<h3>Learned by practice, not by agreement</h3>
+<p>When this lens finally became the one I used for everything, rather than one idea among many, it did not feel like winning an argument. It felt like a weight coming off, and joy arriving in its place. For the first time, the economics, the history, and the spiritual life were not three subjects. They were one motion, seen from three sides.</p>
+<p>But I have also learned that reciprocity is not something a person agrees to. It is learned by practice. It asks us to show up, to wait to be invited, to keep coming back, and to receive as well as give. That is why I believe the NewCO should be restated around this question: not because the old analysis was wrong, but because this question can be lived, and carried, by anyone.</p>
+<h2 id="chapter-5">Chapter 5 · What Extraction Is Built From</h2>
+<p>The first NewCO framework gave the system it opposed a single long name. This chapter does without the name, and describes instead what anyone can see: how extraction is built, and how it is kept.</p>
+<h3>What every extraction system shares</h3>
+<p>Across four centuries and opposed ideologies, from feudal rent to the Spanish encomienda, from chattel slavery to sharecropping and the company store, from the Dawes Act to modern finance, the systems built to move wealth upward share three features:</p>
+<ul>
+<li><p><strong>A hierarchy collects.</strong> Rent, tribute, interest, unpaid or underpaid labor flow up, while obligation runs only downward.</p></li>
+<li><p><strong>A cover story makes the taking look right.</strong> Title, treaty, contract, scripture, or “civilization” makes the transfer look voluntary, natural, lawful or generous.</p></li>
+<li><p><strong>The one-way flow is the design, not a flaw in it.</strong> The rule works exactly as it was built to work.</p></li>
+</ul>
+<p>The Dawes Act of 1887 is a clear example close to home. It was framed as a path to Native prosperity through private property. In practice it broke up collectively held land and moved roughly ninety million of the hundred and fifty million acres Native nations had controlled into non-Native hands by 1934. The cover story was benevolence. The channel ran one way.</p>
+<h3>Four parts of one channel</h3>
+<p>Read with the five questions, the system the NewCO objects to has four working parts. I name them by what they do, not by any label.</p>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Part</strong></th>
+<th><strong>What it does</strong></th>
+<th><strong>Where Friends have met it</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>The cover story</strong></td>
+<td>Makes one-way taking look lawful, natural, or generous</td>
+<td>The Doctrine of Discovery; recorded land titles; the belief that boarding schools were acts of love</td>
+</tr>
+<tr class="even">
+<td><strong>The land channel</strong></td>
+<td>Carries land, and its future, out of the hands of the peoples who tended it</td>
+<td>The Treaty of 1842; Bear Creek’s land entries at $1.25 an acre</td>
+</tr>
+<tr class="odd">
+<td><strong>The labor and money channel</strong></td>
+<td>Carries work and wealth upward, away from those who produce it</td>
+<td>Wages, rent, debt; the economic draft of Chapter <a href="#chapter-6">6</a></td>
+</tr>
+<tr class="even">
+<td><strong>The enforcement</strong></td>
+<td>Keeps the channels one-way when people stop consenting</td>
+<td>Police, prisons, eviction, armies, deportation</td>
+</tr>
+</tbody>
+</table></div>
+<p>None of these four requires a long name to be recognized. A Friend can look at the deed to the meetinghouse, a rent receipt, a student loan, or a news report of armed agents taking a neighbor away, and ask: which way does this flow, and what keeps it flowing?</p>
+<h3>Three concerns anyone can see</h3>
+<p>When I set out to say all this plainly to Friends, I found that it came down to three concerns, each of which a person can see from the road to meeting for worship.</p>
+<p><strong>Poverty in the midst of plenty.</strong> The grocery store shelves are full, and children go to bed hungry. Children sleep in cars, in shelters, in doorways, in a land with more than enough for every one of them. This is not an accident, and it is not a breakdown of the system. It is what a system built for one-way flow does. We are not ignorant of this. We have only grown used to it.</p>
+<p><strong>Who gets to be free.</strong> Millions are conscripted by an economic draft: by student debt, by needing a job for its health insurance, by a lack of economic opportunity that leaves the armed forces as the only open door. The freedom to refuse, which my generation could claim by letter, is not available to someone who will lose their medicine or their housing by refusing.</p>
+<p><strong>The force that holds it in place.</strong> The scenes of armed agents, raids and deportations in our own towns are horrifying to watch, and we know where this is likely to go. Enforcement is what keeps one-way channels open when people stop consenting. How can we say we are a peaceful people if we simply watch?</p>
+<p>These three concerns are the old diagnosis, said in words that do not stop the listener at the door. They are also the three things the NewCO’s practices answer: mutual aid answers poverty, active objection to the economic draft answers unfreedom, and abolition and community care answer the force.</p>
+<h3>On faith, without the label</h3>
+<p>Removing the old label does not remove the hardest question it was asking. The cover story for taking this continent was, in large part, a religious one. The Doctrine of Discovery granted European Christian powers a claimed right to lands held by non-Christian peoples, and that doctrine still underlies property title in the United States. The theology of assimilation framed the boarding schools, including those Friends ran, as saving souls.</p>
+<p>So the question to ask of any religious teaching, our own included, is not whether it is Christian, but which way it made things flow. The Doctrine of Discovery made land flow one way. Woolman, in the same faith, named that flow unrighteous. The difference between them is not the faith. It is the direction.</p>
+<p>And there is a question that belongs to faith itself, which I cannot set down without asking it of myself first: <em>What does it say about a faith, or a person, who has food and shelter and ignores the needs of their brothers and sisters? Who ignores the voice saying their need comes from what we have taken?</em></p>
+<p>Doug Gwyn’s <em>The Covenant Crucified: Quakers and the Rise of Capitalism</em> traces how that question was lost inside our own Society. Within one generation of Fox’s death, Friends drifted from <em>covenant</em>, people bound together under God, toward <em>contract</em>, people bound by self-interest, as many became prosperous merchants and industrialists. The shift from reciprocal relationship toward one-way gain happened among us, quickly, almost without anyone deciding it should.</p>
+<h3>Adjustment is not repair</h3>
+<p>The first framework spoke of <em>incommensurability</em>: the faithful life and the life of the state that took this land cannot finally be reconciled. The lens gives this a more precise and less despairing form.</p>
+<p>If the one-way flow of an extraction system is its design, then adjustments at the margin cannot make it reciprocal. A fairer allotment is still allotment. A kinder boarding school is still a boarding school. A gentler economic draft is still a draft. In that sense the old claim holds.</p>
+<p>But the lens also shows that reciprocal channels can be built now, inside and alongside the old system, without waiting for it to fall. The Meskwaki did this in 1857, when they used their own funds to buy back land in Tama County inside the same land system that had dispossessed them. Des Moines Mutual Aid has done it every Saturday for years. Incommensurability need not mean withdrawal into purity. It means refusing to mistake adjustment for repair, and putting one’s effort into channels that already run both ways.</p>
+<h3>What the lens does not claim</h3>
+<p>The lens does not claim that every exchange in a market is extraction, or that every person who works for a wage is exploited in the same way, or that money can never be part of a reciprocal relationship. Money alone cannot make reciprocity. But money can be part of a reciprocal relationship when it flows under the guidance of the community receiving it, continues over time, and comes with presence. A single check is charity. A standing commitment from someone who also shows up to work is something else.</p>
+<p>The lens asks five questions of each case and lets the answers fall where they fall. That is less satisfying than a verdict, and far more useful.</p>
+<h2 id="chapter-6">Chapter 6 · The Economic Draft as Conscription into One-Way Channels</h2>
+<p>The economic draft was the NewCO’s most original idea, and the reciprocity lens sharpens it more than any other part of the framework.</p>
+<h3>What the draft does</h3>
+<p>The NewCO papers identified three main instruments: the poverty pipeline, job lock, and debt. Read through the five questions, each one is a channel with the same shape.</p>
+<p><strong>The poverty pipeline.</strong> In under-resourced schools, military recruiters may be more visible than any civilian path to a stable future. A young person’s labor, and possibly life, flows into the military. What flows back is survival: housing, health care, a chance at college. On <strong>return</strong>, the military does offer something. But on <strong>protocol</strong>, every term is set by one party, and on <strong>invitation</strong>, the door was opened by the absence of alternatives, which itself was arranged. The return is real, and the channel is still one-way in the sense that matters: the person is not free to refuse without losing the means to live.</p>
+<p><strong>Job lock.</strong> When health insurance is tied to employment, a person may stay in work they object to because the alternative is going without care. Their labor flows to the employer; what flows back is just enough to keep them there. The employer, not the worker, holds the protocol.</p>
+<p><strong>Debt.</strong> Student debt binds a graduate to years, sometimes decades, of work directed toward servicing it. The graduate’s working life flows to the lender. On <strong>duration</strong>, the channel is designed not to close.</p>
+<p>In each case the pattern is the one Woolman named: power that demands service without proposing an equitable reward, where the “reward” is only release from the threat the system itself maintains.</p>
+<h3>What the old draft and the new share</h3>
+<p>The 1969 draft board and the 2026 rent notice look nothing alike. The lens shows why they belong together. In both, a person’s labor and life are directed into a channel they did not open, under rules they did not write, with no real option to refuse. The difference is that the old draft announced itself by letter, and could be refused by letter. The new one never sends a notice.</p>
+<blockquote>
+<p><em>You can object to a letter. It is much harder to object to a mortgage.</em></p>
+</blockquote>
+<p>That is why the NewCO’s objection cannot be a single act performed once. The economic draft has to be answered every month, for as long as the economy that conscripts us keeps standing.</p>
+<h3>The empirical question, honestly stated</h3>
+<p>The NewCO papers sometimes leaned on the claim that the military preys mainly on the poor. That claim is disputed. An analysis by the National Priorities Project of 2009 recruitment data found middle-income zip codes somewhat over-represented among recruits, and the very poorest and very richest under-represented, while Black Americans were over-represented relative to their share of the population.</p>
+<p>The reciprocity lens does not depend on settling that dispute. The economic draft is not only about who enlists. It is about the general condition in which survival needs, such as health care, housing and education, are made available mainly through channels that require participation in work or institutions a person may object to. That condition reaches the middle class as well as the poor, and it reaches far beyond the military. The lens asks about the shape of the channel, not only the income of those who enter it.</p>
+<h3>A sharper definition</h3>
+<p class="callout"><strong>The economic draft is the arrangement by which a person’s survival is made to depend on entering one-way channels: channels they did not open, whose rules they did not write, and which they cannot leave without losing what they need to live.</strong></p>
+<p>This definition is narrower than “capitalism” and broader than “military recruitment.” It can be tested in any particular case with the five questions. And it points directly at the remedy: if the draft works by making survival depend on one-way channels, then the answer is to make survival available through channels that run both ways. That is what mutual aid, community land trusts, and LANDBACK do. The first NewCO framework called them “the rations of the response.” The lens shows why they are not only rations. They are the opposite shape.</p>
+<h1 id="part-three">Part Three · The Objection Restated</h1>
+<h2 id="chapter-7">Chapter 7 · Drained and Conduit: The Two Positions of the Drafted</h2>
+<p>The reciprocity lens reveals something the first NewCO framework sensed but never quite said. A person conscripted into an extraction system stands in two positions at once.</p>
+<h3>The soldier was both</h3>
+<p>Consider the soldier drafted in 1969. He was <strong>drained</strong>: his time, his body and possibly his life flowed one way into the military. And he was a <strong>conduit</strong>: through him, violence flowed outward onto others, onto the people of Vietnam, onto land, onto families on the far side of the war. The draft did not only take from him. It used him as the channel through which it took from others.</p>
+<p>The traditional conscientious objector refused the second position above all. He would not be the conduit through which the state’s violence reached another person. His objection protected others as much as himself.</p>
+<h3>The economic draft makes us both, too</h3>
+<p>The economic draft works the same way, and this is the clarification I most want to offer. Under it, nearly all of us are drained in some ways and conduits in others.</p>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>Drained: what flows out of us</strong></th>
+<th><strong>Conduit: what flows through us from others</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Land</strong></td>
+<td>Rent paid to a landlord; property taxes; a mortgage</td>
+<td>Living, working and worshiping on land taken from the Sauk, Meskwaki, Ioway or Ho-Chunk without return</td>
+</tr>
+<tr class="even">
+<td><strong>Labor</strong></td>
+<td>Wages below what the work produces; hours bound by job lock</td>
+<td>Purchases from supply chains built on underpaid or coerced labor</td>
+</tr>
+<tr class="odd">
+<td><strong>Money</strong></td>
+<td>Interest on debt; medical bills</td>
+<td>Pensions, endowments or bank deposits invested in extractive industries</td>
+</tr>
+<tr class="even">
+<td><strong>Fuel and resources</strong></td>
+<td>Costs of a car-dependent life</td>
+<td>Oil from pipelines routed through Indigenous territory without consent</td>
+</tr>
+<tr class="odd">
+<td><strong>Knowledge</strong></td>
+<td>Our data and attention harvested</td>
+<td>Stories and words of Black and Indigenous people carried into our own work without asking</td>
+</tr>
+</tbody>
+</table></div>
+<p>This is uncomfortable, and it is meant to be. But it is also freeing, because it makes the objection precise. The NewCO does not object to living in an economy. That cannot be avoided. The NewCO objects to being made a one-way channel: drained by one, or a conduit for one, without consent and without return.</p>
+<h3>Why this matters for skeptics</h3>
+<p>The first framework sometimes left listeners feeling either crushed or exempt. The two-position view addresses both.</p>
+<p>It answers the Friend who feels <strong>exempt</strong>, who says, “I’m not an oppressor; I’m a working person getting by.” Yes, you are drained. And you are also, probably, a conduit, through the land under your house, the pension you depend on, the fuel in your car. Both are true at once.</p>
+<p>It answers the Friend who feels <strong>crushed</strong>, who says, “Everything is the system; nothing I do matters.” Not so. Each channel can be examined separately, and some can be closed or redirected. A conduit can refuse to carry. A drained person can find other ways to meet needs. Neither is all-or-nothing.</p>
+<p>It also answers the charge that I place myself on the comfortable side of my own argument. In the 2023 Epistle I wrote that white supremacy <em>“violently enforces the will of wealthy white people on the rest of us.”</em> “The rest of us” put me among those on whom the will is enforced. In some material ways that is partly true: I have rented in working-class neighborhoods my whole adult life, and never owned property or stocks. But I am also a white man descended from settlers who received land in Dallas County, Iowa, at a dollar and a quarter an acre. I am drained, and I am a conduit. Saying both is more honest, and more persuasive, than saying either alone.</p>
+<h3>Alternative service, revisited</h3>
+<p>The two positions also explain why the old objector’s alternative service was never quite enough. Alternative service removed the objector from the conduit position in war, which mattered. But it left him inside the draft’s protocol, drained of two years under rules he did not write. The non-cooperators of my generation refused both positions. The NewCO is the same refusal, carried into an economy that drafts us continuously, in many small channels rather than one large one.</p>
+<h2 id="chapter-8">Chapter 8 · Active Objection: Closing One-Way Channels</h2>
+<p>From the beginning, the NewCO has been a stance of <em>active objection</em>. The reciprocity lens shows what that stance actually does.</p>
+<h3>Why not the usual word</h3>
+<p>The idea of active objection came to me when I was reminded that we are cautioned not to set ourselves against evil (Matthew 5:39). There have been many times when I did just that. But I have become convinced that responding to evil diverts our attention and energy away from creating constructive ways to address injustice.</p>
+<p>There is a practical reason as well. Opposition is reactive by construction. It concedes the agenda, the timing and the terrain to whatever it opposes, and a life organized around opposing things spends itself responding to someone else’s announcements. Its victories, when it has any, are negative: something did not happen. Negative victories do not accumulate into anything a person can live inside.</p>
+<blockquote>
+<p><em>Active objection does not resist evil. Instead, it names and acknowledges the injustice, but then the focus is on building better, more just communities and alternatives.</em></p>
+<p class="attr">— “What does Active Objection mean?,” June 7, 2026</p>
+</blockquote>
+<p>The 1972 letter already had this shape: <em>I will not set myself against it. I will break my ties … and concentrate on the difficult task of working for peace in whatever way I can.</em> Refusal, then redirection.</p>
+<h3>What active objection does, in the language of channels</h3>
+<p>Seen through the reciprocity lens, active objection has three movements.</p>
+<p><strong>First, it names the channel.</strong> Every one-way channel depends on not being seen. The cover story exists to keep it invisible. Naming exactly which way things flow, in a particular case, is the first act of objection. This is why truth-telling has always run alongside the other NewCO practices. Woolman’s sentence about seals and witnesses is an act of naming.</p>
+<p><strong>Second, it withdraws from the channel where withdrawal is genuinely possible.</strong> This is the old non-cooperation, made precise. Not every channel can be closed by one person. But many can be narrowed: living without a car, as I did through all my working years in Indianapolis; declining to invest in markets; choosing where money is kept; refusing to be the conduit for someone else’s words or story without asking. Each withdrawal is small. Together they are a pattern of life.</p>
+<p><strong>Third, and most important, it opens or joins a channel that runs both ways.</strong> This is what distinguishes active objection from withdrawal into private purity. The energy freed by refusing one channel is put into another, a reciprocal one, so that needs once met only through extraction can be met another way. You cannot move into a protest. You can move into a house.</p>
+<h3>Refusal is part of reciprocity</h3>
+<p>It might seem that refusing is the opposite of relationship. It is not. A relationship that cannot say no is not reciprocal. The draft could not be refused without prison; that is part of what made it extraction. The economic draft cannot be refused without hardship; that is part of what makes it a draft.</p>
+<p>When I refused Selective Service, I was also honoring a channel that ran the other way: the example of the Bear Creek objectors, received from them and carried forward. My present stance toward my own meeting has the same structure. In October 2026 I decided to remain a member while objecting to continuing <em>as we are</em>, until the meeting takes up LANDBACK and ongoing engagement with Indigenous-led work. I stay, I say plainly what I cannot accept, and I wait. That is the oldest Quaker form of reciprocity with a body one disagrees with.</p>
+<h3>Systemic non-collaboration, restated</h3>
+<p>The first framework called for <em>systemic non-collaboration</em>. The lens offers a gentler and more exact phrase: <strong>closing one-way channels, and opening two-way ones.</strong> It removes the suggestion that the NewCO must refuse everything at once, which no one can do and which tends to produce either despair or self-righteousness. It asks instead: in this case, which way does it flow, and what can I do about it this year?</p>
+<h2 id="chapter-9">Chapter 9 · Three Practices as Three Reciprocal Channels</h2>
+<p>The first framework offered LANDBACK, Mutual Aid and Abolition as “symmetrical antidotes” to the fused system. The lens shows why they are antidotes, and why the symmetry is real. Each one is a reciprocal channel built where an extractive channel has been.</p>
+<h3>LANDBACK: reciprocity with the land and its peoples</h3>
+<p>The colonial channel carried land one way, out of Indigenous hands, and the benefit has not stopped flowing. Every Sunday that a meetinghouse on taken land is used, the channel carries again.</p>
+<p>LANDBACK means returning land to the stewardship of Indigenous peoples. It reaches beyond the transfer of deeds, to respecting Indigenous rights, keeping languages and traditions alive, and securing food sovereignty, housing, and clean air and water. Sikowis Nobiss, who founded the Great Plains Action Society, prefers the word ReMatriation:</p>
+<blockquote>
+<p><em>It is a call to reestablish Indigenous landscapes, bring back Indigenous traditional ecological knowledge and to give stolen power back to the feminine.</em></p>
+<p class="attr">— Sikowis Nobiss, reckon.news, October 3, 2023</p>
+</blockquote>
+<p>Through the five questions:</p>
+<ul>
+<li><p><strong>Direction:</strong> land and authority flow back toward the peoples from whom they were taken.</p></li>
+<li><p><strong>Return:</strong> what returns is what Indigenous nations themselves say they want, not what settlers decide they need.</p></li>
+<li><p><strong>Duration:</strong> a standing relationship, such as a monthly land tax or recurring work, rather than a single gesture.</p></li>
+<li><p><strong>Invitation:</strong> settlers join Indigenous-led work; they do not design LANDBACK for others.</p></li>
+<li><p><strong>Protocol:</strong> Indigenous protocols govern.</p></li>
+</ul>
+<p>Indigenous ways of living have long treated the land itself as a party to the relationship, owed care and return. LANDBACK is reciprocity with the land, and with the people who have tended it. It is the testimony of <strong>Integrity</strong> made material, because integrity means a claim must be true and not merely enforceable.</p>
+<h3>Mutual Aid: reciprocity among neighbors</h3>
+<p>The capitalist channel makes survival depend on money, and money on participation in one-way channels. Mutual aid builds channels for food, shelter, rides, care and knowledge in which everyone gives and everyone receives.</p>
+<p>Dean Spade names three things mutual aid does at once: it meets survival needs while building shared understanding of why people lack what they need; it mobilizes people and builds solidarity; and it solves problems through collective action rather than waiting for saviors. Each of those three keeps the channel two-way. The first refuses to treat need as a private failing. The second moves the relationship into solidarity, which only exists between people who see each other as capable of acting. The third refuses the savior, the one positioned above the need.</p>
+<p>Mutual aid is the testimony of <strong>Equality</strong> in action. In mutual aid there is no laity and no clergy of care, only the shared responsibility of the whole body, which is what unprogrammed Friends have always claimed for worship.</p>
+<h3>Abolition: reciprocity in safety</h3>
+<p>The enforcement arm of extraction, police and prisons, keeps one-way channels open when people stop consenting. Seen through the lens, a prison is itself an extraction: it takes years of a person’s life, often their labor, and their place in the web of relationships, and returns nothing to the people harmed. It removes people from relationship rather than restoring them to it.</p>
+<p>Abolition, as the NewCO understands it, is not only removal of the enforcer. It is the building of community safety and repair that keep people inside relationship: healing justice, conflict resolution, crisis support that does not route through confinement. The Healing Justice House GPAS is creating in Iowa City is a building of exactly this kind. Abolition is the testimony of <strong>Peace</strong> turned inward, toward the domestic channels of coercion.</p>
+<p>I hold this pillar with some humility. It is the one in which I have the least direct experience, and the one in which Quaker history is most mixed: Friends helped design the penitentiary, believing isolation would lead to penitence. That history is itself a lesson in the lens. A Friend may intend a two-way channel of reform and build a one-way channel of confinement.</p>
+<h3>Truth-telling: reciprocity in knowledge</h3>
+<p>Running alongside the three is a fourth channel, which my recent work has made central. Knowledge, too, can flow one way, or not at all. The boarding schools took language and memory out of Native children. Quaker communities that knew what had happened did not pass it on. I call this <em>what did not reach us</em>, and in <em>How Knowledge Travels</em> I put it this way:</p>
+<blockquote>
+<p><em>Water doesn’t reach where there are no channels — not because the water isn’t there, but because the channel hasn’t been built.</em></p>
+<p class="attr">— “How Knowledge Travels,” June 27, 2026</p>
+</blockquote>
+<p>Truth-telling is the building of channels through which that knowledge can travel, both ways, between the people who hold it and the people who need it. The single sentence that states my whole project is:</p>
+<p class="callout"><strong>Understanding that leads to response arrives only through a channel — a relationship with the people who hold the knowledge, built over years, entered by invitation, carrying both ways.</strong></p>
+<h3>The symmetry, made visible</h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Extractive channel</strong></th>
+<th><strong>What it carries one way</strong></th>
+<th><strong>Reciprocal channel</strong></th>
+<th><strong>Testimony</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Colonial land taking</td>
+<td>Land, authority, future</td>
+<td>LANDBACK / ReMatriation</td>
+<td>Integrity</td>
+</tr>
+<tr class="even">
+<td>Capitalist accumulation</td>
+<td>Labor, money, survival</td>
+<td>Mutual Aid</td>
+<td>Equality</td>
+</tr>
+<tr class="odd">
+<td>Carceral enforcement</td>
+<td>Years of life; place in community</td>
+<td>Abolition / Healing Justice</td>
+<td>Peace</td>
+</tr>
+<tr class="even">
+<td>Erasure and silence</td>
+<td>Language, memory, history</td>
+<td>Truth-telling / Channels into Knowledge</td>
+<td>Integrity, Community</td>
+</tr>
+</tbody>
+</table></div>
+<p>The first framework was right that these were symmetrical. The lens shows that the symmetry is one of direction. Each practice reverses a flow.</p>
+<h2 id="chapter-10">Chapter 10 · From Ally to Accomplice: Who Receives?</h2>
+<p>One of the most important movements in my NewCO work was the shift from <em>ally</em> to <em>accomplice</em>, a word I learned from Ronnie James at Des Moines Mutual Aid. The lens explains why the shift matters, and it adds one thing I had missed.</p>
+<h3>The ally industrial complex, as extraction</h3>
+<p>The literature on the “ally industrial complex” describes solidarity turned into a commodity: allyship as a badge, a credential, a source of career or organizational standing. It names familiar types: the savior, the co-opter, the parachuter who arrives at a visible crisis and leaves before accountability, the floater who moves from issue to issue.</p>
+<p>Every one of these is a one-way channel. In each case the ally receives something real, standing, moral comfort, a fundable program, a story to tell, and what flows back to the community is small, temporary or on the ally’s own terms. The savior keeps the receiver below. The parachuter fails on duration. The co-opter takes over the protocol. The ally industrial complex is extraction of standing.</p>
+<h3>The accomplice, as reciprocity</h3>
+<p>The accomplice, as the DRN material describes it, differs on exactly the five questions:</p>
+<ul>
+<li><p><strong>Shared risk</strong> answers <strong>direction</strong>: the accomplice takes on some of the cost, not only the credit.</p></li>
+<li><p><strong>Mutual consent</strong> answers <strong>invitation</strong>: the relationship is never imposed.</p></li>
+<li><p><strong>Accountability to the affected community</strong>, not to funders or institutions, answers <strong>protocol</strong>.</p></li>
+<li><p><strong>Continuing presence</strong> answers <strong>duration</strong>.</p></li>
+<li><p><strong>Acting within one’s own institutions</strong>, using one’s own access to subvert them, answers <strong>return</strong>: the accomplice gives what the community actually needs, which is often work done elsewhere.</p></li>
+</ul>
+<h3>What I had missed: the accomplice must also receive</h3>
+<p>The accomplice literature speaks almost entirely of what the accomplice gives: risk, labor, resources, presence. The lens shows that this alone is still not reciprocity. A giver who will not receive keeps the relationship one-way, in the opposite direction. He stands above, needing nothing.</p>
+<p>I learned this in my first months at Des Moines Mutual Aid. When I arrived, I was told that everyone was encouraged to take any food they wanted. For many weeks I did not take any. Then one of my new friends asked, kindly, why I wasn’t taking any food. In that moment I realized I was not really buying into the mutual part. Now I do.</p>
+<p>That small story is, I think, the most important correction the lens makes to the NewCO. The first framework spoke of the accomplice as one who gives more than the ally. The reciprocity lens speaks of the accomplice as one who is willing to be in relationship, and relationship includes receiving. At the Hub work-weeks, GPAS organizers made sure volunteers had safety equipment, arranged lunches, and gave gas cards and other gifts. Scattergood offered beds and meals. I was fed by the people I had come to help. That is not a lapse in accomplice-ship. It is the evidence that the relationship is real.</p>
+<p class="callout"><strong>An ally gives from a distance. An accomplice shares the risk. A neighbor in a reciprocal channel both gives and receives, and keeps coming back.</strong></p>
+<h3>Waiting to be welcomed</h3>
+<p>The other half of this is invitation. I met Ronnie at a vigil for the Wet’suwet’en people’s struggle against a pipeline through their territory, and waited through a long stretch of getting to know him before asking whether it would be appropriate to join his work. He said yes. But it wasn’t until I had been involved for several months that he said, “welcome to the community.” Although I had invited myself to join the work, I wasn’t really part of the community until that moment.</p>
+<p>The first NewCO material spoke of “weaponizing privilege.” The lens suggests a quieter discipline: asking, waiting, and accepting the community’s protocols for when one belongs.</p>
+<h2 id="chapter-11">Chapter 11 · Channels and Nodes: The Objector Is Not Alone</h2>
+<p>The traditional conscientious objector was, in the eyes of the state, an individual. He was classified as one person. His objection was tested as one person’s sincerity. He served, or went to prison, alone.</p>
+<p>The NewCO cannot be that, and the reciprocity lens explains why. A one-way channel can be refused by one person. A two-way channel takes at least two.</p>
+<h3>Terminals and nodes</h3>
+<p>In <em>Nodes and Channels</em>, I drew on the United Panther Party’s framework of Revolutionary Intercommunal Mutualism, which describes how empire plugs every community into its networks as a <em>terminal</em>, a place that receives according to protocols it did not write and sends things outward on demand. A <em>node</em>, by contrast, is a community with organized capacity to act on its own decisions. Nodes can federate through pacts without dissolving into one another. Nobody dissolves into anybody.</p>
+<p>The lens fits this exactly. A terminal is a place where channels run one way. A node is a place where a community writes its own protocols and its channels run both ways. A Quaker meeting that receives its land, its economy and its sense of history according to protocols it never examined is, in these terms, a terminal. So is a person.</p>
+<h3>What a channel needs</h3>
+<p>I described the anatomy of a channel in my Channels into Knowledge work:</p>
+<ul>
+<li><p><strong>Invitation precedes entry.</strong></p></li>
+<li><p><strong>Duration, not events.</strong> A channel is built over years.</p></li>
+<li><p><strong>Direction comes from the knowledge-holders.</strong></p></li>
+<li><p><strong>Reciprocity.</strong> It carries both ways.</p></li>
+<li><p><strong>Cost.</strong> It asks something real of both sides.</p></li>
+<li><p><strong>Obligation.</strong> It continues after any particular need is met.</p></li>
+</ul>
+<p>These are the five questions turned into a description of what to build.</p>
+<h3>The NewCO as a builder of channels</h3>
+<p>This gives the NewCO a new and, I think, truer self-description. The old objector refused a channel. The new one refuses one-way channels and <em>joins or helps carry two-way ones</em>: between a meeting and an Indigenous-led node like the GPAS Hub; between a settler community and the knowledge of what happened on its ground; between neighbors in a mutual aid network; between generations, through letters and stories told straight.</p>
+<p>There is also a real limit, which the <em>Nodes and Channels</em> work names openly. A channel is between named people, and cannot simply be inherited. Federations of communities can outlast any one relationship; channels may not. And no one has yet shown how many outside allies a small Indigenous-led or Black-led node can absorb before support becomes burden. A NewCO who arrives in numbers, eager to help, can become a new kind of one-way channel, drawing on the host’s time and attention. The question <em>what does the host carry?</em> belongs alongside every plan.</p>
+<p>I have watched this begin to happen. Each work-week at the Hub, I noticed more people coming than the time before. The people of the Hub met all of it well, but I worried it could become overwhelming. Those choices belong to them, not to me. So I raised the idea of guidelines for visitors with them first. They liked it, and only then did I begin a draft, which I passed to friends on the Decolonial Repair Network planning committee for correction. Whether it becomes the accepted version is the Hub’s decision. The way the guidelines came about matters more than what they say. Rules written for a community by an outsider, without asking, would be one more set of rules laid on Indigenous people by settlers: the very shape of the 1870s.</p>
+<h1 id="part-four">Part Four · Why So Much Quaker Aid Was Charity</h1>
+<h2 id="chapter-12">Chapter 12 · A Long Record of Giving</h2>
+<p>Friends have given a great deal. I want to begin there, because nothing in this part of the document is meant to belittle it. Over three and a half centuries, Quakers have fed, taught, nursed, housed and rescued people in numbers that are hard to take in. Much of that work was brave, some of it was costly, and a great deal of suffering was relieved by it. Children who would have starved did not.</p>
+<p>But the reciprocity lens asks a different question from the one Friends usually ask of their own service. Not <em>was it generous?</em> It usually was. Not <em>was it well meant?</em> It nearly always was. The lens asks: <strong>which way did things flow, who named the need, and did the relationship continue?</strong> Asked that way, a pattern appears across the whole record, and it explains a puzzle I have carried for years: why, after so much giving, so little has changed in the conditions that made the giving necessary.</p>
+<p>Here is a short walk through that record. It is not a complete history. It is a set of examples chosen because each one can be checked, and each one shows the pattern from a different side.</p>
+<h3>1659: the Box Meeting</h3>
+<p>George Fox asked about sixty women to see to the necessities of Friends who were sick, weak and in want. This is the starting point, and it is genuinely reciprocal: Friends caring for Friends, organized close to the need, anyone potentially on either side. Its one limit is the one that will run through everything that follows. Its circle was drawn around Friends.</p>
+<h3>1750s to 1780s: ending slaveholding among Friends</h3>
+<p>This is the great exception in the record, and I will return to it in Chapter <a href="#chapter-15">15</a>. Beginning in the 1750s, John Woolman traveled among Quaker slaveholders. In 1756 he declined to write a will that would have passed an enslaved person to a child, and persuaded the dying man to free him instead. In 1757 he began paying enslaved people for the services they rendered him as a guest, leaving the money with them as he departed from his slaveholding hosts. Over roughly two generations, one Yearly Meeting after another concluded that holding human beings in slavery was incompatible with membership, and by the mid-1770s a Friend who continued to do so faced disownment. Some Friends compensated the people they freed. Quakers cleared slaveholding from their own membership before the wider campaign for abolition had begun.</p>
+<p>Notice what kind of act this was. It was not charity. It was Friends closing a one-way channel in their own lives, at their own cost.</p>
+<h3>1862 to 1982: the Friends’ Freedmen’s Association</h3>
+<p>During and after the Civil War, Philadelphia Friends formed associations for the relief and education of freed people, the women’s group in 1862 and the men’s in 1863. By 1868 the Friends’ Freedmen’s Association ran twenty-five schools in North Carolina and Virginia, later growing to forty-six. As counties and states took over the basic education of Black children, the Association concentrated on the Christiansburg Industrial Institute in Virginia, which it managed for decades. In 1934 the county school board took over its management, though the Association held title to the property until 1947. In 1982 the Association dissolved, and its remaining funds became a scholarship fund at four Quaker colleges.</p>
+<p>The schools were real, and many people learned to read in them. But look at the questions. Friends chose the curriculum, the teachers, the locations and the mix of academic and industrial training. The freed people whose schools they were did not hold title. And at the end, the money that had been raised to serve freed people flowed back into Quaker institutions.</p>
+<h3>1869 to 1880s: the Peace Policy and the boarding schools</h3>
+<p>When Ulysses Grant became president, Quaker delegations pressed for Friends to be appointed as Indian agents and teachers. They believed, as a New England Yearly Meeting report puts it, that <em>Friends’ long history of peaceful relations with Native Peoples</em> made them well suited to help. From 1869 Orthodox Friends managed the Central Superintendency, with ten agencies in Kansas and Indian Territory; Hicksite Friends took responsibility in Nebraska. Quaker agents administered the agencies. Quaker teachers ran the schools. The federal government paid.</p>
+<p>The policy those Friends served held that <em>the only solution was assimilation and citizenship</em>. The schools aimed at erasing Native languages and beliefs. The same report concludes that these policies <em>brought about deep and ongoing harms, and are now seen as cultural genocide</em>. Two miles from Scattergood, where I went to school, the West Branch Industrial School received $167 a year from the federal government for the keep of each Indian child sent there. In 1886 it enrolled seventy-five Indian children and thirteen white children. Grace, an Arapaho girl, died there.</p>
+<p>In 1873, Bear Creek’s own women’s meeting appointed three Friends to cooperate with the Yearly Meeting’s committee on Indian affairs. The next year, the committee <em>found nothing to do</em>.</p>
+<h3>1904: Joseph Rowntree’s memorandum</h3>
+<p>At the end of 1904, the Quaker chocolate maker Joseph Rowntree set out the purposes of the trusts he was founding. His memorandum contains the clearest diagnosis of charity any Friend has written:</p>
+<blockquote>
+<p><em>Much of current philanthropical effort is directed to remedying the more superficial manifestations of weakness and evil, while little thought or effort is directed to search out their underlying causes.</em></p>
+<p class="attr">— Joseph Rowntree, memorandum, December 29, 1904</p>
+</blockquote>
+<p>And then, with a businessman’s eye for where money actually goes:</p>
+<blockquote>
+<p><em>The Soup Kitchen in York never has difficulty in obtaining adequate financial aid, but an enquiry into the extent and causes of poverty would enlist little support.</em></p>
+<p class="attr">— Joseph Rowntree, 1904</p>
+</blockquote>
+<p>Rowntree went so far as to say it was <em>highly undesirable</em> that his trusts should give to hospitals, almshouses or similar institutions. A Friend saw the problem clearly, more than a century ago. Hold on to that, because it matters for the question of why so little changed: the diagnosis was available, and from inside the Society.</p>
+<h3>1917 to the present: the American Friends Service Committee</h3>
+<p>The American Friends Service Committee was born in 1917 out of conscription. Rufus Jones and others founded it to give Friends who could not in conscience serve in the military a way to serve otherwise. In other words, the AFSC began as alternative service.</p>
+<p>Its first great work was relief in Europe after the First World War. In Germany and Austria, the Quaker child-feeding program, remembered there as the <em>Quäkerspeisung</em>, reached its peak in June 1921, when more than a million children were fed every day, by about a thousand Quaker volunteers and forty thousand German helpers working from more than two thousand kitchens. Over the whole program more than five million children were helped, roughly a quarter of those born in Germany in the decade from 1909. The food was paid for by Herbert Hoover’s American Relief Administration, which required that the work be done <em>under the American flag</em>. The program ended in 1924.</p>
+<p>In 1947 the AFSC and its British counterpart received the Nobel Peace Prize on behalf of Friends. In the Second World War Friends ran Civilian Public Service camps for conscientious objectors, under the authority of the Selective Service System. After 1950, by the account of its centennial historian, the AFSC turned increasingly toward racism, poverty and injustice in the United States, and more openly criticized government policy. It now does a great deal of work for justice, including work on immigration and on Indigenous rights. It also, by a 2017 account in <em>Friends Journal</em>, has a staff of whom fewer than one percent are Friends, and ties with many yearly meetings that <em>range from chilly to nonexistent</em>.</p>
+<h3>1939 to 1943: the Scattergood Hostel</h3>
+<p>Closer to home, Scattergood’s buildings, closed as a school during the Depression, became a hostel where Friends sheltered European refugees fleeing Nazi persecution. It is a story Iowa Friends rightly treasure. It also carries a detail worth noticing: the guests were expected to take part in work crews. Told one way, that is mutuality, everyone sharing the work. Told another, it is a condition of aid. The lens does not settle which it was. It asks who set the terms.</p>
+<h3>And now</h3>
+<p>Friends today give through yearly meeting budgets, monthly meeting collections, the AFSC, the Friends Committee on National Legislation, Right Sharing of World Resources, Quaker schools and colleges, and countless local pantries and shelters. Some of this work is closer to reciprocity than to charity; Right Sharing, for example, makes small grants to grassroots groups who propose their own projects. Taken together, over a century and more, Friends have given many millions of dollars.</p>
+<p>And yet the conditions the money was meant to relieve remain. Children still go hungry beside full shelves. The land under our meetinghouses has not gone back. The schools Friends ran are only now being reckoned with, and mostly by the descendants of those who were sent to them. Why?</p>
+<h2 id="chapter-13">Chapter 13 · Why It Took the Shape of Charity</h2>
+<p>There is no single reason, and I want to avoid the temptation to find a villain. The Friends in this record were, for the most part, sincere and self-sacrificing people. That is exactly what makes the pattern worth understanding. Good people, acting faithfully as they understood faith, repeatedly built one-way channels. Here are the reasons I can see, each tied to one of the five questions.</p>
+<h3>1. We gave from a position we did not examine</h3>
+<p>Charity flows from those who have to those who lack. To give charity, one must first be the one who has. Friends were very often the ones who had: as Gwyn shows, within a generation of Fox many had become prosperous merchants, bankers and manufacturers. Rowntree’s own fortune came from chocolate, made from cocoa grown far away under conditions he did not control. Iowa Friends held farms on land acquired at $1.25 an acre after the Treaty of 1842.</p>
+<p>Giving from a surplus does not ask where the surplus came from. That question was always the hard one, and charity let Friends be generous without asking it. Woolman saw this. The full title of his essay is <em>A Plea for the Poor, or A Word of Remembrance and Caution to the Rich</em>. Its second half, the caution to the rich, is the half that Friends have mostly left unread.</p>
+<p><strong>The lens:</strong> on <strong>direction</strong>, the gift went one way. But underneath it, a much larger flow was going the other way, toward the givers, and the gift did not touch it.</p>
+<h3>2. We named the need</h3>
+<p>In almost every example in the last chapter, Friends decided what the people they served needed. Freed people needed literacy and industrial training. Native children needed English, Christianity and a trade. German children needed meals. Sometimes Friends were right, as with the meals. Sometimes they were catastrophically wrong, as with the boarding schools. But in either case the need was named by the giver.</p>
+<p>Who names the need is not a detail. It is the whole difference between charity and mutual aid. When the giver names the need, the giver also decides what counts as success, when the work is finished, and what the recipient owes in return, whether gratitude, obedience, conversion or work on a crew. The recipient’s own account of what they lack, and why, never enters.</p>
+<p><strong>The lens:</strong> on <strong>protocol</strong>, the giver wrote the rules and named the need. That one failure, more than any other, turned good intentions into harm.</p>
+<h3>3. We partnered with the power that did the taking</h3>
+<p>The Peace Policy made Quakers agents of the federal government, the same government that had taken the land and was confining Native nations on reservations. The child feeding in Germany was paid for by the American Relief Administration and carried out under the American flag. Civilian Public Service ran under the Selective Service System. Again and again, Friends’ service was offered inside a channel built and governed by the state.</p>
+<p>This is exactly the question I faced in 1969. Alternative service let a man be useful somewhere other than the army, so long as he accepted the draft board’s authority to place him. Quaker relief, much of the time, had the same shape on a larger scale: Friends were permitted to be helpful, on the state’s terms, at the edges of a system that kept running.</p>
+<p><strong>The lens:</strong> on <strong>protocol</strong> again. A service performed under the rules of the power that caused the harm is still a service to that power.</p>
+<h3>4. Charity kept the peace among Friends</h3>
+<p>Charity unites a meeting. Everyone can agree to feed hungry children. Structural questions divide a meeting: whose land is this, where does our endowment’s income come from, what do we owe? Quaker history is marked by painful separations, and the fear of another runs deep. I believe that fear has quietly steered Friends toward the work everyone could agree on, and away from the work that would have asked something of everyone.</p>
+<p>Rowntree named the money side of this: the soup kitchen is easy to fund; an inquiry into the causes of poverty is not. The unity side is the same. A collection for relief passes easily. A minute on returning land does not.</p>
+<p><strong>The lens:</strong> the choice of charity was partly a choice about the relationship among the givers, protecting their own peace, rather than about the relationship with those they served.</p>
+<h3>5. The circle was one line wide</h3>
+<p>The Box Meeting was reciprocal among Friends. Bear Creek’s own mutual care was real: neighbors helped neighbors, and the meeting looked after its own. But the circle had an edge, and the edge was drawn around Friends, and around settlers. Inside the circle, Friends practiced reciprocity. Outside it, they practiced charity at best, and at worst administered other people’s dispossession.</p>
+<p>The same Bear Creek meeting that had an active committee for freedmen found nothing to do for the Meskwaki and Sauk. The concern for justice was alive. The channel toward the people whose land they stood on was closed.</p>
+<p><strong>The lens:</strong> on <strong>invitation</strong> and <strong>duration</strong>, reciprocity lived inside the circle; outside it, Friends arrived uninvited and left when the program ended.</p>
+<h3>6. We believed our intentions made it right</h3>
+<p>The boarding schools were run by people who believed they were acting in love. That belief was the cover story, and it worked on the people telling it first. Good intentions are not nothing. But they make it very hard to see harm, because any evidence of harm can be explained away as a failure of execution rather than a fault in design.</p>
+<p>The NewCO papers called this <em>benevolent harm</em>. The lens describes it more simply: when the giver names the need and judges the result, there is no channel through which the recipient’s experience can come back and correct the giver.</p>
+<h3>7. We would not receive</h3>
+<p>This is the one I know from the inside. When I first came to Des Moines Mutual Aid, I would not take the food. I came to give. A friend’s kind question, <em>why aren’t you taking any food?</em>, showed me that by refusing to receive I was keeping the relationship one-way, with myself above.</p>
+<p>I believe Friends as a body have had the same posture. We have seen ourselves as givers: of relief, education, witness, example. We have rarely seen ourselves as people who need what others hold, whether knowledge, ceremony, forgiveness, correction, or a way of living with the land. Woolman, going among the Lenape <em>that I might receive some instruction from them</em>, was the exception. A giver who will not receive cannot be in reciprocity, however generous.</p>
+<p><strong>The lens:</strong> on <strong>return</strong>, nothing was expected to flow back to Friends except gratitude. That is the surest sign of a one-way channel.</p>
+<h3>8. We gave at a distance</h3>
+<p>Much Quaker giving has been done by committee and by check. Money is raised in the meeting, passed to an organization, and spent by professionals far away. This is efficient, and it is often the only way to work at scale. But it means that most Friends who give never meet the people who receive, never learn from them, and never stay. The giving ends at the collection plate.</p>
+<p>Over time this has had a further effect. The Society’s largest service organization now has very few Quaker staff, and thin ties to many yearly meetings. Friends fund service; they rarely do it. A meeting that sends money but not presence has outsourced the very part of reciprocity that changes the giver.</p>
+<p>Organizers outside the Society have described a wider version of this problem. In <em>The Revolution Will Not Be Funded</em>, the women of color collective INCITE! argued that a “non-profit industrial complex” tends to keep movements dependent on funders, professionalized, and aimed at managing problems rather than ending them. Friends did not invent that system, but our habits of giving fit comfortably inside it.</p>
+<p><strong>The lens:</strong> on <strong>duration</strong> and <strong>invitation</strong>, giving at a distance creates no relationship to continue.</p>
+<h2 id="chapter-14">Chapter 14 · Why So Little Changed</h2>
+<p>The reasons in the last chapter explain why Friends’ aid took the shape of charity. This chapter asks the harder question: why did so much giving, over so long, leave the underlying conditions so nearly untouched?</p>
+<h3>Charity works downstream</h3>
+<p>Picture a river. Upstream, a great deal of water is being diverted away from a town and toward a few large fields. Downstream, the town is thirsty. Charity carries buckets to the town. It is good to carry buckets. People are thirsty, and the buckets help. But no number of buckets changes the diversion upstream, and as long as the diversion continues, the town will be thirsty again tomorrow.</p>
+<p>That is what I mean by <em>charity manages need; mutual aid ends it.</em> Hunger, poverty, dispossession and the economic draft are produced, continuously, by channels that carry land, labor and wealth one way. Relief meets the need those channels create. It does not close the channels. And so the need is created again, every day, faster than relief can meet it.</p>
+<p>Rowntree saw this in York. He called the soup kitchen a remedy for <em>the more superficial manifestations</em>, and he was right in the strict sense: the kitchen worked on the surface, while the cause lay underneath.</p>
+<h3>Money moved; land and rules did not</h3>
+<p>Across the whole record, what Friends gave was mostly money, food, schooling and labor. What they almost never gave was what had been taken: land, and the authority to decide.</p>
+<p>The freed people of North Carolina and Virginia received schools. They did not receive the land they had worked, and they did not hold title to the schools. The Native nations of the Central Superintendency received agents and teachers. They did not receive their land back, and their children were taken from them in the name of education. The children of Germany received meals, under the American flag, for as long as the program ran.</p>
+<p>The five questions make the point sharply. A gift that leaves <strong>direction</strong> and <strong>protocol</strong> unchanged, that leaves land where it was and rules in the same hands, cannot change the conditions those things produce. It can only soften them for a while.</p>
+<h3>The relationship ended when the program ended</h3>
+<p>Most Quaker relief was organized as programs, and programs end. The feeding in Germany closed in 1924. The Peace Policy agencies passed to other hands after 1879. The Freedmen’s Association turned its funds into scholarships and dissolved. The goodwill created by the German feeding was real, and for a time it opened doors, including for Friends who later helped Jews escape. But it lasted, as one history puts it, only <em>for a time</em>.</p>
+<p>Reciprocity depends on <strong>duration</strong>. A relationship that continues after the need is met can respond to the next need, and the one after that, and can be corrected by the people inside it. A program that ends leaves nothing behind but gratitude, or resentment, and a story the givers tell about themselves.</p>
+<h3>Knowledge did not travel back</h3>
+<p>Because the channel ran one way, what the recipients knew never reached the givers. Native nations knew what the boarding schools were doing to their children. Friends running the schools, and Friends at home funding them, did not learn it from them, because no channel existed through which that knowledge could travel. I call this <em>what did not reach us</em>. I want to say it carefully: I do not know that this knowledge was never shared among Friends anywhere. I know it did not reach me, at a Quaker school two miles from the West Branch Industrial School, and I did not go looking for it until much later.</p>
+<p>When knowledge cannot travel back, givers cannot learn. Each generation of Friends starts the work fresh, with the same assumptions, and often the same mistakes. <em>Found nothing to do</em> is what a closed channel looks like from the inside.</p>
+<h3>The givers judged the results</h3>
+<p>When the giver names the need, the giver also judges whether it was met. Friends measured their success in meals served, pupils enrolled, agencies administered, dollars raised. Those are real measures. But they are the giver’s measures. Had the measure been whether the people served found the relationship useful, on their own terms, much of the record would read differently. In <em>The Problem, As I Understand It</em>, I wrote that the measure of success isn’t how the Quakers feel about the process. That sentence applies backward across our whole history.</p>
+<h3>Charity can stabilize what it means to relieve</h3>
+<p>Some of the NewCO papers argued that charity does more than leave the system alone: it keeps it running, by relieving just enough suffering to prevent the system’s collapse. I hold that argument loosely. I do not think most Friends gave in order to keep anything running. But the lens does show a hard truth in it. A system that produces hunger, and a charity that feeds the hungry, can coexist for a very long time. Each makes the other bearable. The draft board in 1969 was glad to place conscientious objectors in hospitals; it cost the draft nothing.</p>
+<h3>The question that charity lets us avoid</h3>
+<p>Underneath all of this is a question that charity makes it possible not to ask. I put it in my notes this way, and I put it to myself first:</p>
+<p class="callout"><strong>What does it say about a faith, or a person, who has food and shelter and ignores the needs of their brothers and sisters? Who ignores the voice saying their need comes from what we have taken?</strong></p>
+<p>Charity answers the first half of that question. It does not ignore the need; it meets it. But it lets us go on ignoring the second half: the voice saying the need comes from what we have taken. As long as that voice goes unheard, the giving can continue forever, and nothing will change.</p>
+<h2 id="chapter-15">Chapter 15 · What Worked, and What It Teaches</h2>
+<p>If the record were only one of failure, it would be a counsel of despair. It is not. Read with the five questions, a few moments in Quaker history, and a few in my own life, stand out because they did change something. They share a shape.</p>
+<h3>Closing our own channel: slaveholding</h3>
+<p>The most lasting change Friends ever made was not charity at all. It was the decision, over two generations, to stop holding human beings in slavery. Woolman did not raise funds for enslaved people. He went among slaveholding Friends, refused to benefit from their slaveholding, paid the people who served him, and asked his hosts to look at what they held. Meetings did not create a relief committee. They made slaveholding incompatible with membership, and they disowned those who would not stop. Some Friends compensated the people they freed.</p>
+<p>Through the lens: Friends closed a one-way channel <strong>in their own lives</strong>, at <strong>their own cost</strong>, and the change lasted. They did not ask the enslaved to name their need; the need was plain. They changed the direction of a flow they themselves controlled. Even so, the work was incomplete: freedom was granted, but the land and wealth that enslaved labor had built stayed where they were, and Woolman’s <em>heavy account</em> was never settled. But it is the clearest proof in our own history that Friends can stop taking.</p>
+<h3>Holding a budget open: 2022</h3>
+<p>A much smaller example, from my own Yearly Meeting. In 2022, as clerk of the Peace and Social Concerns Committee of Iowa Yearly Meeting (Conservative), I wrote this report into the minutes:</p>
+<blockquote>
+<p><em>This past year our committee decided to reserve our budget for an opportunity that might present itself. Because of years of Friends’ relationships with Sikowis (Christine) Nobiss, she asked if we could help support the screenings of the video “They Found Us”, about finding the remains of children at the residential school of her nation, George Gordon First Nation. Our committee was glad we could give our budget of $1,100. We would like to reserve this year’s budget for a similar Spirit led opportunity.</em></p>
+<p class="attr">— Iowa Yearly Meeting (Conservative), Peace and Social Concerns Committee report, 2022</p>
+</blockquote>
+<p>The sum was small. The shape was right. The committee did not decide in advance what to fund. It held its budget open and waited. The request came from Sikowis, on her terms, for her own nation’s work, and it came because years of relationship made it possible for her to ask. The money followed the relationship, not the other way round. On <strong>protocol</strong>, she named the need.</p>
+<h3>Being taught to receive: Des Moines</h3>
+<p>At Des Moines Mutual Aid, about fifteen of us packed boxes of donated food for about sixty families every Saturday morning, with no requirement to qualify. Donated food is, in one sense, charity. What made it mutual aid was the shape of the relationship: everyone could take food, including the volunteers; the community wrote the rules; and the work went on, week after week, for years. My own correction came when a friend asked why I wasn’t taking any food. A single question turned a giver into a member.</p>
+<h3>Showing up for work: the Hub</h3>
+<p>At the Great Plains Action Society’s Hub in Iowa City, Friends have joined work-weeks in demolition and renovation, under Indigenous leadership, on Indigenous-owned land. We gave labor. We were given safety equipment, lunches, gas cards, gifts, and beds at Scattergood. Sikowis once said that talks to non-Native groups had left her frustrated, because so little came of them, and that what registered was people showing up for work. That is the answer to Rowntree’s soup kitchen: not a better-funded kitchen, and not only an inquiry into causes, but presence, under someone else’s protocol, that keeps coming back.</p>
+<h3>From charity to reciprocity: what changes</h3>
+<p>Put together, these examples suggest how Quaker giving could change shape without becoming less generous.</p>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Charity asks</strong></th>
+<th><strong>Reciprocity asks</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>What do they need?</td>
+<td>Who names the need? Have we asked?</td>
+</tr>
+<tr class="even">
+<td>How much can we give?</td>
+<td>What have we taken, and what is still flowing our way?</td>
+</tr>
+<tr class="odd">
+<td>Which program shall we fund?</td>
+<td>Which relationship shall we join, and keep?</td>
+</tr>
+<tr class="even">
+<td>How do we measure our impact?</td>
+<td>Did the people we work with find the relationship useful?</td>
+</tr>
+<tr class="odd">
+<td>How can we help them?</td>
+<td>What can we learn from them, and receive?</td>
+</tr>
+<tr class="even">
+<td>When is the work finished?</td>
+<td>How do we stay?</td>
+</tr>
+<tr class="odd">
+<td>Whose rules shall we follow? Ours.</td>
+<td>Whose rules govern? Theirs, where it is their work and their land.</td>
+</tr>
+</tbody>
+</table></div>
+<p>None of this means Friends should stop giving money. It means money should follow relationship rather than replace it; should flow under the protocols of those who receive it; should continue rather than arrive once; and should come with presence. A standing monthly land tax paid by a meeting whose members also show up to work is not charity. It is the beginning of a channel.</p>
+<h3>What this means for the NewCO</h3>
+<p>The NewCO has always said that the conscientious objector of our time must do more than refuse. The history of Quaker charity says what kind of <em>more</em>. Not more giving in the old shape, which the record shows can go on for centuries without changing the conditions that make it necessary. But a change in the shape of the relationship: closing the channels that carry things our way, as Friends once did with slaveholding, and joining, by invitation and for the long term, the channels others are already building that carry both ways.</p>
+<p>That is the alternative service the NewCO is called to. Not service on the draft board’s terms, or the donor’s, but service on the terms of the people and the land it is meant for.</p>
+<h1 id="part-five">Part Five · Tested on the Ground</h1>
+<h2 id="chapter-16">Chapter 16 · Bear Creek’s Own Ledger</h2>
+<p>A lens is only worth having if it can be turned on what is close at hand. The closest ground I know is Bear Creek Meeting, in Dallas County, Iowa, where I grew up, and Iowa Yearly Meeting (Conservative), to which it belongs. This chapter reads a few items from our own record with the five questions. Every item here is something any Friend can look up.</p>
+<h3>The ground under the meetinghouse</h3>
+<p>The Treaty of 1842 ceded the remaining Sauk and Meskwaki land in Iowa, including Dallas County, and removal to Kansas was required by October 1845. The land entries around Bear Creek in the 1850s were made at the federal price of a dollar and a quarter an acre, properly recorded, and silent about who had held the land before.</p>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Question</strong></th>
+<th><strong>Reading</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Direction</td>
+<td>Land flowed from the Sauk and Meskwaki nations to settlers, including Friends</td>
+</tr>
+<tr class="even">
+<td>Return</td>
+<td>None that the meeting’s record shows</td>
+</tr>
+<tr class="odd">
+<td>Duration</td>
+<td>The benefit continues every Sunday the meetinghouse is used</td>
+</tr>
+<tr class="even">
+<td>Invitation</td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td>Protocol</td>
+<td>A federal treaty and land office, written by one party</td>
+</tr>
+</tbody>
+</table></div>
+<p>This is the textbook case of Woolman’s thirteenth chapter: a claim proved by seals and witnesses that does not thereby become right. I grew up on that ground. The formation I value most, physical labor, communal accountability, the conscientious objectors among my elders, happened there. I am not a bystander to this item. I am one of its beneficiaries, as every member is.</p>
+<h3>“Found nothing to do”</h3>
+<p>In November 1873, Bear Creek’s women’s meeting appointed three Friends, <em>“agreeably to the direction of the Yearly Meeting … to cooperate with the Yearly Meeting’s committee on the cause of Indian affairs.”</em> The following year, the record reads:</p>
+<blockquote>
+<p><em>The committee on Indian affairs reported they found nothing to do.</em></p>
+</blockquote>
+<p>In the same years the meeting had an active Freedmen’s committee corresponding with a school in Missouri. Sauk and Meskwaki people had been removed from the county within living memory. Meskwaki people had bought back land in Tama County in 1857. And the committee found nothing to do.</p>
+<p>Read with the lens, “found nothing to do” is the purest record of a closed channel I know. It is also the most persuasive item I have for skeptical Friends, because it cannot be dismissed as outside agitation. It is in our own meeting’s hand. It shows that the problem was never that Friends did not care about justice. They plainly did, for freedmen. The question is where the channel was open and where it was closed.</p>
+<h3>The evening of 2017</h3>
+<p>In July 2017, the summer I came back to Iowa, Iowa Yearly Meeting (Conservative) held its annual sessions at Scattergood. One evening was given to a panel on “Building Bridges with Native Americans.” Peter Clay, a fellow Quaker and longtime friend of mine, organized it, and he spoke along with Christina (Sikowis) Nobiss and Donnielle Wanatee of the Meskwaki Nation. The Yearly Meeting’s minute records that Sikowis stressed the importance of <em>“decolonizing our minds and including a true history of Native Americans in the history of all of us so that we can move forward together,”</em> and that Donnielle Wanatee spoke of how the history of the Meskwaki settlement teaches valuable ways to build community.</p>
+<p>An invitation to speak is a request for labor. It asks for travel and preparation, and for the cost of explaining harm to the descendants of those who did it. The Yearly Meeting offers financial support to those who speak at its sessions; any payment that evening would have been recorded somewhere, though not necessarily in anything published. Sikowis has since said that talks like that one, given to non-Native groups including ours, left her frustrated, because so little came of them. And then the sentence that I believe should sit at the center of any argument I make to Friends:</p>
+<blockquote>
+<p><em>What registered was people showing up for work.</em></p>
+</blockquote>
+<p>It would be easy to describe that evening as a channel that simply closed. That would be wrong. Things did come of it. Donnielle invited us to the Meskwaki Pow Wow, and I went, with my Dad. It was the first time I met Sikowis, and it gave me a way to reintroduce myself when I next saw her. We have become good friends since, and have worked on many projects together. Thirteen months later, Peter, Sikowis, Donnielle and I walked the First Nation–Farmer Climate Unity March together. And five years later, as Chapter <a href="#chapter-15">15</a> describes, the Yearly Meeting’s Peace and Social Concerns Committee was ready when Sikowis asked for help with her own nation’s work.</p>
+<p>Read with the lens, a payment alone would have closed the transaction. What opened a channel was an invitation offered, and some of us accepting it, and continuing to accept it. A panel can be the beginning of reciprocity, if someone answers it. Sikowis’s frustration with talks that go nowhere still stands, and much of the Yearly Meeting has not yet followed. The difference that evening made was not insight. It was showing up, slowly, for years.</p>
+<h3>What the Yearly Meeting has already said</h3>
+<p>The Yearly Meeting’s own corporate conscience has already spoken. In its 2018 response to the Queries it recorded:</p>
+<blockquote>
+<p><em>We live and work on land that was outright stolen from Native Americans… We will not be able to make progress regarding racial (including indigenous) injustice until we apologize for these wrongs and find ways to redistribute the wealth and resources that were created as a result.</em></p>
+</blockquote>
+<p>In 2020 it named colonialism and capitalism as systems that exploit others for the benefit of Friends. These responses act as a kind of ratchet. What has been acknowledged cannot be unknown. The lens adds one plain observation: acknowledgment is a channel of words. It costs the one acknowledging very little. The five questions ask what has flowed back since.</p>
+<h3>One channel the meeting already has</h3>
+<p>There is also good news in our own record, and the lens should find it as readily as it finds failures. For about thirty years, a few members of Bear Creek have been building relationships with the people who hold Prairie Awakening, an annual Native American celebration at Kuehn Conservation Area near Earlham, a few miles from the meetinghouse. The meeting supported them but did not build on the channel they made. For years I have been invited to help document the event.</p>
+<p>That is Bear Creek’s own best example of reciprocity, and it predates my involvement. It may persuade Bear Creek Friends more than anything from Des Moines or Iowa City, because it is theirs. And the Friends who built it, not I, are its natural voices.</p>
+<h2 id="chapter-17">Chapter 17 · Reciprocity Already Lived</h2>
+<p>The lens is not only a tool for finding fault. It is equally a tool for recognizing what is already right, so that it can be named, protected and extended. These are the places in my own experience where I have seen things move both ways and keep moving.</p>
+<h3>The Friends Volunteer Service Mission, 1971</h3>
+<p>The Mission was all volunteer, and it came into the neighborhood at the invitation of Second Friends Church. We lived in the neighborhood rather than commuting into it. Our first-year wages were pooled to support each of us through a second year, and the second year was shaped by what the neighborhood had taught us in the first. In effect, the neighbors wrote the protocol for year two.</p>
+<p>What I learned there anticipated nearly everything in the NewCO. I found that effective community work grew from sincere relationships, not top-down programs; that my own inclination toward a structured plan, such as a formal 4-H club, mattered less than a co-worker’s patient “wait and see what happens”; and that the leadings came, as I have described it, <em>in the guise of demands for love and concern</em> from the people we were among. The pooled wages were a small common treasury, the same structure later NewCO papers proposed for whole Yearly Meetings.</p>
+<h3>Des Moines Mutual Aid</h3>
+<p>For about three years, every Saturday morning, about fifteen volunteers gathered in a church basement in inner-city Des Moines to pack boxes of donated food for about sixty families, with no requirement to qualify. The program descends from the free food work begun by the Des Moines Black Panther Party.</p>
+<p>On every one of the five questions, it passes. Direction: both ways, once I began taking food. Return: I received friendship, food, a political education, and the word <em>accomplice</em>. Duration: years. Invitation: asked for and granted, and welcome given only later. Protocol: entirely theirs. I did not bring Quaker process into the basement. I learned theirs.</p>
+<h3>The First Nation–Farmer Climate Unity March, September 2018</h3>
+<p>Over eight days, a small group of Native and non-Native people walked ninety-four miles along the route of the Dakota Access Pipeline, from Des Moines to Fort Dodge, Iowa. The purpose was to spend those days sharing stories with each other, so we could work together afterward on things of common concern. That worked extremely well, and various combinations of us have worked on many things since.</p>
+<blockquote>
+<p><em>there was the time I briefly explained Quaker worship and we spent a little time in silence, holding hands … Each time we walked over the Dakota Access Pipeline as we walked together from Des Moines to Fort Dodge (ninety-four miles) someone would offer prayers.</em></p>
+<p class="attr">— “Spirituality and Mutual Aid,” January 5, 2022</p>
+</blockquote>
+<p>This is the cleanest two-way exchange in my record. Quaker silence was offered; prayers were offered back. And it answers a fear many Conservative Friends hold: that decolonial work means giving up our own tradition. Here the tradition was the gift, offered in a space someone else defined, and received.</p>
+<h3>The Hub work-weeks, 2025 and 2026</h3>
+<p>The Great Plains Action Society’s Urban Resilience and Innovation Hub occupies 1.05 acres, often called by GPAS its “Liberated Acre,” on seven adjoining parcels just south of downtown Iowa City, across Maiden Lane, Gilbert Court, and East Benton Street. It is one of only a few Indigenous-owned properties in Iowa; the Iowa City Council approved its ownership in October 2025. There an urban farm, a café, and a Healing Justice House are taking shape. Sikowis has said that land is very hard to acquire because it is the ultimate power. Here, a small piece of it has come back. The first work-week began in sub-freezing cold in the first week of December 2025: four days of interior demolition in the house that will become the Healing Justice House. More followed in March, April and May 2026. The call came through the Decolonial Repair Network: <em>“No matter your skills, you are welcome to join in!”</em></p>
+<p>Through the lens, every question passes, and passes both ways. I gave labor. I received safety equipment, lunches, gas cards, gifts, and the knowledge of what the house will become. Scattergood Friends School, which I graduated from in 1970, offered meals and lodging to anyone coming to work, and I stayed there each time and spoke at an all-school meeting about the work. An institution that appears in the extraction column of my own ledger, a school that did not teach me what happened two miles away at the West Branch Industrial School, here appears as a host. That is what movement from one ledger to the other looks like.</p>
+<h3>Grace, and knowledge returned</h3>
+<p>Grace, an Arapaho girl, died while a student at the West Branch Industrial School and was buried in the Friends’ section of the West Branch cemetery. Her death was reported publicly at the time and known to Friends in West Branch. What had not happened was the ceremony that would let her spirit cross over.</p>
+<p>When the history reached me in 2024, I told Paula Palmer, whose ministry has long been Quakers and the boarding schools. She contacted an Arapaho NAGPRA officer. On July 22, 2024, members of Grace’s family came from Oklahoma and performed the ceremony at the grave. The family asked me to take the photographs.</p>
+<p>Through the lens, this is knowledge flowing back to the people it was taken from, the exact reverse of the boarding school’s extraction of memory. My part was small: I passed what I knew to the next person who could carry it further, and the family decided everything that followed. The family wrote the protocol. I tell this only in outline, because the story belongs first to them.</p>
+<h3>The Meskwaki purchase of 1857</h3>
+<p>Meskwaki people used their own funds to buy their first eighty acres in Tama County, held since as sovereign land rather than as a reservation granted by the federal government. This is reciprocity as Indigenous economic practice, carried out by a nation removed from Iowa a dozen years earlier, inside the same land system that had dispossessed them. It shows that LANDBACK is not a new slogan.</p>
+<h3>Cecosesola</h3>
+<p>For skeptics who say mutual aid cannot work at scale: Cecosesola, a cooperative network in Venezuela founded in 1967, has grown to integrate more than fifty community organizations and over twenty-three thousand members, with roughly thirteen hundred associated workers managing its daily activities without hierarchical positions. Its conditions are not Iowa’s. It is evidence of possibility, not a template.</p>
+<h2 id="chapter-18">Chapter 18 · Turning the Test on the Objector</h2>
+<p>A test that is applied only to others is not a test. It is a weapon. The NewCO framework, in its first form, was mostly turned outward: at the economy, at the state, at the Yearly Meeting. The reciprocity lens must be turned inward, on the objector, or it will fail on its own terms.</p>
+<p>I have tried to do this at length in <em>Both Ledgers</em>, which records thirteen places in my life and writing where things moved along a one-way channel, and thirteen where it moved both ways. I will not repeat that examination here. But several of its findings bear directly on the NewCO itself, and belong in any restatement of it.</p>
+<h3>The objector’s own channels of extraction</h3>
+<p><strong>Words.</strong> My writing runs on quotation. The Des Moines Black Liberation Movement’s statement on mutual aid appears in at least six of my posts and in the Epistle. Ronnie James’s words appear in many more. Ronnie has given his consent, and so has the Des Moines Black Liberation Movement, and that consent is what turns repeated quotation into a channel rather than a withdrawal. For others, the record does not yet show whether they know their words became the backbone of a multi-year Quaker argument. In a Quaker meeting, quoting a Black liberation statement or an Indigenous leader lends me a standing my own words might not have. That standing is real, and it flows to me. The same was true of the phrase <em>Christian colonial capitalist violence</em>: it was the language of communities naming their own oppression, and when I used it to persuade Friends, its authority flowed to my argument without a channel back to them. The practice that would close most of this gap is simple: ask before reusing a living person’s words; and when a piece built on them does any good, tell them, and offer what they would find useful.</p>
+<p><strong>Stories.</strong> The ceremony at Grace’s grave, the Wet’suwet’en struggle, Sikowis’s dream of the acre: these belong first to others. An invitation to photograph is not automatically an invitation to narrate.</p>
+<p><strong>Fuel.</strong> Since 2017 I have driven to Des Moines on Saturday mornings, to Iowa City and Scattergood for the work-weeks, to Bear Creek, and now to and from Madison. Burning oil draws on a fossil resource whose costs fall downstream and downwind, very often on the Indigenous communities whose land pipelines cross. My record here is better than most. But a NewCO who opposes pipelines should name his own fuel use first.</p>
+<p><strong>The tools.</strong> Much of my recent work, including several NewCO papers, was assembled with AI models. These systems run on data centers with heavy energy and water demands and were built from great quantities of writing used without the writers’ consent. That is a knowledge extraction far larger than any quotation in my blog. Naming it openly, along with how I check what these tools produce, does more for my credibility than leaving it unsaid.</p>
+<p><strong>The ground where I sleep.</strong> I now live in Madison, Wisconsin, on the homeland of the Ho-Chunk Nation, who call this place Teejop. My writing has given careful attention to the Sauk, Meskwaki and Ioway homelands of Iowa. A Friend who has made LANDBACK central to his witness will be asked, sooner or later, what he has done where he actually lives.</p>
+<p><strong>Persuasion.</strong> For years I brought my own proposals to Bear Creek’s business process. A proposal brought repeatedly to a body that does not take it up is a one-way channel of persuasion: I was sending, the meeting was not receiving, and I was not receiving much from the meeting either. In October 2026 I decided to step back from that, and from publishing in diffuse Quaker-audience spaces, and to put my energy into person-to-person work.</p>
+<h3>What this means for the NewCO</h3>
+<p>These findings change the NewCO in one important way. The first framework spoke as though the objector stood outside the system and looked in. The lens places the objector inside, drained and conduit like everyone else, and asks him to keep a ledger on himself in both columns.</p>
+<p>That turns out not to weaken the argument but to strengthen it. A skeptical Friend who suspects that critics of the economy are comfortable people moralizing at others will find nothing to hold, if the critic has already named his own channels. As I put it in <em>Both Ledgers</em>: the strongest case I can put before a skeptical Friend is not a better argument about capitalism. It is a ledger I have kept on myself, honestly, in both columns.</p>
+<h3>“Convincing” is a one-way channel</h3>
+<p>One finding deserves its own heading. I have often asked for help to <em>convince</em> skeptical Quakers. By my own definitions, convincing runs one direction: from me, into them. A reciprocal approach would ask skeptics what they have seen, what they fear, and where they have known reciprocity themselves, and would expect to be changed by their answers.</p>
+<p>Many Conservative Friends are farmers, or the children of farmers, who have lived reciprocity at threshing time, in sickness and at funerals. They may know more about it than they know the word. The most reciprocal thing a NewCO can do may be to ask them for their examples before offering his own.</p>
+<h1 id="part-six">Part Six · What Changes</h1>
+<h2 id="chapter-19">Chapter 19 · The NewCO Restated</h2>
+<p>Here, gathered in one place, is the New Conscientious Objector as I would now describe it.</p>
+<h3>A definition</h3>
+<p class="callout"><strong>The New Conscientious Objector is a conscientious objector to extraction: someone who refuses, as far as conscience and circumstance allow, to be made a one-way channel, whether drained by one or used as a conduit for one, and who turns that refusal into the patient work of joining and carrying channels that run both ways.</strong></p>
+<p>The old objector refused to be the channel through which the state’s violence reached another person. The new one refuses to be a one-way channel of any kind, for land, labor, money, fuel, knowledge or standing, and builds the other kind in its place.</p>
+<h3>What carries over, and what changes</h3>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>The first framework said</strong></th>
+<th><strong>The reciprocity lens says</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A long name for the system: <em>Christian colonial capitalist violence</em></td>
+<td>No label. What extraction is built from: a cover story, a land channel, a labor and money channel, and the enforcement that keeps them one-way. Three concerns anyone can see: poverty amid plenty, who gets to be free, and the force that holds it in place</td>
+</tr>
+<tr class="even">
+<td>The economic draft</td>
+<td>Conscription into one-way channels: survival made to depend on channels we did not open, whose rules we did not write</td>
+</tr>
+<tr class="odd">
+<td>Systemic non-collaboration</td>
+<td>Closing one-way channels where we can, and opening two-way ones</td>
+</tr>
+<tr class="even">
+<td>Symmetrical antidotes</td>
+<td>Reciprocal channels that reverse a particular flow</td>
+</tr>
+<tr class="odd">
+<td>LANDBACK = Integrity</td>
+<td>Reciprocity with the land and its peoples, under Indigenous protocols</td>
+</tr>
+<tr class="even">
+<td>Mutual Aid = Equality</td>
+<td>Reciprocity among neighbors: everyone gives, everyone receives</td>
+</tr>
+<tr class="odd">
+<td>Abolition = Peace</td>
+<td>Reciprocity in safety: repair that keeps people inside relationship</td>
+</tr>
+<tr class="even">
+<td>Truth-telling</td>
+<td>Channels into knowledge, built over years, entered by invitation</td>
+</tr>
+<tr class="odd">
+<td>From ally to accomplice</td>
+<td>From giving at a distance, to sharing risk, to both giving and receiving</td>
+</tr>
+<tr class="even">
+<td>Incommensurability</td>
+<td>Adjustment is not repair; build channels that already run both ways</td>
+</tr>
+<tr class="odd">
+<td>Dismantle the system</td>
+<td>Make it unnecessary by building what replaces it</td>
+</tr>
+<tr class="even">
+<td>Convince the Meeting</td>
+<td>Ask, listen, and expect to be changed</td>
+</tr>
+<tr class="odd">
+<td>Give generously</td>
+<td>Let the people we serve name the need; give under their protocols; stay; and receive</td>
+</tr>
+</tbody>
+</table></div>
+<h3>What the restatement keeps</h3>
+<p>It keeps the full diagnosis. Nothing in the lens softens the account of what extraction has done to Indigenous nations, to enslaved people and their descendants, to the land, or to those not yet born. Naming is kept, every time, exactly.</p>
+<p>It keeps the Peace Testimony at the center. The occasion of war is the one-way taking that armies are raised to enforce and extend. To take away the occasion of war is to build an economy of reciprocal channels in which survival no longer requires conscription.</p>
+<p>It keeps the three practices, the five-point plan, the insistence on building now, and the Indigenous leadership of LANDBACK.</p>
+<h3>What the restatement adds</h3>
+<p><strong>A test anyone can apply.</strong> The five questions travel where the verdicts did not. They can be asked by a Friend who does not yet agree with any of the diagnosis.</p>
+<p><strong>A place for the objector inside the picture.</strong> Drained and conduit. No one is exempt, and no one is helpless.</p>
+<p><strong>Receiving as half the work.</strong> The accomplice who will not receive has not yet entered the relationship.</p>
+<p><strong>A way to recognize what is already right.</strong> The lens finds the Box Meeting, the Service Mission’s pooled wages, the Prairie Awakening relationships, threshing rings among farm families, and a school becoming a host. It honors them by name.</p>
+<p><strong>Plain language.</strong> “Which way do things flow?” can be said at a potluck. The long name for the system usually cannot, at least by a white Friend to other white Friends. The phrase remains the language of the communities who suffer what it names, and I honor it as theirs. But the question opens the conversation that the phrase, in my mouth, closed.</p>
+<h3>The question of the name</h3>
+<p>Is “conscientious objector” still the right name for this? I believe it is, for three reasons.</p>
+<p>It is a Quaker name, carried by people I admired at Bear Creek, and it places this work in a line that runs through 1659, 1763 and 1972 rather than presenting it as a political import.</p>
+<p>It names a refusal, and refusal is part of reciprocity. A relationship that cannot say no is not reciprocal.</p>
+<p>And it carries, in its old meaning, the alternative-service question that turned out to be the heart of the matter: not only <em>what will you refuse</em>, but <em>what will you do instead, and under whose rules?</em></p>
+<p>If a fuller phrase is needed, I would say: <strong>a conscientious objector to extraction, and a conscientious participant in reciprocity.</strong></p>
+<h2 id="chapter-20">Chapter 20 · The Five-Point Plan, Re-examined</h2>
+<p>The NewCO papers proposed five steps for Iowa Yearly Meeting (Conservative). The lens does not replace them, but it tests each one, and in most cases it changes how the step would be carried out.</p>
+<h3>1. A Committee on Decolonial Repair</h3>
+<p><strong>As proposed:</strong> a standing committee, modeled on the Meeting for Sufferings, to hold communal risk for Friends engaged in NewCO witness, with a fund for legal defense and material aid.</p>
+<p><strong>Through the lens:</strong> a committee of Friends that holds Friends’ risk is reciprocity among Friends, which is good, and which is also the Box Meeting’s limit: a circle one line wide. The test for this committee is whether it becomes a node that serves another node’s decisions, or a board that designs repair for others. Its first business should be to ask Indigenous partners what, if anything, they want from the Yearly Meeting, and to record the answer.</p>
+<p><strong>Adjustment:</strong> charge the committee explicitly with the five questions, and with keeping a ledger of what flows each way between the Yearly Meeting and the Indigenous-led work it supports.</p>
+<h3>2. A new Query on complicity</h3>
+<p><strong>As proposed:</strong> a Query naming settler colonialism, racial capitalism and the carceral state, asked in every monthly meeting.</p>
+<p><strong>Through the lens:</strong> a query is a channel of discernment, and our tradition knows how to use it. But a Query phrased as an accusation may close more hearts than it opens.</p>
+<p><strong>Adjustment:</strong> frame the Queries around what every Friend can see from the road to meeting for worship, so that each can answer from their own life. Three, drawn from <em>Three Concerns About Friends</em>:</p>
+<p class="query"><em>On poverty: Do we recognize the difference between charity and mutual aid? Do we understand how it shows the fundamental differences in hierarchy and power each represents? Does our care require someone to qualify for it first?</em></p>
+<p class="query"><em>On freedom: We know there are millions suffering an economic draft, from student debt, from needing a job because of its health benefits, or from a lack of economic opportunity that leads to the armed forces. What are we doing about it?</em></p>
+<p class="query"><em>On violence: The scenes of armed repression and deportation are horrifying to watch, and we know where this is likely to go. How can we say we are a peaceful people if we simply watch?</em></p>
+<h3>3. A Voluntary Land Tax as a fixed budget line</h3>
+<p><strong>As proposed:</strong> a standing line item, directed to the Honor Native Land Fund, so that paying “rent” becomes routine.</p>
+<p><strong>Through the lens:</strong> this passes on <strong>duration</strong>, the most commonly failed question, and that makes it one of the strongest items in the plan. It passes on <strong>protocol</strong> if the funds are directed by Indigenous leadership. It is strengthened further when it comes with presence: a land tax paid by a meeting whose members also show up to work is a channel, not a check.</p>
+<p><strong>Adjustment:</strong> pair the budget line with a standing invitation to the Hub work-weeks, so that money and presence travel together.</p>
+<h3>4. Clearness Committees for NewCO leadings</h3>
+<p><strong>As proposed:</strong> a clearness process to test and support a Friend’s leading to leave a job, refuse taxes, or otherwise desert the economic draft, with a Minute of Support when the leading is found clear.</p>
+<p><strong>Through the lens:</strong> this is the old Quaker reciprocity between a Friend and a meeting, the meeting supporting the individual and the individual accountable to the meeting. It passes well.</p>
+<p><strong>Adjustment:</strong> add the two-position question to every clearness committee: <em>In this leading, where are you drained, and where are you a conduit? Who else will bear the cost of your objection?</em> The first framework noted honestly that objection is easier with savings, property and credentials. A clearness committee is the place to ask who in the meeting cannot afford to object, and what the meeting owes them.</p>
+<h3>5. The workcamp model</h3>
+<p><strong>As proposed:</strong> physical work at places like the Healing Justice House and the Hub, as a low-friction entry point.</p>
+<p><strong>Through the lens:</strong> this is the most proven item in the plan. It is where Sikowis’s sentence lands: <em>what registered was people showing up for work.</em> And it is where reciprocity is most often experienced as ordinary rather than heroic, because volunteers are fed, equipped and welcomed.</p>
+<p><strong>Adjustment:</strong> ask the host, each time, how many people it can absorb and what it needs; arrive by invitation; and receive what is offered. A Yearly Meeting that sends sixty volunteers to an organization that can host eight has built a new one-way channel, from the host’s time to the visitors’ experience.</p>
+<h3>A sixth step, suggested by the lens</h3>
+<p><strong>Keep a ledger.</strong> Not a statement, but a plain record, kept by a monthly meeting or a committee, of what has been given, what has been received, what was asked, what was returned, and what is still owed. Woolman kept accounts of conscience. The early Meetings for Sufferings kept records of what Friends had borne. A ledger kept honestly in both columns lets any Friend answer the question <em>what have we actually done?</em> with facts, and shows, year by year, where our channels still run one way.</p>
+<h3>The smallest testable version</h3>
+<p>In <em>The Problem, As I Understand It</em>, I suggested a minimal test: one meeting, one clearness process on the question <em>Where is our meeting currently conscripted into systems we would object to if the coercion were made visible?</em>, and one concrete institutional act within a single program year. The lens adds a measure of success to that test, one I already wrote but would now underline:</p>
+<p class="callout"><strong>The measure of success isn’t how the Quakers feel about the process. It’s whether the partner organization found the relationship useful.</strong></p>
+<h2 id="chapter-21">Chapter 21 · Toward a Rural Resilience Hub, Carefully</h2>
+<p>Much of my recent writing, including <em>A Plea for the Poor, Continued</em>, has asked what a Rural Resilience Hub might look like, rooted at Bear Creek, on ground our meeting has held since the 1850s. The lens makes that idea both more hopeful and more demanding.</p>
+<h3>The risk the lens exposes</h3>
+<p>A rural hub could easily become a new one-way channel: Friends designing something on meeting land and inviting Indigenous partners to bless it. That would repeat, in a gentler key, the posture the 2023 Epistle slipped into when it spoke of reaching out to our neighbors <em>to join us</em>. Friends as hosts, neighbors as guests, is vertical, however warm.</p>
+<h3>Questions to ask first</h3>
+<ul>
+<li><p><strong>Whose idea is it?</strong> If it is mine, it is not yet a hub.</p></li>
+<li><p><strong>Whose land is it, and has the meeting first reckoned with that?</strong> A hub that does not begin with the ground under Bear Creek will be heard as asking Indigenous partners to approve land the meeting has not yet faced.</p></li>
+<li><p><strong>Whose protocols?</strong> Those of the people whose homeland it is, and of the people already in relationship with them.</p></li>
+<li><p><strong>What returns, and to whom?</strong></p></li>
+<li><p><strong>What can the partners absorb?</strong></p></li>
+</ul>
+<h3>Where it might begin</h3>
+<p>The strongest version of this idea, I now think, begins not with a design but with the channel Bear Creek already has: the thirty-year relationships some of our members have with the people who hold Prairie Awakening. It begins by asking those Friends what those partners would welcome, if anything, and by waiting for the answer. GPAS’s own plans include a Land Stewardship Education Farm and an Indigenous Land Trust built on a legal form suited to communal ownership. Those are their plans, for their purposes. If anything at Bear Creek is someday shaped by them, it should be because GPAS or other Indigenous partners chose that, not because Friends borrowed the idea.</p>
+<p>The two-row wampum offers the shape: two peoples traveling the same river, side by side, neither absorbed into the other and neither steering the other’s course. A rural hub worthy of the name would be a place where both rows can travel, not a boat Friends build and invite others onto.</p>
+<h2 id="chapter-22">Chapter 22 · What Is Still Unsettled</h2>
+<p>Following the habit of the <em>Nodes and Channels</em> work, I want to name what this restatement has not resolved.</p>
+<p><strong>Whose pace governs?</strong> Mutual aid networks and LANDBACK efforts need resources and solidarity now. Channels are built over years. Quaker discernment runs on the slow rhythm of queries, minutes and clearness. Nothing here reconciles those three clocks. The lens only shows that each tracks something real.</p>
+<p><strong>What does the host carry?</strong> No one has yet worked out how many outside supporters a small Indigenous-led or Black-led organization can absorb before support becomes a burden. This question should travel with every plan in Chapter <a href="#chapter-20">20</a>.</p>
+<p><strong>Can channels outlast the people who built them?</strong> A channel is between named people. When those people move on, as I have moved to Madison, what keeps it open? Federations can outlast relationships; it is not clear that channels can.</p>
+<p><strong>What about money?</strong> The lens says money can be reciprocal when it flows under the receiving community’s protocols, continues over time, and comes with presence. That is a better claim than “mutual aid cannot be done by donations.” But it leaves open how a meeting with investments, an endowment or a building should judge its own holdings, and what return would be adequate for land that has carried benefit one way for a hundred and seventy years.</p>
+<p><strong>What about the work of a lifetime?</strong> I spent most of my adult life in research on infant lung disease and development, work I was led to. I know what it gave: knowledge of how the lungs of the smallest children grow and fail, and how to help them; some infants live who might not have. I also know how such research is done in general. It depends on patients and their families, often in hospitals that serve poor neighborhoods. Families who enroll normally receive payment, which is a real return, but their samples and data also travel outward into papers, grants and careers, and the terms are set by institutions and funders. Which way did things run in my own lab? I have not yet answered that honestly, and I will not write the answer until I have done the remembering.</p>
+<p><strong>What about the tools?</strong> I will likely keep using AI research tools. I have not yet worked out what honest use looks like, beyond naming the cost and checking what they produce.</p>
+<h2 id="chapter-23">Chapter 23 · Queries, and a Draft Minute</h2>
+<h3>Queries for the objector</h3>
+<p class="query"><em>Where in my life am I drained by a one-way channel, and where am I a conduit for one?</em></p>
+<p class="query"><em>Where am I still giving without receiving, and what am I protecting by doing so?</em></p>
+<p class="query"><em>Whose words and stories have carried my arguments? Have I asked them, told them, or returned anything?</em></p>
+<p class="query"><em>When I seek to convince, am I also willing to be convinced?</em></p>
+<p class="query"><em>Which of my certainties would I trade for a question my listeners could answer themselves?</em></p>
+<p class="query"><em>Whose homeland do I live on now, and what have I learned about its people from them, not from books?</em></p>
+<p class="query"><em>What would a ledger of my last ten years show me, kept honestly in both columns?</em></p>
+<h3>Queries for a meeting</h3>
+<p class="query"><em>Which of our meeting’s needs reach us along one-way channels? Who is on the other end?</em></p>
+<p class="query"><em>Whose land do we worship on, and what have we returned?</em></p>
+<p class="query"><em>In our meeting’s giving, who names the need: those who give, or those who live it?</em></p>
+<p class="query"><em>Which of our gifts has been charity, and which the beginning of a relationship? What would it take to turn the first into the second?</em></p>
+<p class="query"><em>What has our meeting already done well, and have we said so?</em></p>
+<p class="query"><em>Where is a channel that someone among us began, that we could help carry, without taking it over?</em></p>
+<p class="query"><em>What is one reciprocal relationship our meeting could begin, or join, this year, and what would we be willing to receive in it?</em></p>
+<h3>A draft minute, for seasoning</h3>
+<p>This is offered as a draft only, for a Friend or a meeting to season, change, or set aside.</p>
+<p class="callout"><strong>Friends have long testified that we cannot take part in war, and many of us have refused to be drafted into it. We have come to see that we are also drafted, every month, into channels that carry land, labor, money and knowledge one way: away from those who tend and produce them, toward those who already hold the most. We conscientiously object to being made such channels, whether we are drained by them or used to drain others. We will ask of each part of our lives which way things flow, whether anything flows back, and who names the need. Where we can close a one-way channel, we will. Where others, especially Indigenous and Black-led communities, are already building channels that carry both ways, we will ask to join them, wait to be welcomed, learn their ways, and be willing to receive as well as give. We do this not as hosts inviting others to join us, but as neighbors, in the hope of taking away the occasion of all wars.</strong></p>
+<h3>A closing word</h3>
+<p>When I wrote to my draft board in 1972, I said I would break my ties with Selective Service and concentrate on the difficult task of working for peace in whatever way I could. More than fifty years later, I understand that sentence differently. Breaking ties was the refusal of a one-way channel. Working for peace, in whatever way I could, has turned out to mean joining channels that carry both ways: a pooled wage in Indianapolis, a box of food I finally let myself take in Des Moines, a silence offered and prayers returned on a pipeline route, a crowbar in a cold house in Iowa City and a lunch brought to me there, a photograph a family asked for at a grave.</p>
+<p>None of this is finished. The question that holds it all together is short enough to carry anywhere.</p>
+<p class="callout"><strong>Which way does it flow, and does it flow back?</strong></p>
+<p><strong>Appendices</strong></p>
+<h1 id="appendices">Appendices</h1>
+<h2 id="appendix-a">Appendix A · Title Options</h2>
+<p>The title on this document was chosen from several that were considered. The others are kept here because each may suit a different setting.</p>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Title</strong></th>
+<th><strong>Why it might serve</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Refusing the One-Way Channel: The New Conscientious Objector, Reciprocity, and Extraction</strong></td>
+<td>Recommended. Draws on your own sentence, “a one-way channel is extraction,” links the NewCO to the Channels into Knowledge work, and names a refusal, which is what a conscientious objector does.</td>
+</tr>
+<tr class="even">
+<td><strong>Which Way It Flows: The New Conscientious Objector and the Testimony of Reciprocity</strong></td>
+<td>Leads with the central question. Gentle, inviting, good for a meeting-wide study or a talk.</td>
+</tr>
+<tr class="odd">
+<td><strong>Objectors to Extraction: Conscientious Objection in an Economy That Drafts Us</strong></td>
+<td>Plain and direct; keeps the draft history in view. Good for readers outside Quakerism.</td>
+</tr>
+<tr class="even">
+<td><strong>Both Ways: From the Draft Board to the Two-Way Channel</strong></td>
+<td>Short and memorable; tells the arc of a life from 1972 to the present. Good for a shorter piece or a blog series.</td>
+</tr>
+<tr class="odd">
+<td><strong>Taking Away the Occasion: Reciprocity, Extraction, and the New Conscientious Objector</strong></td>
+<td>Anchors the work in George Fox’s phrase. Good for Conservative Friends and Yearly Meeting settings.</td>
+</tr>
+<tr class="even">
+<td><strong>The Two-Way Testimony</strong></td>
+<td>A possible short title for a pamphlet or study guide drawn from this document.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="appendix-b">Appendix B · The Five Questions: A Worksheet</h2>
+<p>Choose one relationship, institution or part of your life: a job, a bank account, a land title, a volunteer commitment, a meetinghouse, a story you tell. Ask each question and write down what you find. Then ask the two-position question and the closing question.</p>
+<div class="tw"><table>
+
+<thead>
+<tr class="header">
+<th><strong>Question</strong></th>
+<th><strong>Ask</strong></th>
+<th><strong>What I find</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Direction</td>
+<td>Which way do things flow: land, labor, food, money, knowledge, care, time, attention, standing?</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Return</td>
+<td>Does anything flow back? Is it something the other party actually wants?</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Duration</td>
+<td>Does the relationship continue after the need is met, or end there?</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Invitation</td>
+<td>Who opened the door? Was I invited, or did I assume?</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Protocol</td>
+<td>Whose rules govern the exchange, and who names the need?</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Two positions</td>
+<td>Am I drained by this channel, a conduit for it, or both?</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Next step</td>
+<td>What is one thing I could close, redirect, or join this year?</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="appendix-c">Appendix C · Glossary</h2>
+<p><strong>Accomplice.</strong> One who shares the risk of a struggle, by consent, accountable to the community most affected, rather than offering support from a safe distance. In the reciprocity lens, also one willing to receive.</p>
+<p><strong>Active objection.</strong> Naming an injustice exactly, withdrawing from it where possible, and putting one’s energy into building what should replace it, rather than setting oneself against it.</p>
+<p><strong>Channel.</strong> A relationship strong enough to carry knowledge, resources and obligation across a boundary: built over years, entered by invitation, and carrying in both directions.</p>
+<p><strong>Conduit.</strong> The position of a person through whom things are drawn from others, often without their knowledge or consent.</p>
+<p><strong>Drained.</strong> The position of a person from whom things are drawn along a one-way channel.</p>
+<p><strong>Economic draft.</strong> The arrangement by which survival is made to depend on entering one-way channels that a person did not open, whose rules they did not write, and which they cannot leave without losing what they need to live.</p>
+<p><strong>Charity.</strong> Giving that flows one way, from those who have to those who lack, in which the giver names the need, decides who qualifies, and writes the rules. Generous and often well meant, but incomplete: <em>charity manages need; mutual aid ends it.</em></p>
+<p><strong>Extraction.</strong> A relationship in which things move in one direction only. <em>A one-way channel is extraction.</em></p>
+<p><strong>LANDBACK / ReMatriation.</strong> The return of land, authority and lifeways to Indigenous stewardship, under Indigenous protocols.</p>
+<p><strong>Mutual aid.</strong> Neighbors meeting each other’s needs, horizontally, where everyone gives and everyone receives. Distinct from charity, which flows one way and in which the giver writes the rules.</p>
+<p><strong>Node and terminal.</strong> A node is a community with the organized capacity to act on its own decisions, whose channels run both ways. A terminal receives according to protocols it did not write and sends things outward on demand.</p>
+<p><strong>Reciprocity.</strong> A relationship in which giving and receiving move in both directions, and keep moving. Not a trade that settles an account, but a relationship that continues; the return may come later, from someone else, in another form.</p>
+<p><strong>Who names the need.</strong> The second half of the protocol question: whether the people living a need are the ones who define it, or whether someone else does the counting.</p>
+<p><strong>What did not reach us.</strong> Knowledge that was available, but did not travel, because the channel through which it could have traveled had not been built.</p>
+<h2 id="appendix-d">Appendix D · Sources</h2>
+<h3>My own writing drawn on</h3>
+<ul>
+<li><p>Letter to my draft board, February 1972; journal and timeline, 1969–1972.</p></li>
+<li><p>“A Call for Quakers to Embrace Mutual Aid,” December 31, 2021.</p></li>
+<li><p>“What I don’t know about Mutual Aid,” January 2, 2022.</p></li>
+<li><p>“Spirituality and Mutual Aid,” January 5, 2022.</p></li>
+<li><p>“Native Americans, Quakers and Mutual Aid,” June 10, 2022.</p></li>
+<li><p>“An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK,” October 9, 2023; revised as “An Epistle to Friends Regarding Reciprocity, Mutual Aid and LANDBACK,” October 31, 2026.</p></li>
+<li><p><em>The Conscription of Survival: A Systemic Analysis of the Economic Draft, Mutual Aid, and the New Conscientious Objector</em> (AI-assisted, 2026).</p></li>
+<li><p><em>Defining the Economic Draft</em> (AI-assisted, 2026).</p></li>
+<li><p><em>The Problem, As I Understand It</em> (2026).</p></li>
+<li><p><em>What It Means to Move Toward Accomplices Not Allies</em> and <em>Ally Industrial Complex</em> (AI-assisted reference notes, Decolonial Repair Network, 2026).</p></li>
+<li><p><em>My history related to the NewCO</em> (April 26, 2026).</p></li>
+<li><p>“War Has Changed,” April 7, 2026.</p></li>
+<li><p>“What does Active Objection mean?,” June 7, 2026.</p></li>
+<li><p>“How Knowledge Travels,” June 27, 2026, republished on Channels Into Knowledge, August 8, 2026.</p></li>
+<li><p>“Single Sentence,” August 15, 2026, revised August 25, 2026.</p></li>
+<li><p><em>Nodes and Channels: Toward a Federated Framework for Local, Self-Sustaining Communities</em> (with Claude, October 22, 2026).</p></li>
+<li><p><em>Economies of Extraction and Reciprocity: Woolman, Fox, and the Wealth-Transfer Thesis</em> (October 29, 2026).</p></li>
+<li><p><em>A Plea for the Poor, Continued: Reciprocity and Extraction, A Letter to Young Friends</em> (October 30, 2026).</p></li>
+<li><p><em>Both Ledgers: Extraction and Reciprocity in My Own Life and Writing</em> (October 30, 2026).</p></li>
+<li><p><em>A Plea for Reciprocity: Being an account of my own life, weighed for extraction and reciprocity</em> (October 31, 2026).</p></li>
+<li><p>“An Epistle to Friends Regarding Reciprocity,” revised October 31, 2026.</p></li>
+<li><p><em>Three Concerns About Friends — from the Epistle</em> (November 1, 2026), and notes of the same date.</p></li>
+<li><p>Iowa Yearly Meeting (Conservative), Peace and Social Concerns Committee report, 2022 (Jeff Kisling, clerk).</p></li>
+<li><p>Channels Into Knowledge: <a target="_blank" rel="noopener" href="https://channelsintoknowledge.com/">https://channelsintoknowledge.com/</a></p></li>
+</ul>
+<h3>Quaker sources</h3>
+<ul>
+<li><p>John Woolman, <em>A Plea for the Poor, or A Word of Remembrance and Caution to the Rich</em> (1763–64), Chapters 1, 10, 11, 13, 15, 16. <a target="_blank" rel="noopener" href="https://gutenberg.org/cache/epub/37311/pg37311-images.html">https://gutenberg.org/cache/epub/37311/pg37311-images.html</a></p></li>
+<li><p>George Fox, <em>Journal</em>, 1659 (the Box Meeting), via <em>Quaker faith &amp; practice</em> 19.52. <a target="_blank" rel="noopener" href="https://qfp.quaker.org.uk/passage/19-52/">https://qfp.quaker.org.uk/passage/19-52/</a></p></li>
+<li><p>George Fox, address to Friends in Barbados, 1671, as discussed in <em>Friends Journal</em>. <a target="_blank" rel="noopener" href="https://www.friendsjournal.org/george-fox-was-a-racist/">https://www.friendsjournal.org/george-fox-was-a-racist/</a></p></li>
+<li><p>Doug Gwyn, <em>The Covenant Crucified: Quakers and the Rise of Capitalism</em>.</p></li>
+<li><p>Iowa Yearly Meeting (Conservative), Advices, “Mutual Care”; 2018 and 2020 responses to the Queries; Minute of 3rd Day and 4th Day Activities, 2017.</p></li>
+<li><p>Bear Creek Women’s Minutes, November 1873 and 1874.</p></li>
+<li><p>Paula Palmer and others, “A Homecoming for the Arapaho and Cheyenne,” <em>Friends Journal</em>, January 2026. <a target="_blank" rel="noopener" href="https://www.friendsjournal.org/a-homecoming-for-the-arapaho-and-cheyenne/">https://www.friendsjournal.org/a-homecoming-for-the-arapaho-and-cheyenne/</a></p></li>
+</ul>
+<h3>Quaker history and charity</h3>
+<ul>
+<li><p>Joseph Rowntree, founder’s memorandum, December 29, 1904; excerpted in <em>Quaker faith &amp; practice</em> 23.18. <a target="_blank" rel="noopener" href="https://qfp.quaker.org.uk/passage/23-18/">https://qfp.quaker.org.uk/passage/23-18/</a> and Joseph Rowntree Foundation, “A lasting vision for change.” <a target="_blank" rel="noopener" href="https://www.jrf.org.uk/about-us/our-heritage/lasting-vision-change">https://www.jrf.org.uk/about-us/our-heritage/lasting-vision-change</a></p></li>
+<li><p>Quakers in the World, “Eliminating Slavery amongst Quakers.” <a target="_blank" rel="noopener" href="https://www.quakersintheworld.org/quakers-in-action/58">https://www.quakersintheworld.org/quakers-in-action/58</a></p></li>
+<li><p>Quakers in the World, “Quäkerspeisung (Quaker feeding).” <a target="_blank" rel="noopener" href="https://www.quakersintheworld.org/quakers-in-action/302">https://www.quakersintheworld.org/quakers-in-action/302</a></p></li>
+<li><p>Friends’ Freedmen’s Association records, Quaker and Special Collections, Haverford College. <a target="_blank" rel="noopener" href="https://archives.tricolib.brynmawr.edu/resources/4024frfr">https://archives.tricolib.brynmawr.edu/resources/4024frfr</a></p></li>
+<li><p>New England Yearly Meeting, Quaker Indian Boarding Schools interim report, February 2024. <a target="_blank" rel="noopener" href="https://neym.org/sites/default/files/2024-02/NEYM-QIBS%20interim%20report%20to%20PB%20Feb%202024.pdf">https://neym.org/sites/default/files/2024-02/NEYM-QIBS%20interim%20report%20to%20PB%20Feb%202024.pdf</a></p></li>
+<li><p>Associated Executive Committee of Friends on Indian Affairs records. <a target="_blank" rel="noopener" href="https://archives.tricolib.brynmawr.edu/resources/__1003">https://archives.tricolib.brynmawr.edu/resources/__1003</a></p></li>
+<li><p>Thomas D. Hamm, review of Gregory A. Barnes, <em>A Centennial History of the American Friends Service Committee</em>, <em>Friends Journal</em>, April 2017. <a target="_blank" rel="noopener" href="https://www.friendsjournal.org/centennial-history-american-friends-service-committee/">https://www.friendsjournal.org/centennial-history-american-friends-service-committee/</a></p></li>
+<li><p>INCITE! Women of Color Against Violence, eds., <em>The Revolution Will Not Be Funded: Beyond the Non-Profit Industrial Complex</em> (2007).</p></li>
+<li><p>On the Scattergood Hostel: “Refuge from a world of hate,” <em>Iowa History Journal</em>. <a target="_blank" rel="noopener" href="https://iowahistoryjournal.com/refuge-from-a-world-of-hate-west-branchs-scattergood-hostel-welcomed-european-refugees-fleeing-nazi-persecution/">https://iowahistoryjournal.com/refuge-from-a-world-of-hate-west-branchs-scattergood-hostel-welcomed-european-refugees-fleeing-nazi-persecution/</a></p></li>
+<li><p>Right Sharing of World Resources. <a target="_blank" rel="noopener" href="https://www.friendsjournal.org/orgs/right-sharing-of-world-resources/">https://www.friendsjournal.org/orgs/right-sharing-of-world-resources/</a></p></li>
+</ul>
+<h3>Other sources</h3>
+<ul>
+<li><p>Dean Spade, <em>Mutual Aid: Building Solidarity During This Crisis (and the Next)</em>, Verso, 2020.</p></li>
+<li><p>Robin Wall Kimmerer, <em>The Serviceberry</em>.</p></li>
+<li><p>Karl Polanyi, <em>The Great Transformation</em>.</p></li>
+<li><p>Claire Elise Thompson, “Returning the Land,” <em>Grist</em>, February 25, 2020 (Nickita Longman).</p></li>
+<li><p>Sikowis Nobiss, on ReMatriation, reckon.news, October 3, 2023; Great Plains Action Society, <a target="_blank" rel="noopener" href="https://www.greatplainsaction.org/rematriate">https://www.greatplainsaction.org/rematriate</a></p></li>
+<li><p>Great Plains Action Society, Hub visitor guidance and materials, 2025–2026; Decolonial Repair Network, <a target="_blank" rel="noopener" href="https://decolonialrepairnetwork.blog/">https://decolonialrepairnetwork.blog/</a></p></li>
+<li><p>Des Moines Black Liberation Movement statement on mutual aid, as quoted in my posts.</p></li>
+<li><p>Ronnie James, statements as quoted in my posts, used with his consent.</p></li>
+<li><p>National Priorities Project, analysis of FY2009 military recruitment by zip-code income, 2010.</p></li>
+<li><p>On the Dawes Act and land loss: NBER working paper w33057; Ohio State University, <em>Origins</em>.</p></li>
+<li><p>Cecosesola, via Grassroots Economic Organizing, February 2023.</p></li>
+<li><p>Bold Iowa, 2018 First Nation–Farmer Climate Unity March. <a target="_blank" rel="noopener" href="https://boldiowa.com/2018-first-nation-farmer-climate-unity-march/">https://boldiowa.com/2018-first-nation-farmer-climate-unity-march/</a></p></li>
+<li><p>United Panther Party, <em>Rising Inside the Shell of Old</em> curriculum (Revolutionary Intercommunal Mutualism).</p></li>
+</ul>
+</article></div>
+</body></html>
