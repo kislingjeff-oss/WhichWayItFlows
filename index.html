@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Which Way It Flows</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap">
+<style>
+body{margin:0}img{max-width:100%}
+/* Layout: the channel drawing opens the page beside the title, then the document is laid out as a map. */
+
+:root{--bg:#2B4A66;--wash:#20394F;--steel:#6E93B5;--steel-soft:#35587A;--deep:#B5DBFA;--ink:#F4F8FC;--mid:#D9E6F2;--white:#35587A;color-scheme:dark;
+--body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--cond:"IBM Plex Sans Condensed","IBM Plex Sans",system-ui,sans-serif;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--deep);text-underline-offset:2px}a:focus-visible,summary:focus-visible{outline:3px solid var(--deep);outline-offset:2px}
+h1,h2,h3,h4{text-wrap:balance;font-family:var(--cond);color:var(--ink);line-height:1.15;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.callout{background:var(--wash);border:1px solid var(--steel);padding:.8rem 1rem;margin:1.2rem 0;font-size:.97rem}
+.tw{overflow-x:auto;margin:1.2rem 0}
+table{border-collapse:collapse;width:100%;font-size:.95rem;line-height:1.4}
+th{background:var(--steel-soft);text-align:left;font-weight:600}
+th,td{border:1px solid var(--steel);padding:.5rem .7rem;vertical-align:top}
+td{background:var(--white)}
+
+.hero{background:var(--wash);border-bottom:1px solid var(--steel);padding-block:clamp(2.2rem,6vw,4.5rem)}
+.hgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(2rem,5vw,4rem);align-items:center}
+.hero h1{font-size:clamp(3rem,8vw,5.4rem);font-weight:700;letter-spacing:-.01em;line-height:.98;margin-bottom:1rem}
+.sub{font-size:1.25rem;line-height:1.35;color:var(--deep);font-weight:500;margin:0 0 1.3rem;max-width:30ch}
+.by{margin:0 0 1.6rem;color:var(--mid);font-size:.98rem}.by b{color:var(--ink);font-weight:600}
+.cta{display:inline-block;background:var(--deep);color:#10263A;padding:.75rem 1.15rem;font-weight:600;text-decoration:none}.cta:hover{background:var(--ink)}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:var(--body);fill:var(--ink)}
+.k{font:600 17px var(--cond)}.c{text-anchor:middle;font-size:13.5px;font-weight:500}.s{font-size:12.5px;font-weight:400;fill:var(--mid)!important}
+.n{fill:var(--white);stroke:var(--steel);stroke-width:1.5}.rule{stroke:var(--steel);stroke-width:1}.h{fill:var(--deep)}
+.flow{stroke:var(--deep);stroke-width:3;stroke-dasharray:9 7}
+@media (prefers-reduced-motion:no-preference){.f{animation:r 1.3s linear infinite}.b{animation:r 1.3s linear infinite reverse}@keyframes r{to{stroke-dashoffset:-16}}}
+.ctas{display:flex;flex-wrap:wrap;gap:.6rem}.cta.alt{background:var(--white);color:var(--deep);border:2px solid var(--deep)}.cta.alt:hover{color:#10263A}.part h3 a{color:inherit;text-decoration:none}.part h3 a:hover{text-decoration:underline}.part li a{color:var(--ink)}.three h3 a{color:var(--deep)}
+.band{padding-block:clamp(2.4rem,5vw,3.8rem)}.band+.ctas{display:flex;flex-wrap:wrap;gap:.6rem}.cta.alt{background:var(--white);color:var(--deep);border:2px solid var(--deep)}.cta.alt:hover{color:#10263A}.part h3 a{color:inherit;text-decoration:none}.part h3 a:hover{text-decoration:underline}.part li a{color:var(--ink)}.three h3 a{color:var(--deep)}
+.band{border-top:1px solid var(--steel-soft)}
+.band>.wrap>h2{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;margin-bottom:.6rem}
+.lead{max-width:65ch;margin:0 0 1.5rem}
+.q{font-size:clamp(1.5rem,3.4vw,2.1rem);font-family:var(--cond);font-weight:600;line-height:1.2;max-width:26ch;margin:0}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.6rem}
+.three>div{min-width:0;border-top:3px solid var(--steel);padding-top:.8rem}
+.three h3{font-size:1.28rem;font-weight:600;margin-bottom:.4rem}.three p{margin:0;font-size:.98rem}
+.fq{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1.2rem}
+.fq li{min-width:0;font-size:.96rem;line-height:1.4}.fq b{display:block;font:600 1.15rem var(--cond);color:var(--deep);margin-bottom:.25rem}
+.map{columns:2;column-gap:2.6rem}
+.part{break-inside:avoid;padding-bottom:1.6rem;margin-bottom:.2rem}
+.pn{margin:0;font-size:.85rem;font-weight:500;color:var(--deep)}.part h3{font-size:1.3rem;font-weight:600;margin:.1rem 0 .5rem}
+.part ol{list-style:none;margin:0;padding:0;font-size:.96rem;line-height:1.35;display:grid;gap:.3rem}
+.part li{display:grid;grid-template-columns:1.9rem minmax(0,1fr)}.part li span{color:var(--mid);font-variant-numeric:tabular-nums}
+.app{margin:.6rem 0 0;font-size:.96rem;max-width:80ch}
+footer{border-top:1px solid var(--steel);background:var(--wash);padding-block:1.6rem;font-size:.93rem;color:var(--mid)}footer p{margin:0}
+@media (max-width:860px){.hgrid,.three{grid-template-columns:minmax(0,1fr)}.fq{grid-template-columns:minmax(0,1fr)}.map{columns:1}}
+</style>
+</head><body>
+<header class="hero"><div class="wrap hgrid">
+<div><h1>Which Way It Flows</h1>
+<p class="sub">Reciprocity, Extraction, Quaker History, and the New Conscientious Objector</p>
+<p class="by"><b>Jeff Kisling</b>, a member of Bear Creek Meeting, Iowa Yearly Meeting (Conservative)<br>Collected edition, November 3, 2026</p>
+<div class="ctas"><a class="cta" href="collected.html">Read the whole document</a><a class="cta alt" href="part-one.html">Start with the introduction and Part One</a></div></div>
+<div><svg viewBox="0 0 620 300" role="img" aria-labelledby="ct"><title id="ct">A one-way channel carries land, labor and money from those drained to those who hold. A two-way channel carries food, work, care and knowledge in both directions between neighbors.</title>
+<text x="0" y="22" class="k">A one-way channel is extraction</text>
+<rect x="0" y="40" width="120" height="58" class="n"/><text x="60" y="74" class="c">Those drained</text>
+<rect x="500" y="40" width="120" height="58" class="n"/><text x="560" y="74" class="c">Those who hold</text>
+<line x1="126" y1="69" x2="486" y2="69" class="flow f"/><path d="M484 60 498 69 484 78Z" class="h"/>
+<text x="310" y="58" class="c s">land, labor, money, knowledge</text><text x="310" y="94" class="c s">nothing comes back</text>
+<line x1="0" y1="140" x2="620" y2="140" class="rule"/>
+<text x="0" y="176" class="k">A channel that carries both ways is reciprocity</text>
+<rect x="0" y="194" width="120" height="58" class="n"/><text x="60" y="228" class="c">Neighbor</text>
+<rect x="500" y="194" width="120" height="58" class="n"/><text x="560" y="228" class="c">Neighbor</text>
+<line x1="136" y1="212" x2="486" y2="212" class="flow f"/><path d="M484 203 498 212 484 221Z" class="h"/>
+<line x1="134" y1="234" x2="484" y2="234" class="flow b"/><path d="M136 225 122 234 136 243Z" class="h"/>
+<text x="310" y="202" class="c s">food, work, care, knowledge</text><text x="310" y="256" class="c s">and again, later, in forms no one can predict</text>
+</svg></div>
+</div></header>
+<main>
+<section class="band"><div class="wrap">
+<p class="callout" style="max-width:75ch;margin-top:0"><strong>Disclaimer.</strong> This document has not been reviewed or approved by Bear Creek Meeting, Iowa Yearly Meeting (Conservative), or any other body. It speaks for no meeting or organization.</p>
+<p class="q" style="margin-top:1.8rem">Which way does it flow, and does it flow back?</p>
+<p class="lead" style="margin-top:.8rem">That one question runs through 47 chapters. It is asked of slavery and the Underground Railroad, of the land under a meetinghouse in Dallas County, Iowa, of Indian boarding schools, of Quaker giving, of the draft, and of the economy young people are entering now.</p>
+</div></section>
+<section class="band"><div class="wrap"><h2>Three documents, arranged as one</h2>
+<p class="lead">The wording is each document's own. A line under each heading says which one it comes from.</p>
+<div class="three">
+<div><h3><a href="three-concerns.html">Three Concerns About Friends</a></h3><p>Poverty, freedom and violence. An answer for young adult Friends and others, with Woolman passages and six group sessions.</p></div>
+<div><h3><a href="refusing.html">Refusing the One-Way Channel</a></h3><p>The New Conscientious Objector reread through reciprocity and extraction, from a 1972 letter to a draft board to the present, and why so much Quaker aid took the shape of charity.</p></div>
+<div><h3><a href="which-way.html">Which Way It Flows</a></h3><p>Quaker history and a just future for all, written for young adults.</p></div>
+</div></div></section>
+<section class="band"><div class="wrap"><h2>Five questions to ask of anything</h2>
+<p class="lead">A job, a loan, a meetinghouse, a story you tell. No one has to agree about economics first.</p>
+<ul class="fq">
+<li><b>Direction</b>Which way do things flow?</li>
+<li><b>Return</b>Does anything flow back, and is it something the other party actually wants?</li>
+<li><b>Duration</b>Does the relationship continue after the need is met, or end there?</li>
+<li><b>Invitation</b>Who opened the door? Was the channel entered by invitation, or by assumption?</li>
+<li><b>Protocol</b>Whose rules govern the exchange, and who names the need?</li>
+</ul></div></section>
+<section class="band" id="map"><div class="wrap"><h2>What is in the document</h2>
+<p class="lead">Choose any part or chapter to read it.</p>
+<div class="map"><section class="part"><p class="pn">Part One</p><h3><a href="part-one.html">Why This Work, and Who It Is For</a></h3><ol><li><span>1</span><a href="part-one.html#chapter-1">A Letter Before You Begin</a></li><li><span>2</span><a href="part-one.html#chapter-2">The Stories We Are Proud Of</a></li><li><span>3</span><a href="part-one.html#chapter-3">How This Work Came Together</a></li></ol></section><section class="part"><p class="pn">Part Two</p><h3><a href="collected.html#part-two">The Lens: Extraction and Reciprocity</a></h3><ol><li><span>4</span><a href="collected.html#chapter-4">Three Concerns and Two Words</a></li><li><span>5</span><a href="collected.html#chapter-5">One Question: Which Way Do Things Flow?</a></li><li><span>6</span><a href="collected.html#chapter-6">The Same Question, Close to Home</a></li><li><span>7</span><a href="collected.html#chapter-7">What Extraction Is Built From</a></li></ol></section><section class="part"><p class="pn">Part Three</p><h3><a href="collected.html#part-three">The Stories Friends Tell</a></h3><ol><li><span>8</span><a href="collected.html#chapter-8">Against Slavery: What Is Really There</a></li><li><span>9</span><a href="collected.html#chapter-9">The Underground Railroad, Told Right</a></li><li><span>10</span><a href="collected.html#chapter-10">Against All Wars</a></li><li><span>11</span><a href="collected.html#chapter-11">The Old Objector</a></li><li><span>12</span><a href="collected.html#chapter-12">A Long Record of Giving</a></li><li><span>13</span><a href="collected.html#chapter-13">Why It Took the Shape of Charity</a></li><li><span>14</span><a href="collected.html#chapter-14">Why So Little Changed</a></li><li><span>15</span><a href="collected.html#chapter-15">What Worked, and What It Teaches</a></li></ol></section><section class="part"><p class="pn">Part Four</p><h3><a href="collected.html#part-four">The Story Friends Have Avoided</a></h3><ol><li><span>16</span><a href="collected.html#chapter-16">The Land Under the Meetinghouse</a></li><li><span>17</span><a href="collected.html#chapter-17">The Schools</a></li><li><span>18</span><a href="collected.html#chapter-18">What Did Not Reach Us</a></li><li><span>19</span><a href="collected.html#chapter-19">One Story</a></li><li><span>20</span><a href="collected.html#chapter-20">Bear Creek’s Own Ledger</a></li></ol></section><section class="part"><p class="pn">Part Five</p><h3><a href="collected.html#part-five">The Three Concerns, Answered</a></h3><ol><li><span>21</span><a href="collected.html#chapter-21">On the Poverty Around Us</a></li><li><span>22</span><a href="collected.html#chapter-22">On Who Gets to Be Free</a></li><li><span>23</span><a href="collected.html#chapter-23">On the Violence Holding It All Up</a></li></ol></section><section class="part"><p class="pn">Part Six</p><h3><a href="collected.html#part-six">The New Conscientious Objector</a></h3><ol><li><span>24</span><a href="collected.html#chapter-24">The NewCO as First Defined</a></li><li><span>25</span><a href="collected.html#chapter-25">What the First Definition Did Well, and Where It Strained</a></li><li><span>26</span><a href="collected.html#chapter-26">The Economic Draft as Conscription into One-Way Channels</a></li><li><span>27</span><a href="collected.html#chapter-27">The Draft You Are Already In</a></li><li><span>28</span><a href="collected.html#chapter-28">Drained and Conduit: The Two Positions of the Drafted</a></li><li><span>29</span><a href="collected.html#chapter-29">Active Objection: Closing One-Way Channels</a></li><li><span>30</span><a href="collected.html#chapter-30">Three Practices as Three Reciprocal Channels</a></li><li><span>31</span><a href="collected.html#chapter-31">From Ally to Accomplice: Who Receives?</a></li><li><span>32</span><a href="collected.html#chapter-32">Channels and Nodes: The Objector Is Not Alone</a></li><li><span>33</span><a href="collected.html#chapter-33">The NewCO Restated</a></li></ol></section><section class="part"><p class="pn">Part Seven</p><h3><a href="collected.html#part-seven">Lived and Tested</a></h3><ol><li><span>34</span><a href="collected.html#chapter-34">Reciprocity Already Lived</a></li><li><span>35</span><a href="collected.html#chapter-35">What People Are Building</a></li><li><span>36</span><a href="collected.html#chapter-36">Turning the Test on the Objector</a></li><li><span>37</span><a href="collected.html#chapter-37">Getting It Wrong</a></li></ol></section><section class="part"><p class="pn">Part Eight</p><h3><a href="collected.html#part-eight">What Now</a></h3><ol><li><span>38</span><a href="collected.html#chapter-38">What Will Friends Do?</a></li><li><span>39</span><a href="collected.html#chapter-39">The Five-Point Plan, Re-examined</a></li><li><span>40</span><a href="collected.html#chapter-40">Toward a Rural Resilience Hub, Carefully</a></li><li><span>41</span><a href="collected.html#chapter-41">A Vision, Offered Carefully</a></li><li><span>42</span><a href="collected.html#chapter-42">The Strongest Objections</a></li><li><span>43</span><a href="collected.html#chapter-43">What You Could Do This Year</a></li><li><span>44</span><a href="collected.html#chapter-44">What Is Still Unsettled</a></li><li><span>45</span><a href="collected.html#chapter-45">A Draft Minute, and a Closing Word</a></li></ol></section><section class="part"><p class="pn">Part Nine</p><h3><a href="collected.html#part-nine">For Reading Together</a></h3><ol><li><span>46</span><a href="collected.html#chapter-46">Reading Woolman Together</a></li><li><span>47</span><a href="collected.html#chapter-47">For Groups: Six Sessions</a></li></ol></section></div>
+<p class="app"><strong>Also in the document:</strong> <a href="collected.html#with-gratitude">With Gratitude</a>, and appendices: <a href="collected.html#appendix-a">all the queries</a>, <a href="collected.html#appendix-b">a worksheet</a>, <a href="collected.html#appendix-c">a timeline</a>, <a href="collected.html#appendix-d">a glossary</a>, <a href="collected.html#appendix-e">title options</a>, and <a href="collected.html#appendix-f">sources</a>.</p>
+</div></section>
+</main>
+<footer><div class="wrap"><p>More from Jeff Kisling at <a href="https://channelsintoknowledge.com/">Channels Into Knowledge</a>.</p></div></footer>
+</body></html>
