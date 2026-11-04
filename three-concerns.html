@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Three Concerns About Friends</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap"><style>body{margin:0}img{max-width:100%}
+:root{--bg:#2B4A66;--wash:#20394F;--steel:#6E93B5;--steel-soft:#35587A;--deep:#B5DBFA;--ink:#F4F8FC;--mid:#D9E6F2;--white:#35587A;color-scheme:dark;
+--body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--cond:"IBM Plex Sans Condensed","IBM Plex Sans",system-ui,sans-serif;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--deep);text-underline-offset:2px}a:focus-visible,summary:focus-visible{outline:3px solid var(--deep);outline-offset:2px}
+h1,h2,h3,h4{text-wrap:balance;font-family:var(--cond);color:var(--ink);line-height:1.15;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.callout{background:var(--wash);border:1px solid var(--steel);padding:.8rem 1rem;margin:1.2rem 0;font-size:.97rem}
+.tw{overflow-x:auto;margin:1.2rem 0}
+table{border-collapse:collapse;width:100%;font-size:.95rem;line-height:1.4}
+th{background:var(--steel-soft);text-align:left;font-weight:600}
+th,td{border:1px solid var(--steel);padding:.5rem .7rem;vertical-align:top}
+td{background:var(--white)}
+
+.top{border-bottom:1px solid var(--steel-soft);padding-block:.8rem;font-size:.92rem}
+.top .wrap{display:flex;flex-wrap:wrap;gap:.3rem 1rem;justify-content:space-between}
+.head{background:var(--wash);border-bottom:1px solid var(--steel);padding-block:clamp(2rem,6vw,3.6rem)}
+.head p{margin:0;color:var(--mid)}.eyebrow{font-weight:500;color:var(--deep)!important;margin-bottom:.5rem!important}
+.head h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:700;margin-bottom:.7rem;max-width:22ch}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:3.5rem;padding-block:2.5rem 4rem}
+nav.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 1rem);align-self:start;max-height:calc(100vh - 2rem);overflow:auto;font-size:.9rem;line-height:1.3}
+nav.rail summary{font-weight:600;color:var(--mid);cursor:pointer;margin-bottom:.6rem}
+nav.rail ol{list-style:none;margin:0;padding:0;display:grid;gap:.42rem}
+nav.rail .p{font-weight:600;margin-top:.5rem}
+nav.rail a{text-decoration:none;color:var(--ink)}nav.rail a:hover{color:var(--deep);text-decoration:underline}
+article{max-width:68ch;min-width:0;overflow-wrap:anywhere}article img{max-width:100%}
+article h1{font-size:clamp(2rem,5vw,2.8rem);font-weight:700;margin:3.5rem 0 1.2rem;padding-top:2rem;border-top:3px solid var(--deep);scroll-margin-top:1rem}
+article>h1:first-child{margin-top:0;padding-top:0;border-top:0}
+article h2{font-size:clamp(1.6rem,4vw,2.1rem);font-weight:700;margin:2.8rem 0 .4rem;scroll-margin-top:1rem}
+article h3{font-size:1.3rem;font-weight:600;color:var(--deep);margin:2rem 0 .5rem}
+article h4{font-size:1.1rem;font-weight:600;margin:1.4rem 0 .4rem}
+article p,article ul,article ol{margin:0 0 1rem}article li{margin-bottom:.4rem}
+article img{display:block;margin:1rem 0;height:auto;background:#fff;padding:.5rem}figure{margin:1rem 0}figcaption{font-size:.9rem;color:var(--mid)}
+.src{font-size:.85rem;color:var(--mid);margin-bottom:1.3rem!important}
+blockquote{margin:1.2rem 0;padding:.1rem 0 .1rem 1.1rem;border-left:3px solid var(--steel)}blockquote p{margin-bottom:.5rem}
+.attr{font-size:.88rem;color:var(--mid);padding-left:1.1rem;margin-top:-.7rem!important}
+.query{background:var(--wash);padding:.6rem .9rem;margin:.6rem 0!important;font-style:italic}.query em{font-style:italic}
+.next{margin-top:3rem;padding-top:1.5rem;border-top:2px solid var(--steel);font-size:.97rem}
+@media (max-width:860px){.layout{grid-template-columns:minmax(0,1fr);gap:1.5rem}nav.rail{position:static;max-height:none;background:var(--wash);padding:1rem}}
+</style></head><body>
+<div class="top"><div class="wrap"><a href="index.html">Which Way It Flows</a><span>Jeff Kisling · November 3, 2026</span></div></div>
+<header class="head"><div class="wrap"><p class="eyebrow">One of the three source documents</p><h1>Three Concerns About Friends</h1><p>Poverty, freedom, and violence: an answer for young adult Friends and others. November 2026.</p></div></header>
+<div class="wrap layout"><nav class="rail" aria-label="Contents"><details open><summary>Contents</summary><ol><li class="p"><a href="#a-letter-before-you-begin">A Letter Before You Begin</a></li><li class="p"><a href="#how-to-use-this-paper">How to Use This Paper</a></li><li class="p"><a href="#part-one">Part One: Two Words</a></li><li class="p"><a href="#part-two">Part Two: On the Poverty Around Us</a></li><li class="p"><a href="#part-three">Part Three: On Who Gets to Be Free</a></li><li class="p"><a href="#part-four">Part Four: On the Violence Holding It All Up</a></li><li class="p"><a href="#part-five">Part Five: What Will Friends Do?</a></li><li class="p"><a href="#reading-woolman-together">Reading Woolman Together</a></li><li class="p"><a href="#for-groups-six-sessions">For Groups: Six Sessions</a></li><li class="p"><a href="#a-timeline">A Timeline</a></li><li class="p"><a href="#all-the-queries">All the Queries</a></li><li class="p"><a href="#with-gratitude">With Gratitude</a></li><li class="p"><a href="#sources">Sources</a></li></ol></details></nav>
+<article><p class="callout"><strong>Disclaimer.</strong> This document has not been reviewed or approved by Bear Creek Meeting, Iowa Yearly Meeting (Conservative), or any other body. It speaks for no meeting or organization.</p>
+<h1 id="a-letter-before-you-begin">A Letter Before You Begin</h1>
+<p>Dear Friends, and dear readers who are not Friends,</p>
+<p>This paper answers three concerns. They are simple to say and hard to live with.</p>
+<p>The first is about poverty. In a land with more than enough, children go hungry, families have no home, and people despair. That is not an accident. It is how our economic system works, and we know it.</p>
+<p>The second is about freedom. The land under our meetinghouses, and much of the comfort we enjoy, came from taking. Indigenous land was taken. The labor of enslaved people was taken. A legal and economic order was built to keep what was taken.</p>
+<p>The third is about violence. The order that does the taking is held in place by force. That force has worn many uniforms: soldiers, Indian agents, boarding school disciplinarians, police, prison guards, border agents. Too often Friends have stood quietly near that force and called our quiet peace.</p>
+<p>I wrote these concerns down first as a few short paragraphs, with a query under each one. I meant them for my own meeting, Bear Creek, a small rural Quaker meeting in Dallas County, Iowa. I also wrote a longer letter in 2023, <em>An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK</em>. That letter ended with this sentence: <em>“We must begin by changing our own lives if we hope to make a real testimony for peace and justice.”</em></p>
+<p>This paper takes that sentence and those three concerns and tries to answer them, one at a time. It is written for young adult Friends, and for anyone else who wants to look honestly at the world we have been handed and ask what to do about it.</p>
+<h2>Why I am writing to young people</h2>
+<p>I am seventy-five years old. I grew up on rented farms near Bear Creek. My family was poor, but we didn’t know it, because everyone around us lived the same way. I went to Scattergood Friends School, a Quaker boarding school on a working farm near West Branch, Iowa, and graduated in 1970. I spent most of my adult life in Indianapolis, doing research on infant lung disease and development. I retired in 2017 and came back to Iowa.</p>
+<p>Most of what I know about the three concerns in this paper I did not learn in school, in meeting for worship, or from books. I learned it from people. I learned it working in a church basement in Des Moines on Saturday mornings, packing boxes of food. I learned it walking ninety-four miles beside Native and non-Native friends along the route of an oil pipeline. I learned it swinging a sledgehammer inside an old house in Iowa City that will become a place of healing for Indigenous people.</p>
+<p>Some knowledge can only be learned through relationships. I did not understand how devastating poverty is until I had spent years in friendship with people who live with it every day. I write to young people because you have more years ahead of you than I do to build those relationships. You also have something my generation often lacked: you have grown up already knowing that the systems around you are not working. Many of you have seen it in your own families. You do not need to be convinced that something is wrong. This paper asks what a person who believes in peace and justice, or a person of faith, does with that knowledge, in ways that are not just anger or despair.</p>
+<h2>Why I am also writing to others</h2>
+<p>This paper uses Quaker language because that is my language. I talk about “that of God in everyone,” about leadings, about testimonies and queries. But the three concerns are not only Quaker concerns. If you are not a Friend, you are welcome here. Where Quaker words appear, I try to explain them. Where the paper asks something of “Friends,” you can hear it as asking something of any community that says it cares about justice.</p>
+<h2>A question to carry through this paper</h2>
+<p>I have written a great deal over the years about capitalism. I still believe what I wrote. But arguments about economic systems have not changed many hearts. So I want to begin with a plainer question, one that does not require anyone to agree with me about economic theory first.</p>
+<p>What does it say about a faith, or a religion, or a person, who has food and shelter and ignores the needs of their brothers and sisters?</p>
+<p>And what does it say when they also ignore the voice telling them that their brothers’ and sisters’ need comes from what they themselves have taken?</p>
+<p>That question runs through this whole paper. Each of the three concerns is a way of asking it again, more closely.</p>
+<h2>How this paper was made</h2>
+<p>This paper is built from my own writing over the past several years, from my 2023 Epistle, from records of my meeting and yearly meeting, from John Woolman’s <em>A Plea for the Poor</em>, and from a small number of public sources listed at the end. I had help assembling and drafting it from an AI model. I say that openly, because you should know how a thing you are reading was made. Any mistakes are mine, and I want to hear about them.</p>
+<p>Some of the stories here belong to other people as much as to me. Where that is so, I have tried to tell only the part that is mine to tell.</p>
+<h2>Where I am now</h2>
+<p>In October 2026 I decided to step back from bringing my own proposals to my meeting’s business sessions. I had been doing that for years, and nothing much came of it. Instead I am putting my energy into person-to-person work. I have not left my membership there. I remain a member, and I conscientiously object to continuing “as we are” until the meeting takes up LANDBACK and ongoing work alongside Indigenous-led groups.</p>
+<p>So this paper is not a proposal to any meeting for business. It is something closer to a long letter to friends I have not met yet. What you do with it is yours to discern.</p>
+<p>In peace,</p>
+<p>Jeff Kisling Sunday, November 1, 2026</p>
+<h1 id="how-to-use-this-paper">How to Use This Paper</h1>
+<h2>The shape of the paper</h2>
+<p>The paper has five parts.</p>
+<p><strong><a href="#part-one">Part One</a>, “Two Words,”</strong> sets out the three concerns as I first wrote them and the two words the whole paper rests on: extraction and reciprocity. It gives five simple questions for telling them apart.</p>
+<p><strong><a href="#part-two">Part Two</a>, “On the Poverty Around Us,”</strong> shows poverty as extraction from people’s needs, how charity hides it, and mutual aid as reciprocity.</p>
+<p><strong><a href="#part-three">Part Three</a>, “On Who Gets to Be Free,”</strong> shows the extraction of land, labor, children and young people’s futures, how deeds and “help” hide it, and LANDBACK and showing up as reciprocity.</p>
+<p><strong><a href="#part-four">Part Four</a>, “On the Violence Holding It All Up,”</strong> shows force as what keeps extraction in place, how neutrality hides it, and active objection as reciprocity.</p>
+<p><strong><a href="#part-five">Part Five</a>, “What Will Friends Do?”</strong> brings the three together as one pattern with one answer, and asks what changing our own lives could look like.</p>
+<p>At the end are nine passages from John Woolman for slower reading, a plan for six discussion sessions, all the queries gathered in one place, and a list of sources.</p>
+<h2>Reading alone</h2>
+<p>If you are reading alone, read slowly. Each part follows the same shape: the extraction, how it is hidden, and the reciprocity that answers it. Each part ends with queries. A query is a question Quakers ask ourselves, not to get a quick answer, but to let it work on us. Try writing your own answer to one query each day. Come back to it a week later and see if it has changed.</p>
+<h2>Reading with others</h2>
+<p>This paper was written to be read in groups: a young adult Friends gathering, a Sunday school class for older teens, a campus group, a reading circle at a meeting, a group of friends who are not Quakers at all. The discussion plan near the end divides the paper into six sessions. Each session asks you to read one part ahead of time, share honestly, and try one small thing in the week that follows.</p>
+<p>When you meet, try to listen more than you argue. Some of what is in this paper will make some readers uncomfortable. Discomfort is not a sign that something is wrong. It is often the first sign that something true has reached us.</p>
+<h2>A note on words</h2>
+<p><strong>Friends</strong> and <strong>Quakers</strong> mean the same thing: members of the Religious Society of Friends.</p>
+<p><strong>Meeting</strong> can mean a gathering for worship, or the community that gathers. A <strong>monthly meeting</strong> is a local congregation. A <strong>yearly meeting</strong> is a larger body of monthly meetings that gathers once a year. My yearly meeting is Iowa Yearly Meeting (Conservative).</p>
+<p><strong>Testimony</strong> means the way Friends’ faith shows up in how we live: peace, simplicity, integrity, community, equality, and care for the earth.</p>
+<p><strong>Query</strong> means a question for reflection.</p>
+<p><strong>Mutual aid</strong> means people coming together, as equals, to meet each other’s needs. It is explained fully in <a href="#part-two">Part Two</a>.</p>
+<p><strong>LANDBACK</strong> means returning land, and the power to care for it, to Indigenous peoples. It is explained fully in <a href="#part-three">Part Three</a>.</p>
+<p><strong>Active objection</strong> is the term I use for refusing to take part in something wrong and working to replace it with something better. Friends have long used the term “conscientious objection” for refusing to fight in wars. I use active objection for refusing to go along with an economic and social order that harms people.</p>
+<p><strong>Extraction</strong> means taking, with nothing fair coming back. <strong>Reciprocity</strong> means giving and receiving, both ways, and keeping it going. Both are explained in <a href="#part-one">Part One</a>.</p>
+<h1 id="part-one">Part One: Two Words</h1>
+<h2>The three concerns</h2>
+<p>Here are the three concerns as I first wrote them. Everything else in this paper is an attempt to answer them.</p>
+<h3>1. On the poverty around us</h3>
+<p>We say there is that of God in everyone, then meet that claim with committees, applications, and distance instead of presence. Food sits in the store while people starve outside it, not from scarcity, but from a system that makes access to survival conditional on money. A faith that organizes its care through eligibility rather than relationship isn’t living its own testimony.</p>
+<p class="query"><em>Query: Do we recognize the difference between charity and mutual aid? Do we understand how it shows the fundamental differences in hierarchy and power each represents?</em></p>
+<h3>2. On who gets to be free</h3>
+<p>The land this Meeting sits on, and much of the comfort that makes our worship possible, came from dispossession: Indigenous land taken, Black labor stolen or underpaid, and a legal and economic order built to keep it that way. You cannot hold a testimony of equality while still occupying, unexamined, the position that inequality built for you.</p>
+<p class="query"><em>Query: We know there are millions suffering an economic draft: from student debt, from needing a job because of its health benefits, or from a lack of economic opportunity that leads to the armed forces.</em></p>
+<h3>3. On the violence holding it all up</h3>
+<p>The violence that built this order never stopped; it just changed uniforms: police, prisons, borders, deportations, enforcing who may have what and who may not. Quaker neutrality in front of that enforcement isn’t peace.</p>
+<p class="query"><em>Query: The scenes of armed repression and deportation are horrifying to watch. We know where this is likely to go. How can we say we are a peaceful people if we simply watch?</em></p>
+<p><em>It matters little what we say we believe while our lives still run on the arrangement that produces the suffering we say we oppose.</em></p>
+<h2>Two words</h2>
+<p>This whole paper comes down to two words: <strong>extraction</strong> and <strong>reciprocity</strong>.</p>
+<p><strong>Extraction</strong> is taking, with nothing fair coming back. Value flows one way. Someone takes land, or labor, or food, or time, or knowledge, and the person it was taken from is left with less.</p>
+<p><strong>Reciprocity</strong> is giving and receiving, both ways, and keeping it going. Value flows in both directions. Both people give. Both people receive. Neither stands above the other. The relationship continues after the need is met.</p>
+<p>That is all. You don’t need to know any economics. You don’t have to agree with me about capitalism. You only have to ask, about any relationship, <em>which way does it flow?</em></p>
+<p>People who are poor already know the answer from daily life. They know when they are being used. Farmers of my parents’ generation knew reciprocity from threshing time, when neighbors worked each other’s fields and everyone ate at the same table. Indigenous peoples have built whole ways of life on reciprocity with each other and with the land.</p>
+<h2>The three concerns are three kinds of extraction</h2>
+<p>Each of the three concerns names a kind of extraction.</p>
+<p><strong>Poverty</strong> is extraction from people’s needs. Food, shelter and medicine are held behind a wall of money. The work of many flows up to the few who own things. What comes back is often not enough to live on.</p>
+<p><strong>Unfreedom</strong> is extraction from people’s land and lives. Indigenous land was taken. The labor of enslaved people was taken. Today, young people are drawn into debt, into jobs they cannot leave, or into the armed forces, because the choices left to them are so narrow.</p>
+<p><strong>Violence</strong> is how the extraction is kept in place. Force holds up the wall around the food, the deed to the land, the border, the prison. Mostly it stays out of sight. It is there for anyone who does not go along.</p>
+<p>And each concern has an answer that is a kind of reciprocity.</p>
+<p><strong>Mutual aid</strong> answers poverty. People meet each other’s needs as equals, giving and receiving.</p>
+<p><strong>LANDBACK and showing up</strong> answer unfreedom. Land and the power to care for it return to the peoples it was taken from, and settlers come when invited, work, and keep coming back.</p>
+<p><strong>Active objection</strong> answers violence. We refuse to go along with the force, we stand with people where it falls on them, and we build something better in its place.</p>
+<div class="tw"><table>
+
+<tbody>
+<tr class="odd">
+<td><strong>Concern</strong></td>
+<td><strong>The extraction</strong></td>
+<td><strong>The reciprocity</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Poverty</strong></td>
+<td>Needs held behind a wall of money</td>
+<td>Mutual aid: meeting needs as equals</td>
+</tr>
+<tr class="odd">
+<td><strong>Freedom</strong></td>
+<td>Land and labor taken, choices narrowed</td>
+<td>LANDBACK and showing up to work</td>
+</tr>
+<tr class="even">
+<td><strong>Violence</strong></td>
+<td>Force that keeps the taking in place</td>
+<td>Active objection and standing with people</td>
+</tr>
+</tbody>
+</table></div>
+<h2>Five questions</h2>
+<p>When I want to test a relationship, I ask five questions. You will see them in every part of this paper.</p>
+<ol type="1">
+<li><p><strong>Direction.</strong> Which way does it flow: land, labor, money, food, knowledge, time?</p></li>
+<li><p><strong>Return.</strong> Does anything come back? Is it what the other person actually needed?</p></li>
+<li><p><strong>Duration.</strong> Does the relationship keep going, or end when the taking is done?</p></li>
+<li><p><strong>Invitation.</strong> Who opened the door? Were we invited, or did we assume?</p></li>
+<li><p><strong>Protocol.</strong> Whose rules govern it? Who decided how it would work?</p></li>
+</ol>
+<p>When the answers are <em>one way, nothing, it ends, we assumed, our rules</em>, that is extraction.</p>
+<p>When the answers are <em>both ways, what was needed, it continues, we were invited, their rules</em>, that is reciprocity.</p>
+<p>You can use these questions on anything: a job, a church supper, a mission trip, a phone, a school, a nation, your own family’s history.</p>
+<h2>Three short sentences</h2>
+<p>Over the years I have boiled this down to three sentences:</p>
+<ul>
+<li><p>A one-way channel is extraction.</p></li>
+<li><p>Charity is vertical. Mutual aid is horizontal.</p></li>
+<li><p>Charity manages need. Mutual aid ends it.</p></li>
+</ul>
+<p>The middle sentence matters most for Friends, because much of our history of doing good has been charity. Charity is generous. But it flows one way: from those who have, down to those who don’t. The giver stays above. Charity can be kind and still be a one-way channel. That is why it has not ended poverty.</p>
+<h2>This is already Quaker</h2>
+<p>My own yearly meeting’s advice on mutual care says:</p>
+<blockquote>
+<p>Each of us is both giver and receiver, ready to help and to accept help.</p>
+</blockquote>
+<p>That one sentence is reciprocity. Both ways. Giver and receiver. Ready to accept. It is already in our book of discipline. The only question is whether it stops at the meetinghouse door.</p>
+<p>John Woolman named extraction more than two hundred and sixty years ago, in <em>A Plea for the Poor</em>. He wrote of power that</p>
+<blockquote>
+<p>demands service of another without proposing an equitable reward.</p>
+</blockquote>
+<p>He said it has “the spirit of persecution in it.” That is extraction, named by one of the most respected Friends in our history.</p>
+<h2>The question under the question</h2>
+<p>In my letter at the start of this paper, I asked: what does it say about a faith, or a religion, or a person, who has food and shelter and ignores the needs of their brothers and sisters? And what does it say when they also ignore the voice telling them that their brothers’ and sisters’ need comes from what they themselves have taken?</p>
+<p>That second question is the question of extraction. It is one thing to have more than others. It is another thing to have more <em>because</em> of what was taken from others. Once we see that, ignoring their need is no longer only a failure of kindness. It is keeping what is not ours.</p>
+<h2>I am inside this too</h2>
+<p>I am not standing outside the arrangement I describe. I grew up on land in Dallas County, Iowa, opened to settlers after the Sauk and Meskwaki were removed. I was formed at a Quaker school two miles from where Quakers once ran a government-contracted school for Native children, and the story of one Arapaho girl who died there did not reach me until 2024. I drive a car and burn oil while opposing pipelines.</p>
+<p>I have tried to ask the five questions of my own life as strictly as I ask them of my meeting. Where I found extraction, I will say so. Where I found reciprocity, I will say that too.</p>
+<p class="query"><em>Query: When you hear the word “extraction,” what is the first relationship in your own life that comes to mind?</em></p>
+<p class="query"><em>Query: Where have you known help that flowed both ways? What made it work?</em></p>
+<h1 id="part-two">Part Two: On the Poverty Around Us</h1>
+<h2>The concern</h2>
+<p><em>We say there is that of God in everyone, then meet that claim with committees, applications, and distance instead of presence. Food sits in the store while people starve outside it, not from scarcity, but from a system that makes access to survival conditional on money.</em></p>
+<p>In two words: poverty is <strong>extraction</strong> from people’s needs, and the answer is <strong>reciprocity</strong> in the form of mutual aid.</p>
+<p>This Part looks first at the extraction, then at how charity hides it, then at what reciprocity looks like.</p>
+<h2>The extraction</h2>
+<p>My Epistle says:</p>
+<blockquote>
+<p>A system that requires money for goods and services denies basic needs to anyone who does not have money.</p>
+</blockquote>
+<p>Said plainly, that means children go to bed hungry. Children sleep in cars, in shelters, in doorways. Children grow up learning despair before they learn to read. And this happens in a land with more than enough for every one of them. It is not an accident, and it is not a breakdown of the system. It is what the system does.</p>
+<p>We know this. We pass it on the way to meeting for worship. We read it in the news, and we have heard it from people who live it. We are not ignorant of this truth. We have only grown used to it.</p>
+<h3>How big it is</h3>
+<p>The U.S. Department of Agriculture’s report on 2024 found that 18.4 percent of households with children were food insecure. More than fourteen million children lived in those homes. In about 318,000 households, the children themselves were at times hungry, skipped meals, or went a whole day without eating. That report is the last of its kind. The Department announced in 2025 that it would stop collecting these numbers.</p>
+<p>In the 2022–23 school year, public schools identified 1,374,537 students with no fixed, regular and adequate place to sleep at night, about 2.8 percent of all students. Most were doubled up with relatives, sleeping in motels, or moving from couch to couch. They are in your classes.</p>
+<h3>Running the five questions</h3>
+<p>The Epistle names where this comes from:</p>
+<blockquote>
+<p>The capitalist economic system creates hunger, houselessness, illness that is preventable and despair.</p>
+</blockquote>
+<p>You can set aside the word “capitalism” and still see it. In an economy where nearly everything must be bought, the only way to eat is to have money. The only way most people get money is to sell their time and work to someone else. If you are a child, or sick, or old, or caring for someone, or no one will pay you enough to live on, you cannot get what you need.</p>
+<p>Ask the five questions.</p>
+<ul>
+<li><p><strong>Direction:</strong> the work of many flows toward those who own land, buildings and businesses.</p></li>
+<li><p><strong>Return:</strong> wages come back, often not enough to live on.</p></li>
+<li><p><strong>Duration:</strong> the relationship ends the moment the work is no longer profitable.</p></li>
+<li><p><strong>Invitation:</strong> no one chose this. We were born into it.</p></li>
+<li><p><strong>Protocol:</strong> the rules were written by those who benefit.</p></li>
+</ul>
+<p>That is extraction. It is legal and ordinary. Most of us take part in it every day.</p>
+<p>The Epistle says:</p>
+<blockquote>
+<p>Capitalism is revealed as an unjust, untenable system, when there is plenty of food in the grocery stores, but men, women and children are going hungry, living on the streets outside.</p>
+</blockquote>
+<p>The problem is not scarcity. There is plenty. The food is held behind a wall made of money.</p>
+<h3>Woolman saw the same thing</h3>
+<p>Woolman saw laborers who</p>
+<blockquote>
+<p>labours and thinks, and thinks and labours, till by overmuch labour he is wearied and oppressed.</p>
+</blockquote>
+<p>And he saw the root:</p>
+<blockquote>
+<p>Wealth desired for its own sake obstructs the increase of virtue.</p>
+</blockquote>
+<h2>How charity hides the extraction</h2>
+<p>Friends have always cared about the poor. That care is real and it has done real good. So why, after centuries of charity, are fourteen million children still in food-insecure homes in the richest country in the world?</p>
+<p>Because charity does not change which way the value flows. Run the five questions on it.</p>
+<ul>
+<li><p><strong>Direction:</strong> one way, from those who have to those who don’t.</p></li>
+<li><p><strong>Return:</strong> gratitude, or nothing.</p></li>
+<li><p><strong>Duration:</strong> ends when the need is met, or the grant runs out.</p></li>
+<li><p><strong>Invitation:</strong> the giver decides what help is offered.</p></li>
+<li><p><strong>Protocol:</strong> the giver writes the rules: who qualifies, what you must prove.</p></li>
+</ul>
+<p>In 2021 I wrote:</p>
+<blockquote>
+<p>Mutual Aid is NOT charity. People often think of their financial support for a cause as aid. But that is not Mutual Aid. Charity involves an agency determining what the need is. Which too often is not what is needed. And has an implied hierarchy of the agency providing aid as superior to those who receive the aid. There are usually rules as to who qualifies for the aid.</p>
+</blockquote>
+<p>That is what the concern means by “committees, applications, and distance instead of presence.” Charity sorts people into deserving and undeserving. It keeps the giver above. And it leaves the extraction in place, because the giver can go on benefiting from the same arrangement that made the need.</p>
+<p>Charity manages need. It makes the extraction a little easier to bear. It does not end it.</p>
+<p>If you have ever been on the receiving end, you may know this already. You have to tell strangers about your hardest moments. You have to wait in lines and be grateful. That is not because charity workers are unkind. It is because of the shape. When one side always gives and the other always receives, the giver is always above.</p>
+<h2>The reciprocity: mutual aid</h2>
+<p>What do we do with what we know? The Epistle answers:</p>
+<blockquote>
+<p>We rebuild our communities in ways not based upon money. Such communities thrive all over the world. Indigenous peoples have always lived this way.</p>
+</blockquote>
+<p>Mutual aid is reciprocity applied to survival. The Epistle describes it:</p>
+<blockquote>
+<p>Mutual Aid involves everyone coming together to find a solution for problems we all face. This is a radical departure from “us” helping “them”. Instead, we all work together to find and implement solutions. To work together means we must be physically present with each other.</p>
+</blockquote>
+<p>Run the five questions again.</p>
+<ul>
+<li><p><strong>Direction:</strong> many ways. Food, rides, skills, time, stories, money, moving between people who know each other.</p></li>
+<li><p><strong>Return:</strong> everyone gives and everyone receives. The person who brings food one week may need a ride the next.</p></li>
+<li><p><strong>Duration:</strong> it continues. When the next crisis comes, the network is already there.</p></li>
+<li><p><strong>Invitation:</strong> you join by being invited, and by showing up long enough to be trusted.</p></li>
+<li><p><strong>Protocol:</strong> the community decides together. Usually there are no eligibility rules at all.</p></li>
+</ul>
+<p>That is why charity manages need but mutual aid ends it. Mutual aid does not end poverty by itself. But it ends the isolation that makes poverty devastating, and it builds the relationships that can change the larger system.</p>
+<div class="tw"><table>
+
+<tbody>
+<tr class="odd">
+<td></td>
+<td><strong>Charity</strong></td>
+<td><strong>Mutual aid</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Direction</strong></td>
+<td>One way, down</td>
+<td>Many ways, level</td>
+</tr>
+<tr class="odd">
+<td><strong>Who receives</strong></td>
+<td>Those who qualify</td>
+<td>Anyone, including the helpers</td>
+</tr>
+<tr class="even">
+<td><strong>Who decides</strong></td>
+<td>The giver</td>
+<td>Everyone together</td>
+</tr>
+<tr class="odd">
+<td><strong>How long</strong></td>
+<td>Until the need is met</td>
+<td>As long as the community lasts</td>
+</tr>
+<tr class="even">
+<td><strong>What it does</strong></td>
+<td>Manages need</td>
+<td>Ends isolation, builds power</td>
+</tr>
+</tbody>
+</table></div>
+<h2>The story that taught me</h2>
+<h3>Invitation: meeting Ronnie</h3>
+<p>In February 2020, several of us held a vigil for the Wet’suwet’en people, who were trying to stop a gas pipeline through their territory in British Columbia. Ronnie James saw our post on Facebook and came. That is how we met.</p>
+<p>Ronnie was part of Des Moines Mutual Aid. On Saturday mornings they gave away food, in a program descended from the Black Panther Party’s free breakfast program. I did not ask right away to join. We exchanged emails for months. When I felt we knew each other well enough, I asked if it would be appropriate for me to take part. He said yes.</p>
+<p>I did not assume I belonged. I waited to be invited.</p>
+<h3>Return: “Why aren’t you taking any food?”</h3>
+<p>About fifteen of us packed boxes of donated food in a church basement for about sixty families. No one had to qualify.</p>
+<p>On my first morning I was told that this was mutual aid, so all of us were encouraged to take any food we wanted for ourselves. For many weeks I didn’t. I had come to help, not to be helped.</p>
+<p>Then one of my new friends, in a friendly way, asked me why I wasn’t taking any food.</p>
+<p>I realized my refusal was a mistake. I wasn’t really buying into the <em>mutual</em> part. By refusing to receive, I was keeping myself above everyone else. I had brought charity’s shape into a mutual aid space without noticing.</p>
+<p>Now I take food.</p>
+<p>Reciprocity means learning to receive, not only to give. A person who only gives is still standing on a higher step.</p>
+<h3>Protocol: “Welcome to the community”</h3>
+<p>After I had been coming for several months, Ronnie said, “Welcome to the community.” I had invited myself into the work, but I was not part of the community until it welcomed me, in its own time. Belonging was theirs to give.</p>
+<h3>Duration: three years of Saturdays</h3>
+<p>I worked with Des Moines Mutual Aid for about three years. In return I received friendship, food, a political education, and a new word, “accomplice,” for people who stand with others in the work. The Spirit led me to that basement. My life was changed there.</p>
+<h2>Reciprocity is the Quaker way</h2>
+<p>In January 2022 I wrote: <em>Mutual Aid is the Quaker way of being in the world.</em></p>
+<p>Look at Quaker worship. No one stands above. Anyone may be moved to speak. We look for that of God in whoever rises. In business, we wait for unity rather than let a majority overrule the rest. That is reciprocity. It is the same shape as mutual aid.</p>
+<p>The problem is that we have mostly kept it inside the meetinghouse. When we turn toward the world, we switch to charity’s shape: committees deciding what others need, programs with rules, givers and receivers.</p>
+<p>If there is truly that of God in the hungry family, they are not objects of our charity. They are people through whom God may speak to us. We have as much to receive from them as they from us.</p>
+<h2>Two older Quaker examples</h2>
+<p><strong>The Friends Volunteer Service Mission.</strong> In the early 1970s, after Scattergood, I volunteered at this Mission in inner-city Indianapolis. It came to the neighborhood at the invitation of Second Friends Church. The volunteers lived in the neighborhood. The wages we earned in the first year were pooled to support each of us through a second year, and in that second year each of us did whatever the first year in the neighborhood had led us to do. The neighborhood shaped the work. That is reciprocity built into the design.</p>
+<p><strong>The Box Meeting, with its limit.</strong> In 1659 George Fox asked about sixty women to see to the needs of all Friends who were sick, weak, or in want. That was reciprocity, but only among Friends. And Fox, visiting Barbados in 1671, told enslaved people to love their masters, and told masters to free them only after many years of faithful service. So from the very beginning, Friends practiced reciprocity among ourselves and accepted extraction toward others. The task is not to invent reciprocity. We already know how. The task is to widen the circle.</p>
+<h2>Money</h2>
+<p>My Epistle says, “Mutual Aid cannot be done by committee or donations.” I meant that it cannot be done from a distance. But money itself is not the problem. The question is which way it flows, and under whose rules.</p>
+<p>A one-time check from a stranger is charity. A small monthly gift, under the receiving community’s rules, from someone who also shows up with a sledgehammer and stays for lunch, is reciprocity.</p>
+<h2>What you can do</h2>
+<ul>
+<li><p><strong>Find mutual aid near you.</strong> Search “mutual aid” and your town’s name. Ask if it would be appropriate for you to come. Then keep coming.</p></li>
+<li><p><strong>Take the food.</strong> When you are offered something, practice receiving. Notice how it feels.</p></li>
+<li><p><strong>Run the five questions on your meeting’s care.</strong> Who decides? Does anyone have to qualify? Does help ever flow back to the helpers?</p></li>
+<li><p><strong>Share what you have.</strong> A skill, a car, a kitchen, an afternoon.</p></li>
+</ul>
+<h2>Queries on the poverty around us</h2>
+<p class="query"><em>Do we recognize the difference between charity and mutual aid? Do we understand how it shows the fundamental differences in hierarchy and power each represents?</em></p>
+<p class="query"><em>Where in your own life have you seen “us helping them” instead of people solving a problem together?</em></p>
+<p class="query"><em>Where do you refuse to receive? What are you protecting by refusing?</em></p>
+<p class="query"><em>We know that children go hungry in a land of plenty. What do we do with what we know?</em></p>
+<h1 id="part-three">Part Three: On Who Gets to Be Free</h1>
+<h2>The concern</h2>
+<p><em>The land this Meeting sits on, and much of the comfort that makes our worship possible, came from dispossession: Indigenous land taken, Black labor stolen or underpaid, and a legal and economic order built to keep it that way. You cannot hold a testimony of equality while still occupying, unexamined, the position that inequality built for you.</em></p>
+<p>My Epistle says:</p>
+<blockquote>
+<p>The capitalist system that supports the white materialistic lifestyle is built on stolen land and genocide of Indigenous peoples, and the labor of those who were enslaved in the past or are forced to live on poverty wages today.</p>
+</blockquote>
+<p>In two words: unfreedom is <strong>extraction</strong> of land, labor and lives, and the answer is <strong>reciprocity</strong> in the form of LANDBACK and showing up.</p>
+<p>The first concern was about <em>who has what</em>. This one is about <em>how they came to have it</em>, and about who is still not free to choose their own lives.</p>
+<h2>The extraction of land</h2>
+<h3>The ground under Bear Creek</h3>
+<p>Bear Creek Meeting sits in Dallas County, Iowa. In the Treaty of 1842, the Sauk and Meskwaki ceded their remaining lands in Iowa, including what became Dallas County. They were required to leave for Kansas by October 11, 1845. A few years later, the Quaker families who founded my meeting entered land near Bear Creek at the federal price of $1.25 an acre. The records say nothing about who had lived there before. That silence was kept by our own people.</p>
+<p>Ask the five questions.</p>
+<ul>
+<li><p><strong>Direction:</strong> land flowed from the Sauk and Meskwaki to the settlers.</p></li>
+<li><p><strong>Return:</strong> none that our records show.</p></li>
+<li><p><strong>Duration:</strong> the benefit continues every Sunday the meetinghouse is used.</p></li>
+<li><p><strong>Invitation:</strong> none.</p></li>
+<li><p><strong>Protocol:</strong> a treaty and a land office, written by one side.</p></li>
+</ul>
+<p>That is extraction. Every member of Bear Creek Meeting, including me, is a beneficiary of it.</p>
+<h3>How the deed hides it</h3>
+<p>The most common answer is: “We bought it legally.” Woolman answered that in the 1760s:</p>
+<blockquote>
+<p>If we trace an unrighteous claim and find gifts or grants to be proved by sufficient seals and witnesses, this gives not the claimant a right, for that which is opposite to righteousness is wrong, and the nature of it must be changed before it can be right.</p>
+</blockquote>
+<p>A deed proves that land changed hands. It does not prove the change was just. The paperwork hides the extraction. It does not undo it.</p>
+<h3>How “nothing to do” hides it</h3>
+<p>In the November of 1873, Bear Creek’s women’s meeting appointed three Friends to a committee on Indian affairs: Huldah Craven, Elmira Horner, and Margaret Allen. A year later the committee reported that it “found nothing to do.”</p>
+<p>In those same years, in the same minute books, Bear Creek’s committee for the freedmen was active, corresponding with a school in Missouri. Friends at Bear Creek plainly cared about justice. But toward the people whose land they were living on, the channel was closed. “Found nothing to do” is what extraction looks like from the comfortable side.</p>
+<h3>The Meskwaki who bought back their land</h3>
+<p>After the removal, some Meskwaki returned to Iowa. In 1857 they used their own funds to buy eighty acres in Tama County. That land, and what has been added since, is the Meskwaki Settlement. It is not a reservation granted by the government. It was bought, and it is held as the home of a sovereign nation.</p>
+<p>Meskwaki people practiced LANDBACK themselves, with their own money, inside the same system that had taken their homeland. A few years later, Friends in Dallas County found nothing to do.</p>
+<h2>The extraction of labor</h2>
+<p>The concern also names “Black labor stolen or underpaid.” The wealth of this country was built in large part on enslaved labor, whether or not any particular Friend held slaves: the cotton in the clothing, the sugar in the kitchen, the banks that lent money for farms. After slavery ended, Black workers were pushed into sharecropping and wages no one could live on. That is the “underpaid” part, and it continues in poverty wages today.</p>
+<p>Woolman named it:</p>
+<blockquote>
+<p>The Negroes have been a suffering people, and we as a civil society are they by whom they have suffered.</p>
+</blockquote>
+<p>And he said what extraction of labor is:</p>
+<blockquote>
+<p>for a man in power to demand service of another without proposing an equitable reward appears to me to have the spirit of persecution in it.</p>
+</blockquote>
+<h3>How heroic history hides it</h3>
+<p>When Friends tell stories of the Underground Railroad, we often put ourselves at the center. Those stories are true. But the people who planned the escapes, took the greatest risks, and walked the distance were the freedom seekers themselves. When we tell their story as ours, we take a little credit that belongs to them. Even history can be extracted.</p>
+<h2>The extraction of lives: the schools</h2>
+<p>In 1869, President Grant’s “Peace Policy” placed many Indian agencies under church control. Iowa Yearly Meeting, of which Bear Creek was then a part, was given charge of the Central Superintendency in Kansas and Indian Territory.</p>
+<p>The policy’s goal was to make Native people stop being Native. Its main tool was schools, where children were taken from their families and punished for speaking their own languages. The U.S. Department of the Interior’s final report on the federal Indian boarding schools, released in July 2024, identified 417 such schools and at least 973 children who died while attending them. It says the true numbers are certainly higher. Quakers helped run some of these schools.</p>
+<p>One was near West Branch, Iowa, two miles from Scattergood Friends School, where I was a student. The government paid Friends $167 a year for the keep of each Native child. In 1886 it enrolled seventy-five Indian children and thirteen white children.</p>
+<p>Run the five questions on that school. <strong>Direction:</strong> children, languages and families flowed into the school; payment flowed to the school. <strong>Return:</strong> what came back to the children was the chance to become like us. <strong>Invitation:</strong> families were pressured or forced. <strong>Protocol:</strong> written entirely by the government and the church.</p>
+<h3>How “help” hides it</h3>
+<p>The Peace Policy called itself kindness. Many Friends who served in it believed they were saving Native people. That is the most dangerous disguise extraction wears: help that decides for others what is good for them. It is charity’s shape, from <a href="#part-two">Part Two</a>, carried all the way.</p>
+<h3>Grace</h3>
+<p>An Arapaho girl named Grace died while a student at the West Branch school. She was buried in the Friends’ section of the West Branch cemetery. Her death was reported publicly at the time, and Friends in West Branch knew of it. Her grave was not lost. But her story did not reach me until 2024.</p>
+<p>When I learned of her, I told Paula Palmer, a Friend whose ministry has long been helping Quakers face our role in the boarding schools. Paula contacted an Arapaho NAGPRA officer. A park ranger named Peter contributed research. On July 22, 2024, members of Grace’s family came from Oklahoma. They chose not to disturb her remains, and performed the ceremony at her grave. I was there to witness. The family asked me to take the photographs, because they knew of my photography. Paula Palmer and a co-author have published an account in <em>Friends Journal</em>. The rest of that day belongs to Grace’s family.</p>
+<p>That is a small reversal of a one-way channel. Knowledge that had stayed with us flowed back toward the people it belonged to, and they decided everything that followed.</p>
+<h2>The extraction of choices: the economic draft</h2>
+<p>Unfreedom is not only history. The query for this concern says:</p>
+<p><em>We know there are millions suffering an economic draft: from student debt, from needing a job because of its health benefits, or from a lack of economic opportunity that leads to the armed forces.</em></p>
+<p>When I was young, the government drafted young men into the army by law. I refused, as <a href="#part-four">Part Four</a> tells. Today there is no draft by law. But there is a draft by money.</p>
+<p>A young person who wants an education is told to borrow. The debt follows them for decades and decides which jobs they can take. A worker who needs health care for a sick child cannot leave a job that harms them, because the insurance is tied to the job. A young person in a town with no good work is offered a signing bonus, college money, and health care, if they will enlist. Each of these is a choice on paper. In practice, the choices have been narrowed until there is only one door.</p>
+<p>Ask the five questions.</p>
+<ul>
+<li><p><strong>Direction:</strong> years of work and sometimes lives flow toward lenders, employers, and the armed forces.</p></li>
+<li><p><strong>Return:</strong> a degree, a paycheck, health coverage: often real, but on terms the young person did not set.</p></li>
+<li><p><strong>Duration:</strong> the debt or the contract continues long after the choice was made.</p></li>
+<li><p><strong>Invitation:</strong> the door was the only one left open.</p></li>
+<li><p><strong>Protocol:</strong> written by those who benefit.</p></li>
+</ul>
+<p>That is extraction of a young person’s future. It is the same pattern as the land and the labor: value taken under rules written by one side, and called a fair bargain.</p>
+<h2>The reciprocity: LANDBACK</h2>
+<p>My Epistle says:</p>
+<blockquote>
+<p>The other component necessary to move away from colonial capitalism and white supremacy is LANDBACK.</p>
+</blockquote>
+<p>LANDBACK means returning land, and the power to care for it, to Indigenous peoples. It is led by Indigenous people. A 2020 article in <em>Grist</em> by Claire Elise Thompson explained that it goes beyond returning deeds. It includes respecting Indigenous rights, keeping languages and traditions alive, and making sure communities have food, housing, and clean air and water.</p>
+<p>My friend Sikowis Nobiss, who founded and leads Great Plains Action Society, prefers the word “ReMatriate,” which she has said better describes the Indigenous fight to defend Mother Earth and the return of the matriarchy.</p>
+<p>LANDBACK is extraction reversed. Land and decisions about land flow back to the people they were taken from, under their protocols.</p>
+<h2>The reciprocity: showing up</h2>
+<p>LANDBACK is not something settlers can design. Our part is to be invited, to show up, to work, to receive, and to keep coming back.</p>
+<h3>The Hub</h3>
+<p>Great Plains Action Society is an Indigenous-led organization in Iowa. Its Urban Resilience Hub occupies 1.05 acres, which GPAS often calls its “Liberated Acre,” just south of downtown Iowa City, approved by the Iowa City Council in October 2025. It is planned to include a Healing Justice House, an urban farm, spaces for Indigenous entrepreneurs, and a mutual aid café open to anyone. Sikowis has said that land is very hard to acquire because it is the ultimate power, and that its true value is beyond any price per acre. That is the opposite of the $1.25-an-acre view that settled Bear Creek.</p>
+<p>Sikowis Nobiss and Eric Anglada created the Decolonial Repair Network to support Great Plains Action Society. I serve on its planning committee. In the first week of December 2025, in freezing cold, I spent four days doing demolition inside the house that will become the Healing Justice House. Three more work-weeks followed in the spring of 2026. Scattergood offered meals and beds to the workers, and I stayed there each time, sometimes with my old roommate and fellow Bear Creek member Jon Tesdell.</p>
+<p>The organizers made sure we had safety equipment. They brought us lunch. They gave us gas cards and other gifts. I went to give labor and came back having received care, food, gifts, and knowledge.</p>
+<ul>
+<li><p><strong>Direction:</strong> labor went in; care and knowledge came back.</p></li>
+<li><p><strong>Return:</strong> what came back was freely given and needed.</p></li>
+<li><p><strong>Duration:</strong> the relationship continues.</p></li>
+<li><p><strong>Invitation:</strong> we were invited.</p></li>
+<li><p><strong>Protocol:</strong> entirely Great Plains Action Society’s.</p></li>
+</ul>
+<p>That is reciprocity. And Scattergood, two miles from Grace’s grave, became a host for Indigenous-led land repair. An institution can move from one column to the other.</p>
+<p>What I have learned is simple: what registers is people showing up to work.</p>
+<h3>How one evening became a channel</h3>
+<p>In July 2017, at Iowa Yearly Meeting (Conservative) sessions at Scattergood, my longtime friend Peter Clay organized an evening presentation with Sikowis Nobiss and Donnielle Wanatee of the Meskwaki Nation. Donnielle invited us to the Meskwaki Pow Wow. I went, with my father. It was also where I first met Sikowis, now a good friend I have worked with on many projects. The next year Peter, Sikowis, Donnielle and I all walked the First Nation–Farmer Climate Unity March together.</p>
+<p>An evening of listening can be a small extraction, if we take what is offered and go home. It becomes reciprocity when we accept the invitation that comes with it, and keep coming back for years.</p>
+<h3>Not inviting ourselves in</h3>
+<p>In 2022 I wrote down a guideline based on the two-row wampum:</p>
+<blockquote>
+<p>The idea behind the two row wampum is two groups, such as Native people and white people, agree to travel together but separately. Neither interfering in the affairs of the other.</p>
+</blockquote>
+<p>And another:</p>
+<blockquote>
+<p>Don’t expect oppressed peoples to educate you. We shouldn’t add to their burden.</p>
+</blockquote>
+<h3>A channel near home</h3>
+<p>Near Earlham, a few miles from the Bear Creek meetinghouse, an annual Native American celebration called Prairie Awakening is held. For about thirty years, a few members of Bear Creek have been building relationships with the people who hold it. The meeting supported those Friends but did not build on what they made. If Bear Creek ever takes up LANDBACK, I believe it should begin there, by asking those Friends, and through them the people of Prairie Awakening, what would be welcome.</p>
+<h2>Repair</h2>
+<p>Woolman did not think a debt disappears with time. Of people held in slavery, he wrote:</p>
+<blockquote>
+<p>where persons have been injured as to their outward substance and died without having recompense, their children appear to have a right to that which was equitably due to and detained from their fathers.</p>
+</blockquote>
+<p>Friends are known for honesty in business. Woolman asked us to apply the same honesty to the largest debts of all. Repair is reciprocity applied to the past: returning some of what was taken. LANDBACK is repair. A standing monthly land tax to an Indigenous-led fund is repair. Returning knowledge, as at Grace’s grave, is repair. None of these settles the account. Each is a payment on it.</p>
+<div class="tw"><table>
+
+<tbody>
+<tr class="odd">
+<td></td>
+<td><strong>Extraction</strong></td>
+<td><strong>Reciprocity</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Land</strong></td>
+<td>Taken by treaty, sold at $1.25 an acre</td>
+<td>LANDBACK, under Indigenous leadership</td>
+</tr>
+<tr class="odd">
+<td><strong>Labor</strong></td>
+<td>Enslaved, then underpaid</td>
+<td>Fair return, and repair of what is owed</td>
+</tr>
+<tr class="even">
+<td><strong>Children</strong></td>
+<td>Taken to schools to become like us</td>
+<td>Knowledge returned; families decide</td>
+</tr>
+<tr class="odd">
+<td><strong>Young people’s futures</strong></td>
+<td>Debt, job lock, the economic draft</td>
+<td>Shared provision that does not trap</td>
+</tr>
+<tr class="even">
+<td><strong>Settlers’ role</strong></td>
+<td>Decide for others</td>
+<td>Be invited, show up, receive, return</td>
+</tr>
+</tbody>
+</table></div>
+<h2>What you can do</h2>
+<ul>
+<li><p><strong>Learn whose land you are on.</strong> A people, not just a name on a map.</p></li>
+<li><p><strong>Accept invitations, and come back.</strong> If an Indigenous-led group invites the public to a work day, go. Then go again.</p></li>
+<li><p><strong>Give in a way that continues.</strong> A small monthly gift to an Indigenous-led land fund, rather than a one-time donation.</p></li>
+<li><p><strong>Read your own history.</strong> Ask your meeting or church to read its early records aloud.</p></li>
+<li><p><strong>Run the five questions on your own future.</strong> Where is your debt, your job, or your options deciding for you? Who benefits?</p></li>
+</ul>
+<h2>Queries on who gets to be free</h2>
+<p class="query"><em>We know there are millions suffering an economic draft: from student debt, from needing a job because of its health benefits, or from a lack of economic opportunity that leads to the armed forces.</em></p>
+<p class="query"><em>Whose land does your meeting, school, or home stand on? What do you know about those people from them, and not only from books?</em></p>
+<p class="query"><em>If someone today held something that once belonged to your family, would its age settle the question for you?</em></p>
+<p class="query"><em>LANDBACK asks for more than feeling bad about the past. What is one concrete thing your community could actually do this year?</em></p>
+<h1 id="part-four">Part Four: On the Violence Holding It All Up</h1>
+<h2>The concern</h2>
+<p><em>The violence that built this order never stopped; it just changed uniforms: police, prisons, borders, deportations, enforcing who may have what and who may not. Quaker neutrality in front of that enforcement isn’t peace.</em></p>
+<p>My Epistle says it in one sentence:</p>
+<blockquote>
+<p>White supremacy violently enforces the will of wealthy white people on the rest of us.</p>
+</blockquote>
+<p>In two words: violence is how <strong>extraction</strong> is kept in place, and the answer is <strong>reciprocity</strong> in the form of active objection: refusing the force and standing with the people it falls on.</p>
+<h2>Force behind the wall</h2>
+<p>Parts Two and Three described extraction: needs held behind a wall of money, land and labor taken under rules written by one side. This concern asks how that stays in place.</p>
+<p>Think about the food behind the wall. What happens if a hungry person takes it? A guard stops them. If they will not give it back, police come. They may be jailed. The wall around the food is held up, in the end, by force.</p>
+<p>The same is true of a home. A family that cannot pay rent is evicted, and if they do not leave, a sheriff removes them. The same is true of land: Indigenous people who use land taken from their ancestors can be arrested for trespassing. The same is true of a border: a family that crosses without papers can be detained and deported.</p>
+<p>Most of the time no one is hit. People obey because they know the force is there. But it is always there, under every one-way channel. Extraction needs it. Without force, people would simply take back what they need and what is theirs.</p>
+<p>People like me rarely see this, because the force is almost never aimed at us. The wall does not stop me, because I have money. The sheriff does not come, because I can pay. It is easy to believe the force does not exist if you have never felt it.</p>
+<h2>Violence administered, not committed</h2>
+<p>Much of the worst violence in history was not done in anger. It was administered calmly, by people following rules, believing they were doing good.</p>
+<p>In 1892, Richard Henry Pratt, the army officer who founded the Carlisle Indian Industrial School, described his goal in a famous phrase: “Kill the Indian in him, and save the man.” He said it at a gathering called the National Conference of Charities and Correction.</p>
+<p><em>Charities and correction.</em> The people in that room saw themselves as helpers. That is what administered violence looks like. It does not feel like violence to the people doing it. It feels like charity.</p>
+<p>This is why the three concerns belong together. When help flows only one way, when the giver decides what is good for the receiver and the receiver has no say, it can slide into force that does terrible harm while calling itself love. At least 973 children died in the federal boarding school system, according to the Interior Department’s 2024 report.</p>
+<h2>The uniforms today</h2>
+<p>According to the Prison Policy Initiative’s 2025 report, nearly two million people are held in American prisons, jails, immigration detention and similar places on any given day. In 2024 the same organization found that Black people made up about 42 percent of those held in prisons and jails, and about 14 percent of the population.</p>
+<p>Ask the five questions.</p>
+<ul>
+<li><p><strong>Direction:</strong> time, freedom, and often labor are taken, mostly from poor people and disproportionately from Black, Brown and Indigenous people.</p></li>
+<li><p><strong>Return:</strong> very little. A record follows people for life, making it harder to find work, housing, or a vote.</p></li>
+<li><p><strong>Duration:</strong> the harm reaches their children.</p></li>
+<li><p><strong>Invitation:</strong> none.</p></li>
+<li><p><strong>Protocol:</strong> written by people who will never be inside.</p></li>
+</ul>
+<p>The same questions apply at the border, where families who flee danger are detained, separated, and sent back.</p>
+<p>The query for this concern says it plainly:</p>
+<p><em>The scenes of armed repression and deportation are horrifying to watch. We know where this is likely to go. How can we say we are a peaceful people if we simply watch?</em></p>
+<h2>How neutrality hides it</h2>
+<p>Many Friends understand the peace testimony as a refusal to take part in violence ourselves. That is good, as far as it goes. But if our food, our homes and our land are held in place by force against others, then staying out of it is not neutral. We are receiving the benefit of the force while declining to look at it. That is extraction too: we take the safety, and leave others to carry the cost.</p>
+<p>If you see someone beaten on the street and walk past, you have not hit anyone. But no one would call that peace. When the violence is spread across a whole society and done by people in uniform, it is easier to walk past. The principle is the same.</p>
+<p>Woolman traced the line from extraction to war:</p>
+<blockquote>
+<p>Wealth is attended with power, by which bargains and proceedings contrary to universal righteousness are supported; and here oppression, carried on with worldly policy and order, clothes itself with the name of justice.</p>
+</blockquote>
+<p>He said that in this soil “the seed of war swells and sprouts and grows and becomes strong.” And he asked Friends, “we who declare against wars,” to look at our own possessions:</p>
+<blockquote>
+<p>May we look upon our treasures and the furniture of our houses and the garments in which we array ourselves and try whether the seeds of war have any nourishment in these our possessions or not.</p>
+</blockquote>
+<p>War does not begin when the shooting starts. It begins in one-way channels, defended.</p>
+<h2>Extraction from the earth</h2>
+<p>The same one-way flow takes from the land itself: oil, gas, water, soil, taken and burned, with the costs left for others. Pipelines very often cross Indigenous land against the wishes of the people who live there. In early 2020, police moved in to clear the way for a gas pipeline through Wet’suwet’en territory in British Columbia. A few of us held a vigil in Iowa in solidarity. That vigil is where I met Ronnie James, and where my own mutual aid story began.</p>
+<p>Young people are inheriting a warming world. If you feel that your generation’s future was taken to pay for someone else’s present, you understand extraction better than any economist.</p>
+<h2>My first refusal</h2>
+<p>I learned the peace testimony at Bear Creek during the Vietnam War. Several men in my meeting, and their families, had refused in various ways to take part in war and conscription. I agreed completely with their example. That led to my first real conflict with my parents. They would accept alternative service, but feared I would go to prison if I went further.</p>
+<p>In 1969 I registered with Selective Service, against my own resolve. In my journal I wrote: <em>“Registered, but not convinced!”</em> In January 1970 I returned my registration certificate. In February 1972 I broke with Selective Service entirely, by letter.</p>
+<p>Conscription is extraction in its purest form. It takes a young person’s body and life and gives back nothing they asked for. It is what Woolman called power that “demands service of another without proposing an equitable reward.” Refusing it was refusing a one-way channel at the moment it demanded the most.</p>
+<p>Today’s economic draft, from <a href="#part-three">Part Three</a>, is the same channel without the law. When I say I conscientiously object to an economic order built on extraction, I am doing what I learned at Bear Creek fifty-five years ago.</p>
+<h2>The reciprocity: active objection</h2>
+<p>Friends have long used “conscientious objection” for refusing to fight. I use <em>active objection</em> for refusing to go along with extraction and the force behind it, and building reciprocity in its place.</p>
+<p>It has two halves. <strong>Refusing:</strong> not profiting from the force, not pretending it is normal, not staying silent. <strong>Standing with:</strong> going to the exact place where the force falls on someone, and being there with them.</p>
+<p>My Epistle names one practice:</p>
+<blockquote>
+<p>Many Mutual Aid groups often have a bail fund, to support those arrested for agitating for change. And accompany those arrested when they go to court.</p>
+</blockquote>
+<p>A bail fund means a person is not held in jail for weeks simply because they are poor. Court accompaniment means they do not face the system alone. Both turn a one-way channel into a two-way one: the community’s presence and resources flow toward the person the force is falling on.</p>
+<p>Other practices:</p>
+<ul>
+<li><p><strong>Witnessing.</strong> When immigration agents are active in a neighborhood, or people are protesting peacefully, those who come to watch and record can sometimes prevent harm and make it harder to hide.</p></li>
+<li><p><strong>Refusing to profit.</strong> Moving money, including a meeting’s money, away from companies that run private prisons or detention.</p></li>
+<li><p><strong>Keeping company.</strong> Visiting and writing to people in jail or detention.</p></li>
+<li><p><strong>Building safety without force.</strong> Supporting community approaches to conflict, such as the Alternatives to Violence Project, which Friends helped begin.</p></li>
+<li><p><strong>Standing with land defenders.</strong> When Indigenous people protect their water and sacred places, standing with them in the ways they ask.</p></li>
+</ul>
+<p>None of these is neutral. Each takes the side of the person on whom the force falls.</p>
+<h2>The ladder and the level floor</h2>
+<p>Extraction needs a particular shape: a ladder, with some people above and some below. The agent above the Native family. The warden above the prisoner. The landlord above the tenant. The giver above the receiver. Force is how the ladder stays standing.</p>
+<p>Reciprocity has a different shape: a level floor. My Epistle says:</p>
+<blockquote>
+<p>With Mutual Aid, people learn to live in a community where there is no vertical hierarchy. A community where everyone has a voice. A model that results in enthusiastic participation. A model that makes the vertical hierarchy required for white supremacy impossible.</p>
+</blockquote>
+<p>I saw that floor in Des Moines. No one told particular people to go unload the van. People just went. Ronnie was respected, but he did not give orders. One Saturday we carried tables down from the third floor, and to this day someone will say that was “the day Jeff got the tables.” In that basement I was not a retired researcher or a Quaker elder. I was someone who carried tables and got teased about it, like everyone else.</p>
+<p>When people learn to live without the ladder, even a little, the force that holds it up begins to lose its purpose.</p>
+<div class="tw"><table>
+
+<tbody>
+<tr class="odd">
+<td></td>
+<td><strong>Extraction</strong></td>
+<td><strong>Reciprocity</strong></td>
+</tr>
+<tr class="even">
+<td><strong>The force</strong></td>
+<td>Holds the wall, the deed, the border</td>
+<td>Is refused and named</td>
+</tr>
+<tr class="odd">
+<td><strong>Our role</strong></td>
+<td>Watch, benefit, stay neutral</td>
+<td>Stand with people where it falls</td>
+</tr>
+<tr class="even">
+<td><strong>The shape</strong></td>
+<td>A ladder</td>
+<td>A level floor</td>
+</tr>
+<tr class="odd">
+<td><strong>Money</strong></td>
+<td>Invested in prisons and detention</td>
+<td>Bail funds, community safety</td>
+</tr>
+<tr class="even">
+<td><strong>Peace means</strong></td>
+<td>Quiet for us</td>
+<td>Safety for everyone</td>
+</tr>
+</tbody>
+</table></div>
+<h2>What you can do</h2>
+<ul>
+<li><p><strong>Learn where the force falls in your community.</strong> Who is stopped, evicted, detained? Ask them, not only the news.</p></li>
+<li><p><strong>Find a bail fund or court watch.</strong> Many towns have one. Ask how to help.</p></li>
+<li><p><strong>Run the five questions on your money.</strong> Where does your bank, your school’s endowment, or your meeting invest?</p></li>
+<li><p><strong>Practice the level floor.</strong> In your meeting, school or group, notice who gives orders and who waits. Try making a decision together, with everyone heard.</p></li>
+</ul>
+<h2>Queries on the violence holding it all up</h2>
+<p class="query"><em>The scenes of armed repression and deportation are horrifying to watch. We know where this is likely to go. How can we say we are a peaceful people if we simply watch?</em></p>
+<p class="query"><em>Who in your community feels the force that holds the arrangement in place? Who never feels it? Which are you?</em></p>
+<p class="query"><em>Where do you see violence administered, not committed: done calmly, by rules, by people who believe they are helping?</em></p>
+<p class="query"><em>What would it look like for you to stand with someone at the exact point where the force falls on them?</em></p>
+<h1 id="part-five">Part Five: What Will Friends Do?</h1>
+<h2>One pattern, one answer</h2>
+<p>The three concerns are one pattern.</p>
+<p><strong>Poverty</strong> is extraction from people’s needs. <strong>Unfreedom</strong> is extraction of land, labor and futures. <strong>Violence</strong> is the force that keeps the extraction in place.</p>
+<p>And they have one answer: <strong>reciprocity</strong>. Where value flows one way, make it flow both ways. Where people stand on a ladder, stand on a level floor. Where we have been distant, be present. Where we have been the givers, learn to receive. Where we have designed the solution, follow the people most affected. Where we have watched, act.</p>
+<p>Mutual aid, LANDBACK, showing up, and active objection are not four different programs. They are one way of living, chosen again and again, in small things and large.</p>
+<h2>The Epistle’s answer</h2>
+<p>My 2023 Epistle ends with the question <em>What will Friends do?</em> and answers:</p>
+<blockquote>
+<p>It matters little what people say they believe when their actions are inconsistent with their words. Thus, we Friends may say there should not be hunger and poverty, but as long as Friends continue to collaborate in a system that leaves many without basic necessities and violently enforces white supremacy, our example will fail to speak to the world.</p>
+<p>Let our lives speak for our convictions. Let our lives show that we oppose the capitalist system and white supremacy, and the damages that result. We can engage in efforts, such as Mutual Aid and LANDBACK, to build Beloved Community.</p>
+<p>We must begin by changing our own lives if we hope to make a real testimony for peace and justice.</p>
+</blockquote>
+<p>In the words of this paper: we cannot say we oppose extraction while our lives run on it. We begin by asking the five questions of ourselves.</p>
+<h2>A walk along a pipeline</h2>
+<p>From September 1 to 8, 2018, a small group of Native and non-Native people walked ninety-four miles along the route of the Dakota Access Pipeline, from Des Moines to Fort Dodge, Iowa. It was the First Nation–Farmer Climate Unity March. Peter Clay, Sikowis Nobiss, Donnielle Wanatee and I were among the walkers.</p>
+<p>The purpose was to spend eight days sharing stories, so that afterward we could work together on things of common concern. It worked better than any of us hoped. Various combinations of us have worked on many things since.</p>
+<p>At one point I explained Quaker worship, and we spent some time together in silence, holding hands. Each time our path crossed over the buried pipeline, someone offered prayers.</p>
+<p>That is reciprocity between traditions. Quaker silence was offered and received. Indigenous prayer was offered and received. Neither was set aside. The pipeline under our feet was a one-way channel carrying value away. Above it, for eight days, things flowed both ways.</p>
+<p>Many Friends fear that working alongside Indigenous people means giving up our own tradition. That walk showed me the opposite. Our tradition can be a gift, offered on invitation, in a space someone else made.</p>
+<h2>My own ledger</h2>
+<p>The Epistle says we must begin with our own lives. So here are both columns of mine, as honestly as I can keep them.</p>
+<div class="tw"><table>
+
+<tbody>
+<tr class="odd">
+<td><strong>Where my life runs one way</strong></td>
+<td><strong>Where I have tried to make it flow both ways</strong></td>
+</tr>
+<tr class="even">
+<td>I grew up on Dallas County land opened by the removal of the Sauk and Meskwaki</td>
+<td>I have named it publicly and object to my meeting continuing as we are until it takes up LANDBACK</td>
+</tr>
+<tr class="odd">
+<td>Since retiring, I drive, burning oil while opposing pipelines</td>
+<td>For all my working years in Indianapolis I lived without a car</td>
+</tr>
+<tr class="even">
+<td>I was formed in a school that did not pass Grace’s story to me</td>
+<td>I passed her story on, and witnessed when her family came</td>
+</tr>
+<tr class="odd">
+<td>I have built my writing on other people’s words, not always asking first</td>
+<td>Ronnie James has given his consent; I am learning to ask first</td>
+</tr>
+<tr class="even">
+<td>I have used AI tools, which draw heavily on energy, water, and others’ writing</td>
+<td>I am naming it here so you know</td>
+</tr>
+<tr class="odd">
+<td>For years I pushed my proposals at my meeting, a one-way channel of persuasion</td>
+<td>In October 2026 I stepped back to person-to-person work</td>
+</tr>
+<tr class="even">
+<td>Renting still pays landlords who hold land with its own history</td>
+<td>I have rented in working-class neighborhoods and never owned a home or stocks</td>
+</tr>
+</tbody>
+</table></div>
+<p>Simplicity is not the same as reciprocity. Owning less reduces extraction, but reciprocity needs relationship. My simple living was only the ground the relationships stood on.</p>
+<p>A reader has every right to ask, “Who are you to judge?” My answer is this ledger. I am not asking anything of you that I have not asked of myself.</p>
+<h2>The half we forget: receiving</h2>
+<p>Looking at my own writing, I noticed something. I have written a great deal about what I gave: Saturdays, labor, testimony. I have written much less about what I received.</p>
+<p>I received food in a church basement, and the words “welcome to the community.” I received silence and prayer on the march. I received lunches, safety gear, gas cards and gifts at the Hub, and beds and meals at Scattergood. I received friendships that changed my life.</p>
+<p>The receiving is what proves the relationship is level. A person who only gives is still doing charity, however radical their politics. If you remember one thing from this paper, let it be this: <em>reciprocity means learning to receive.</em></p>
+<p>Many young people fear that a life of justice will be endless sacrifice, fueled by guilt. My experience is the opposite. I was fed, housed, equipped, and welcomed. That is why the work has lasted. Reciprocity is not self-denial. It is a way of being held.</p>
+<h2>A few words to particular readers</h2>
+<p><strong>If you have known poverty yourself,</strong> you are not the object of this paper. You are one of its teachers. You know what help feels like when it humiliates, and what it feels like when it comes as an equal. In mutual aid, that knowledge is exactly what is needed. Take what you need and give what you can. Sometimes that balance will tip one way, sometimes the other. That is how reciprocity works.</p>
+<p><strong>If you grew up comfortable,</strong> you don’t need guilt. Guilt makes us the center of the story again. What the three concerns ask is honesty about the one-way channels you were born into, and then action to make some of them flow both ways. Your growth may be in learning to receive.</p>
+<p><strong>If you are not a Friend,</strong> you do not need Quaker words to ask which way something flows. Many who taught me most about reciprocity were not Quakers. Your own tradition may have its own words for it. The name matters less than the practice.</p>
+<p><strong>If you are angry,</strong> anger at extraction is not a sin. But anger with nowhere to go turns into contempt, and contempt builds ladders. Reciprocity gives anger somewhere to go: Saturday mornings, work-weeks, court dates, friendships.</p>
+<p><strong>If you are tired or afraid,</strong> start very small. Let yourself receive one thing. Reciprocity begins with being held, not with holding everything up. And you do not have to do it alone. Extraction depends on people facing it alone. Reciprocity begins the moment you stop.</p>
+<h2>The Spirit in this work</h2>
+<p>For several years before I found mutual aid, I had great trouble with Christianity and with Quakers, because of what our institutions did to Native children. What helped was not an argument. It was experience: silence and prayer side by side on the march; the church basement in Des Moines, which felt more like the early Friends’ vision of a new society than much of what I had found in meetinghouses; the plain, shared work at the Hub.</p>
+<p>In each place I felt that of God in the people around me, as a presence. When you go where the Spirit leads, you will find yourself among people who are hungry, people whose land was taken, and people on whom force falls. And you will find that they have something to give you.</p>
+<h2>Where to begin</h2>
+<ul>
+<li><p><strong>Ask the five questions.</strong> Direction, return, duration, invitation, protocol. Use them on your job, your school, your phone, your clothes, your meeting, your family’s history. You don’t need to fix everything you find. Just begin to see.</p></li>
+<li><p><strong>Start with one relationship.</strong> Find one place near you where reciprocity is already happening. Ask if it would be appropriate to come. Come back every week for a season. Don’t lead. Let them teach you.</p></li>
+<li><p><strong>Learn to receive.</strong> When you are offered food, help, a ride, or a story, accept it.</p></li>
+<li><p><strong>Keep a ledger.</strong> Once a month, write two columns: what you gave and what you received. Over a year it will show you where your own channels run one way.</p></li>
+<li><p><strong>Bring it home gently.</strong> In your meeting, ask before telling. Ask older Friends where they have known reciprocity: at threshing, at a barn raising, in a long illness. Let them teach you too.</p></li>
+<li><p><strong>Stay with it.</strong> The relationships in this paper took years. Reciprocity is slow. That is part of what makes it real.</p></li>
+</ul>
+<h2>A hope for meetings</h2>
+<p>I hope that someday each of our meetings will tend something of its own, rooted in its own ground and its own relationships. For Bear Creek, I have imagined a Rural Resilience Hub. But if it begins with Friends drawing up a plan and inviting Indigenous partners to bless it, it will be the old one-way channel again.</p>
+<p>It would have to begin with honesty about the ground under the meetinghouse, with the thirty years of relationship at Prairie Awakening, and with asking Indigenous neighbors what, if anything, they would want from us. It would have to follow protocols we did not write.</p>
+<p>Small things any meeting could do this year:</p>
+<ul>
+<li><p>Read its own early minutes aloud, including the hard parts.</p></li>
+<li><p>Send Friends to work, not only money, at an Indigenous-led project, and keep sending them.</p></li>
+<li><p>Make a standing monthly gift to an Indigenous-led land fund.</p></li>
+<li><p>Run the five questions on its own care for members and neighbors.</p></li>
+<li><p>Ask Indigenous neighbors what they want from the meeting, if anything, and listen.</p></li>
+</ul>
+<h2>The last word</h2>
+<blockquote>
+<p>It matters little what people say they believe when their actions are inconsistent with their words.</p>
+<p>Let our lives speak for our convictions.</p>
+<p>We must begin by changing our own lives if we hope to make a real testimony for peace and justice.</p>
+</blockquote>
+<p>The three concerns will not be finished in my lifetime. But they can be answered, a little at a time, by people willing to show up, to receive as well as give, to tell the whole truth about where they stand, and to keep coming back.</p>
+<p>I hope you will be one of them. And I hope that when you are, someone will notice you holding back, and ask you, kindly, why you aren’t taking any food.</p>
+<h2>Final queries</h2>
+<p class="query"><em>It matters little what we say we believe. What does your life say?</em></p>
+<p class="query"><em>Where in your life are you still giving without receiving, and what are you protecting by doing so?</em></p>
+<p class="query"><em>Whose words have carried your arguments? Have you asked them, thanked them, or returned anything?</em></p>
+<p class="query"><em>Where is a channel that someone else began, that you could help carry, without taking it over?</em></p>
+<p class="query"><em>What would a ledger of your last year show you, kept honestly in both columns?</em></p>
+<h1 id="reading-woolman-together">Reading Woolman Together</h1>
+<p>John Woolman’s <em>A Plea for the Poor, or a Word of Remembrance and Caution to the Rich</em> was written around 1763 and 1764, and not published until after his death. It is short, sixteen chapters, and it is free to read online. I have quoted it throughout this paper. This section gathers nine passages for slower reading, alone or in a group. Again and again, Woolman names extraction, often more sharply than we do today. Each passage is followed by a few words about the extraction or reciprocity it names, and a query.</p>
+<p>Woolman’s English is more than two hundred and fifty years old. Read it aloud, slowly. If a sentence is hard, read it twice. The language is old, but the ideas are not.</p>
+<h2>1. Rents and labor (Chapter One)</h2>
+<blockquote>
+<p>Wealth desired for its own sake obstructs the increase of virtue, and large possessions in the hands of selfish men have a bad tendency, for by their means too small a number of people are employed in things useful; and therefore they, or some of them, are necessitated to labour too hard, while others would want business to earn their bread were not employments invented which, having no real use, serve only to please the vain mind.</p>
+<p>Rents set on lands are often so high that persons who have but small substance are straitened in hiring a plantation; and while tenants are healthy and prosperous in business, they often find occasion to labour harder than was intended by our gracious Creator.</p>
+</blockquote>
+<p>Woolman begins with rent. When I first read this, I thought of my own family, renting farms near Bear Creek. A tenant who is healthy can just barely keep up. A tenant who gets sick, or has a bad year, falls behind. Woolman saw this in colonial New Jersey. It is still true for renters in every American city.</p>
+<p>Notice also what he says about work. Some people are worked too hard, while others can only find jobs making things “having no real use,” things that only “please the vain mind.” He is describing an economy that produces luxuries for some while others cannot afford necessities. That is the first concern, in 1763.</p>
+<p class="query"><em>Who in your life works too hard to keep up with rent? What would it mean for “the spirit of charity” to change what is asked of them?</em></p>
+<h2>2. Who owns the earth (Chapter Two)</h2>
+<blockquote>
+<p>The Creator of the earth is the owner of it. He gave us being thereon, and our nature requires nourishment which is the produce of it. As he is kind and merciful, we as his creatures, while we live answerable to the design of our creation, we are so far entitled to a convenient subsistence that no man may justly deprive us of it.</p>
+</blockquote>
+<p>And later in the same chapter:</p>
+<blockquote>
+<p>Goodness remains to be goodness, and the direction of pure wisdom is obligatory on all reasonable creatures—that laws and customs are no further a standard for our proceedings than as their foundation is on universal righteousness.</p>
+</blockquote>
+<p>This is one of the most radical passages Woolman wrote. If God owns the earth, then every human owner is really a tenant. Everyone is “entitled to a convenient subsistence,” and no one may justly take it away. And laws and customs are only right if they rest on righteousness. A law that permits children to go hungry is not made right by being a law.</p>
+<p>Woolman goes on to say that when we demand more from the poor than pure love allows, “we invade their rights as inhabitants of that world of which a good and gracious God is proprietor, under whom we are tenants.”</p>
+<p class="query"><em>If you believed that no one truly owns the land, only holds it in trust, what would change about how you think of the place you live?</em></p>
+<h2>3. The heart of a stranger (Chapter Five)</h2>
+<blockquote>
+<p>But he who toils one year after another to furnish others with wealth and superfluities, who labours and thinks, and thinks and labours, till by overmuch labour he is wearied and oppressed, such an one understands the meaning of that language: “Ye know the heart of a stranger, seeing ye were strangers in the land of Egypt.”</p>
+</blockquote>
+<p>Woolman says that the person who works until exhausted, to make others rich, understands something that the comfortable do not. He knows “the heart of a stranger.” That is a way of saying that people who live with poverty have knowledge that others lack.</p>
+<p>This is why, in <a href="#part-two">Part Two</a>, I said that if you have known poverty yourself, you are one of this paper’s teachers. Woolman said it first.</p>
+<p class="query"><em>What do people who work hardest for the least know, that comfortable people may not? Have you ever asked them?</em></p>
+<h2>4. The greatest of all tyrants (Chapter Nine)</h2>
+<blockquote>
+<p>When our eyes are so single as to discern the selfish spirit clearly, we behold it the greatest of all tyrants.</p>
+</blockquote>
+<p>Woolman wrote this at the beginning of a chapter about the persecution of early Christians under Roman emperors. But he did not think the worst tyrant was an emperor. He thought it was the selfish spirit, the spirit that wants more for itself at the expense of others. That spirit can live in anyone. It can live in a king, and it can live in a kindly Quaker farmer.</p>
+<p>This matters for the third concern. The violence that holds up the arrangement is not only in the police or the army. It begins in the ordinary wish to keep what we have, and to have it defended.</p>
+<p class="query"><em>Where does the selfish spirit live in your own life? Where does it ask to be defended?</em></p>
+<h2>5. Seeds of war in our possessions (Chapter Ten)</h2>
+<blockquote>
+<p>Wealth is attended with power, by which bargains and proceedings contrary to universal righteousness are supported; and here oppression, carried on with worldly policy and order, clothes itself with the name of justice and becomes like a seed of discord in the soil; and as this spirit which wanders from the pure habitation prevails, so the seed of war swells and sprouts and grows and becomes strong, till much fruits are ripened.</p>
+</blockquote>
+<p>And then this, which may be the most famous passage in the whole essay:</p>
+<blockquote>
+<p>Oh, that we who declare against wars and acknowledge our trust to be in God only, may walk in the Light and therein examine our foundation and motives in holding great estates! May we look upon our treasures and the furniture of our houses and the garments in which we array ourselves and try whether the seeds of war have any nourishment in these our possessions or not.</p>
+</blockquote>
+<p>Woolman is speaking directly to Friends: “we who declare against wars.” He does not let us off because we refuse to fight. He asks us to look at our furniture and our clothes and ask whether war is being fed by them.</p>
+<p>That is the third concern in Woolman’s own words. Quaker neutrality is not peace if our possessions are nourishing the seeds of war.</p>
+<p class="query"><em>Look around the room you are sitting in. Where did these things come from? Do the seeds of war have any nourishment in them?</em></p>
+<h2>6. The ancient possessors (Chapter Twelve)</h2>
+<blockquote>
+<p>Now if we attentively consider the turning of God’s hand in thus far giving us room on this continent, and that the offspring of those ancient possessors of the country (in whose eyes we appear as newcomers) are yet owners and inhabiters of the land adjoining to us; and that their way of life, requiring much room, hath been transmitted to them from their predecessors and probably settled by the custom of a great many ages; under these considerations we may see the necessity of cultivating the lands already obtained of them and applying the increase consistent with true wisdom, so as to accommodate the greatest number of people it is capable of, before we have any right to plead, as members of the one great family, the equity of their assigning to us more of their possessions and living in a way requiring less room.</p>
+</blockquote>
+<p>Woolman was not free of the assumptions of his time. He believed that settlers had been given “some room” on this continent, and he spoke of land that had been obtained peaceably. But notice what he says about the rest. The Native peoples are the “ancient possessors of the country,” and in their eyes, we are the newcomers. They are still the owners of the land next to ours. And settlers have no right to ask for more until we have used what we have wisely, for the good of everyone.</p>
+<p>Eighty years after Woolman wrote this, the Sauk and Meskwaki were removed from Dallas County, and Friends came to settle at Bear Creek. Woolman’s warning had not been heeded.</p>
+<p class="query"><em>In whose eyes are you a newcomer? What would it mean to see yourself that way?</em></p>
+<h2>7. An unrighteous claim (Chapter Thirteen)</h2>
+<blockquote>
+<p>If we trace an unrighteous claim and find gifts or grants to be proved by sufficient seals and witnesses, this gives not the claimant a right, for that which is opposite to righteousness is wrong, and the nature of it must be changed before it can be right.</p>
+</blockquote>
+<p>Right after this sentence, Woolman tells a parable. Twenty families settle an island and divide it fairly. For generations they care for one another. Then one settler, out of fondness for one son “no more deserving than the rest,” leaves most of his land to that son, in a will “sufficiently witnessed.” The son becomes landlord to his own brothers and nephews. He makes them work to supply him with fine buildings, carriages and clothes. His power grows. The paperwork is perfectly legal. And yet, Woolman asks, does that make it right?</p>
+<p>This is the answer to “but we bought it legally.” The seals and witnesses prove only that a transfer happened. They do not prove that it was just.</p>
+<p class="query"><em>What do you own, or benefit from, that is “proved by sufficient seals and witnesses”? Does that settle whether it is right?</em></p>
+<h2>8. Service without equitable reward (Chapter Fifteen)</h2>
+<blockquote>
+<p>To comply with demands which are not equitable is afflicting to a well-disposed mind, and for a man in power to demand service of another without proposing an equitable reward appears to me to have the spirit of persecution in it.</p>
+</blockquote>
+<p>Woolman wrote this in a chapter about masters and servants. He says that demanding work from someone without fair return has “the spirit of persecution in it.” That is a strong word. Persecution is what was done to early Friends, who went to prison by the thousands. Woolman says the same spirit is present whenever the powerful take labor without fair reward.</p>
+<p>That is extraction, named as persecution. It applies to slavery, to poverty wages, and, I believe, to conscription, which took my generation’s young men and gave back nothing we had asked for.</p>
+<p class="query"><em>Where in our economy today is service demanded without equitable reward? Who carries it?</em></p>
+<h2>9. What is owed (Chapter Sixteen)</h2>
+<blockquote>
+<p>The Negroes have been a suffering people, and we as a civil society are they by whom they have suffered. Now where persons have been injured as to their outward substance and died without having recompense, their children appear to have a right to that which was equitably due to and detained from their fathers.</p>
+<p>When the ancestors of these people were imported from Africa, some I believe bought them with intent to treat them kindly as slaves. They bought them as though those violent men had a right to sell them, but I believe without weightily considering the nature and tendency of such a bargain, and thus building on an unrighteous foundation, a veil was gradually drawn over a practice very grievous and afflicting to great numbers of the Gentiles.</p>
+</blockquote>
+<p>This is the second concern, answered more than two hundred and sixty years ago. Woolman says the debt does not die with the person who was wronged. Their children “appear to have a right to that which was equitably due.” He also understood how kind people end up taking part in great evil: they buy into an arrangement “without weightily considering” it, and over time a veil is drawn, until no one is alarmed anymore.</p>
+<p>Woolman’s hope was that “this veil may be yet further removed, and that this disorder may be searched to the bottom.” He hoped Friends would feel, in true humility, for what alone could guide us toward healing and restoration.</p>
+<p>That is still the hope.</p>
+<p class="query"><em>What veils have been drawn over practices in your own community, so that few are alarmed by them anymore? What would it take to remove them?</em></p>
+<h1 id="for-groups-six-sessions">For Groups: Six Sessions</h1>
+<p>These six sessions are meant for a group of young adults, a Sunday school class of older teens, a campus group, or any circle of readers. Each session takes about ninety minutes. You can meet weekly or monthly. Change anything that does not fit your group.</p>
+<h2>Some ground rules for every session</h2>
+<ul>
+<li><p>Begin and end with a few minutes of silence. If your group is not Quaker, explain that the silence is simply a time to settle and listen inwardly.</p></li>
+<li><p>Speak from your own experience. “I have noticed” is better than “people always.”</p></li>
+<li><p>Listen to understand, not to answer. Leave a pause after each person speaks.</p></li>
+<li><p>What is shared personally in the group stays in the group.</p></li>
+<li><p>Nobody has to speak. Nobody has to agree.</p></li>
+<li><p>At the end of each session, each person chooses one small thing to try before the next session, and reports back.</p></li>
+</ul>
+<h2>Session 1: Two words</h2>
+<p><strong>Read beforehand:</strong> A Letter Before You Begin, and <a href="#part-one">Part One</a>.</p>
+<p><strong>Opening (10 minutes).</strong> Silence. Then read aloud the three concerns as first written, slowly, with a pause after each query.</p>
+<p><strong>Share (25 minutes).</strong> Go around the circle. Which of the three concerns is closest to your own experience? Which door did you come through: poverty, freedom, or violence?</p>
+<p><strong>Practice (30 minutes).</strong> In pairs, choose one ordinary relationship from your own life: a job, a school, a store you shop at, a phone company, a sports team. Run it through the five questions: direction, return, duration, invitation, protocol. Then share with the group what you found.</p>
+<p><strong>Discuss (15 minutes).</strong> The Advices on Mutual Care say, “Each of us is both giver and receiver, ready to help and to accept help.” Where does your meeting, school, or family live this well? Where does it stop at the door?</p>
+<p><strong>Before next time.</strong> Notice one moment this week when you are offered help. What do you do?</p>
+<p><strong>Closing.</strong> Silence.</p>
+<h2>Session 2: The poverty around us</h2>
+<p><strong>Read beforehand:</strong> <a href="#part-two">Part Two</a>, through “Why charity has not ended it.”</p>
+<p><strong>Opening.</strong> Silence. Read aloud the paragraph that begins “Said plainly, that means children go to bed hungry.”</p>
+<p><strong>Share.</strong> Without naming anyone, has anyone in the group, or anyone you love, known hunger, housing loss, or the fear of either? How was it spoken about, or not spoken about?</p>
+<p><strong>Discuss.</strong> The paper says the problem is not scarcity but a wall made of money. Do you agree? What makes it hard to see the wall?</p>
+<p><strong>Practice.</strong> List every form of help you know of in your community: food pantries, programs, churches, school services, mutual aid groups. For each, ask: does someone have to qualify? Who decides? Does help flow both ways?</p>
+<p><strong>Before next time.</strong> Find out whether there is a mutual aid group near you. If there is, learn what it does.</p>
+<h2>Session 3: Mutual aid</h2>
+<p><strong>Read beforehand:</strong> the rest of <a href="#part-two">Part Two</a>.</p>
+<p><strong>Opening.</strong> Silence. Read aloud the story “Why aren’t you taking any food?”</p>
+<p><strong>Share.</strong> When have you found it hard to receive? Why?</p>
+<p><strong>Discuss.</strong> What is the difference between charity and mutual aid? Is there a place for both? Where does money fit?</p>
+<p><strong>Practice.</strong> Plan something small your group could do together, as mutual aid rather than charity. It might be a meal everyone brings food to and everyone takes food from. It might be a skill share. It might be joining an existing group’s work day. Decide how everyone could both give and receive.</p>
+<p><strong>Before next time.</strong> Do it, or take one step toward it.</p>
+<h2>Session 4: Who gets to be free</h2>
+<p><strong>Read beforehand:</strong> <a href="#part-three">Part Three</a>.</p>
+<p><strong>Opening.</strong> Silence. Read aloud Woolman’s sentence about an unrighteous claim.</p>
+<p><strong>Share.</strong> What did you learn about the boarding schools, and when, and from whom? Whose land are we sitting on right now?</p>
+<p><strong>Discuss.</strong> Who in this group, or in your families, is caught in an economic draft: debt, a job held for its health insurance, or enlistment because other doors were closed? Run the five questions on it.</p>
+<p><strong>Discuss.</strong> Why do you think the Bear Creek committee on Indian affairs “found nothing to do,” while the committee for the freedmen was active? Are there places in our own lives where we find nothing to do?</p>
+<p><strong>Practice.</strong> Look up the Indigenous nations whose homeland you are on. Find out whether there is Indigenous-led work in your region that invites the public to help. Read something written by members of that nation.</p>
+<p><strong>Before next time.</strong> If there is an invitation open to the public, accept it. If not, keep learning.</p>
+<h2>Session 5: The violence holding it all up</h2>
+<p><strong>Read beforehand:</strong> <a href="#part-four">Part Four</a>.</p>
+<p><strong>Opening.</strong> Silence. Read aloud the third concern.</p>
+<p><strong>Share.</strong> Who in your community feels the force that holds things in place? Who never feels it? Where do you stand?</p>
+<p><strong>Discuss.</strong> What does “violence administered, not committed” mean? Where do you see it? Can you think of a time when something that was called help did harm?</p>
+<p><strong>Discuss.</strong> Where does your own safety rest on force that falls on someone else? What would it mean to stop simply watching?</p>
+<p><strong>Practice.</strong> As a group, learn about one concrete way to stand with people where force falls on them in your area: a bail fund, court accompaniment, jail visiting, a rapid response network, a community safety project. Decide whether anyone in the group wants to take part.</p>
+<p><strong>Before next time.</strong> Write down one place where your own silence might be protecting something you do not believe in.</p>
+<h2>Session 6: What will we do?</h2>
+<p><strong>Read beforehand:</strong> <a href="#part-five">Part Five</a>.</p>
+<p><strong>Opening.</strong> Silence. Read aloud the last lines of the Epistle: “Let our lives speak for our convictions… We must begin by changing our own lives if we hope to make a real testimony for peace and justice.”</p>
+<p><strong>Share.</strong> What has changed for you over these six sessions? What small things did you try? What happened?</p>
+<p><strong>Practice.</strong> Each person begins a ledger: two columns, given and received, for one relationship in their life. Fill in what you can. Talk about what you notice.</p>
+<p><strong>Discern.</strong> Is there something this group is led to do together for the next year? It should be small, specific, and continuing. It should be something you are invited into, not something you design for others. Take time with this. You do not need to decide today.</p>
+<p><strong>Closing.</strong> A longer silence. Then each person says one sentence: something they will carry with them.</p>
+<h1 id="a-timeline">A Timeline</h1>
+<p>These dates connect the stories in this paper. Some are large events in the history of this continent. Some are small events in my own meeting and my own life. Reading them together can help show how the three concerns reach across centuries.</p>
+<ul>
+<li><p><strong>1659.</strong> George Fox asks about sixty women in London to meet and see to the needs of Friends who are sick, weak, or in want. This “Box Meeting” becomes an early model of Quaker mutual care, for Friends only.</p></li>
+<li><p><strong>1671.</strong> Fox, visiting Barbados, tells enslaved people to obey their masters and tells masters to free them only after many years of service.</p></li>
+<li><p><strong>c. 1763–1764.</strong> John Woolman writes <em>A Plea for the Poor</em>. It is published after his death.</p></li>
+<li><p><strong>1835.</strong> Friends begin settling in Iowa.</p></li>
+<li><p><strong>1842.</strong> In a treaty with the United States, the Sauk and Meskwaki cede their remaining lands in Iowa, including what becomes Dallas County.</p></li>
+<li><p><strong>1845.</strong> The Sauk and Meskwaki are required to leave Iowa for Kansas by October 11.</p></li>
+<li><p><strong>1850s.</strong> Quaker settlers enter land near Bear Creek at $1.25 an acre.</p></li>
+<li><p><strong>1857.</strong> Meskwaki people who returned to Iowa pool their own money and buy eighty acres in Tama County, the beginning of the Meskwaki Settlement.</p></li>
+<li><p><strong>1869.</strong> President Grant’s “Peace Policy” places many Indian agencies under church control. Iowa Yearly Meeting is given charge of the Central Superintendency.</p></li>
+<li><p><strong>1873–1874.</strong> Bear Creek’s women’s meeting appoints a committee on Indian affairs. A year later it reports that it “found nothing to do.” Its committee for the freedmen remains active.</p></li>
+<li><p><strong>1877.</strong> Iowa Yearly Meeting (Conservative) separates from the larger Iowa Yearly Meeting.</p></li>
+<li><p><strong>1879.</strong> The Carlisle Indian Industrial School opens in Pennsylvania.</p></li>
+<li><p><strong>1886.</strong> The Quaker-run school near West Branch, Iowa, two miles from where Scattergood stands, enrolls seventy-five Indian children and thirteen white children.</p></li>
+<li><p><strong>1890.</strong> Scattergood Friends School is founded.</p></li>
+<li><p><strong>1892.</strong> Richard Henry Pratt, at the National Conference of Charities and Correction, describes his goal: “Kill the Indian in him, and save the man.”</p></li>
+<li><p><strong>1902.</strong> Peter Kropotkin publishes <em>Mutual Aid: A Factor in Evolution</em>.</p></li>
+<li><p><strong>1939–1943.</strong> Scattergood serves as a hostel for European refugees fleeing the Nazis.</p></li>
+<li><p><strong>1969–1972.</strong> I register for the draft “not convinced,” return my registration certificate in 1970, and break with Selective Service by letter in 1972.</p></li>
+<li><p><strong>1970.</strong> I graduate from Scattergood.</p></li>
+<li><p><strong>Early 1970s.</strong> I volunteer at the Friends Volunteer Service Mission in inner-city Indianapolis, invited there by Second Friends Church.</p></li>
+<li><p><strong>July 2017.</strong> At Iowa Yearly Meeting (Conservative) sessions at Scattergood, Peter Clay organizes an evening panel with Sikowis Nobiss and Donnielle Wanatee. I meet Sikowis, and later attend the Meskwaki Pow Wow with my father.</p></li>
+<li><p><strong>September 1–8, 2018.</strong> The First Nation–Farmer Climate Unity March walks ninety-four miles along the Dakota Access Pipeline route, from Des Moines to Fort Dodge.</p></li>
+<li><p><strong>February 2020.</strong> At a vigil for the Wet’suwet’en people, I meet Ronnie James. I later join Des Moines Mutual Aid and work with it for about three years.</p></li>
+<li><p><strong>June 2021.</strong> The U.S. Department of the Interior begins its Federal Indian Boarding School Initiative.</p></li>
+<li><p><strong>January 2022.</strong> I write a series of posts for my meeting, including “Mutual Aid is the Quaker way of being in the world.”</p></li>
+<li><p><strong>October 2023.</strong> I write <em>An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK</em>.</p></li>
+<li><p><strong>July 22, 2024.</strong> Members of Grace’s family come from Oklahoma and perform a ceremony at her grave in West Branch.</p></li>
+<li><p><strong>July 2024.</strong> The Interior Department’s final boarding school report identifies 417 federal Indian boarding schools and at least 973 student deaths.</p></li>
+<li><p><strong>October 2025.</strong> The Iowa City Council approves Great Plains Action Society’s Urban Resilience Hub property.</p></li>
+<li><p><strong>December 2025.</strong> The first work-week at the Hub begins, in freezing cold. Three more follow in spring 2026.</p></li>
+<li><p><strong>October 2026.</strong> I write <em>Three Concerns About Friends</em> and step back from bringing proposals to my meeting’s business sessions.</p></li>
+</ul>
+<h1 id="all-the-queries">All the Queries</h1>
+<p>These are all the queries in this paper, gathered for use in worship sharing, journaling, or a meeting’s own reflection.</p>
+<h2>Two words</h2>
+<p class="query"><em>Do we recognize the difference between charity and mutual aid? Do we understand how it shows the fundamental differences in hierarchy and power each represents?</em></p>
+<p class="query"><em>We know there are millions suffering an economic draft: from student debt, from needing a job because of its health benefits, or from a lack of economic opportunity that leads to the armed forces.</em></p>
+<p class="query"><em>The scenes of armed repression and deportation are horrifying to watch. We know where this is likely to go. How can we say we are a peaceful people if we simply watch?</em></p>
+<p class="query"><em>When you hear the word “extraction,” what is the first relationship in your own life that comes to mind?</em></p>
+<p class="query"><em>Where have you known help that flowed both ways? What made it work?</em></p>
+<h2>On the poverty around us</h2>
+<p class="query"><em>Do we recognize the difference between charity and mutual aid? Do we understand how it shows the fundamental differences in hierarchy and power each represents?</em></p>
+<p class="query"><em>Where in your own life have you seen “us helping them” instead of people solving a problem together?</em></p>
+<p class="query"><em>Where do you refuse to receive? What are you protecting by refusing?</em></p>
+<p class="query"><em>We know that children go hungry in a land of plenty. What do we do with what we know?</em></p>
+<h2>On who gets to be free</h2>
+<p class="query"><em>We know there are millions suffering an economic draft: from student debt, from needing a job because of its health benefits, or from a lack of economic opportunity that leads to the armed forces.</em></p>
+<p class="query"><em>Whose land does your meeting, school, or home stand on? What do you know about those people from them, and not only from books?</em></p>
+<p class="query"><em>If someone today held something that once belonged to your family, would its age settle the question for you?</em></p>
+<p class="query"><em>LANDBACK asks for more than feeling bad about the past. What is one concrete thing your community could actually do this year?</em></p>
+<h2>On the violence holding it all up</h2>
+<p class="query"><em>The scenes of armed repression and deportation are horrifying to watch. We know where this is likely to go. How can we say we are a peaceful people if we simply watch?</em></p>
+<p class="query"><em>Who in your community feels the force that holds the arrangement in place? Who never feels it? Which are you?</em></p>
+<p class="query"><em>Where do you see violence administered, not committed: done calmly, by rules, by people who believe they are helping?</em></p>
+<p class="query"><em>What would it look like for you to stand with someone at the exact point where the force falls on them?</em></p>
+<h2>On what we will do</h2>
+<p class="query"><em>It matters little what we say we believe. What does your life say?</em></p>
+<p class="query"><em>Where in your life are you still giving without receiving, and what are you protecting by doing so?</em></p>
+<p class="query"><em>Whose words have carried your arguments? Have you asked them, thanked them, or returned anything?</em></p>
+<p class="query"><em>Where is a channel that someone else began, that you could help carry, without taking it over?</em></p>
+<p class="query"><em>What would a ledger of your last year show you, kept honestly in both columns?</em></p>
+<h1 id="with-gratitude">With Gratitude</h1>
+<p>Nothing in this paper is mine alone. Almost everything I understand about the three concerns, I was taught by someone.</p>
+<p>I am grateful to Ronnie James and my accomplices at Des Moines Mutual Aid, who welcomed me into the community and asked me, kindly, why I wasn’t taking any food.</p>
+<p>I am grateful to Sikowis Nobiss, to Eric Anglada, and to everyone at Great Plains Action Society and the Decolonial Repair Network, who invited me to work, fed me, and taught me what land is.</p>
+<p>I am grateful to Donnielle Wanatee, whose invitation in 2017 I am still accepting, and to my longtime friend Peter Clay, who organized that evening and walked with us in 2018.</p>
+<p>I am grateful to everyone who walked the First Nation–Farmer Climate Unity March, and to those who prayed at every crossing of the pipeline.</p>
+<p>I am grateful to Paula Palmer, whose ministry carried Grace’s story to the people it belonged to, to the park ranger Peter for his research, and above all to Grace’s family, who allowed me to witness and asked me to take the photographs.</p>
+<p>I am grateful to Scattergood Friends School, for forming me and for opening its doors to those of us who came to work at the Hub, and to Jon Tesdell, my old roommate, for the company.</p>
+<p>I am grateful to the Friends of Bear Creek who have spent thirty years in relationship with the people of Prairie Awakening, showing what our meeting is capable of.</p>
+<p>I am grateful to the men and families of Bear Creek who refused to take part in war when I was young, and to my parents, who disagreed with me and loved me anyway.</p>
+<p>And I am grateful to John Woolman, who wrote most of this paper before any of us were born.</p>
+<h1 id="sources">Sources</h1>
+<h2>My own writing</h2>
+<ul>
+<li><p><em>An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK</em>, October 9, 2023, revised.</p></li>
+<li><p><em>Three Concerns About Friends</em>, October 2026.</p></li>
+<li><p>Blog posts, 2020–2026, including “My Mutual Aid Journey Thus Far” (December 23, 2020), “A Call for Quakers to Embrace Mutual Aid” (December 31, 2021), “What I don’t know about Mutual Aid” (January 2, 2022), “Spirituality and Mutual Aid” (January 5, 2022), “Mutual Aid is the Quaker way of being in the world” (January 7, 2022), “Introduction to Mutual Aid and hierarchies” (January 12, 2022), “Native Americans, Quakers and Mutual Aid” (June 10, 2022), “Indigenous, Quaker Mutual Aid” (June 24, 2022), “Scattergood and the Hub” (June 19, 2026), and “Introduction to the Hub” (June 21, 2026). Current blog: Channels Into Knowledge, <a target="_blank" rel="noopener" href="https://channelsintoknowledge.com">channelsintoknowledge.com</a>.</p></li>
+<li><p>My journal and records of draft registration and objection, 1969–1972.</p></li>
+</ul>
+<h2>Quaker sources</h2>
+<ul>
+<li><p>John Woolman, <em>A Plea for the Poor, or a Word of Remembrance and Caution to the Rich</em> (c. 1763–1764). Quoted from Chapters 1, 5, 9, 10, 12, 13, 15 and 16. Text used here: the online edition hosted by Columbia Friends Meeting (columbiafriendsmeeting.org), from umilta.net.</p></li>
+<li><p>George Fox, Journal, 1659 (the Box Meeting), as given in Britain Yearly Meeting, <em>Quaker faith &amp; practice</em>, 19.52.</p></li>
+<li><p>On Fox’s 1671 address to Friends in Barbados: Friends Journal.</p></li>
+<li><p>Iowa Yearly Meeting (Conservative), Advices, “Mutual Care.”</p></li>
+<li><p>Iowa Yearly Meeting (Conservative), minutes of annual sessions, 2017.</p></li>
+<li><p>Bear Creek Monthly Meeting, Women’s Minutes, November 1873 and 1874.</p></li>
+<li><p><em>An Epistle to Friends Concerning Military Conscription</em>.</p></li>
+<li><p>Paula Palmer and co-author, “A Homecoming for the Arapaho and Cheyenne,” <em>Friends Journal</em>, January 2026.</p></li>
+</ul>
+<h2>Other sources</h2>
+<ul>
+<li><p>U.S. Department of Agriculture, Economic Research Service, <em>Household Food Security in the United States in 2024</em> (ERR-358), December 2025.</p></li>
+<li><p>National Center for Homeless Education, data on children and youth experiencing homelessness, school year 2022–23.</p></li>
+<li><p>U.S. Department of the Interior, <em>Federal Indian Boarding School Initiative Investigative Report</em>, Volume I (May 2022) and Volume II (July 2024).</p></li>
+<li><p>Richard Henry Pratt, address to the National Conference of Charities and Correction, Denver, 1892, as published in its proceedings; Carlisle Indian School Digital Resource Center, Dickinson College.</p></li>
+<li><p>Prison Policy Initiative, <em>Mass Incarceration: The Whole Pie 2025</em> (March 2025) and <em>2024</em> edition.</p></li>
+<li><p>Dean Spade, <em>Mutual Aid: Building Solidarity During This Crisis (and the Next)</em>, Verso, 2020.</p></li>
+<li><p>Des Moines Black Liberation Movement, statement on mutual aid, as quoted in my posts 2020–2024.</p></li>
+<li><p>Ronnie James, statements as quoted in my posts, used with his permission.</p></li>
+<li><p>Claire Elise Thompson, “Returning the Land,” <em>Grist</em>, February 25, 2020.</p></li>
+<li><p>Sikowis Nobiss, on ReMatriation, reckon.news, October 3, 2023.</p></li>
+<li><p>Great Plains Action Society, <a target="_blank" rel="noopener" href="https://greatplainsaction.org">greatplainsaction.org</a>, and its materials on the Urban Resilience Hub.</p></li>
+<li><p>David Zarembka, Report from Kenya, November 2020.</p></li>
+<li><p>Cecosesola, as published by Grassroots Economic Organizing, February 2023.</p></li>
+<li><p><em>A Weighty Concern: Confronting Settler-Colonization</em>, a compiled study drawing on primary sources about the Treaty of 1842, removal, and the Meskwaki purchase of 1857.</p></li>
+</ul>
+<h2>A note on what is not here</h2>
+<p>Some stories in this paper belong to other people. I have told only the parts that are mine to tell. Some of my own reflections that have not yet been shared with the people they concern are not included. If you find something in this paper that is wrong, or that is told in a way that harms someone, please tell me, so that I can correct it.</p>
+</article></div>
+</body></html>
